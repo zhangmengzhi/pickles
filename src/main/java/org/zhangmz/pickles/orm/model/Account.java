@@ -1,6 +1,14 @@
 package org.zhangmz.pickles.orm.model;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import org.apache.commons.lang3.StringUtils;
+import org.zhangmz.pickles.modules.utils.DiscuzHashPassword;
+import org.zhangmz.pickles.modules.vo.DiscuzHashPasswordResult;
 
 public class Account {
     /**
@@ -9,6 +17,9 @@ public class Account {
      *
      * @mbggenerated Fri Jan 22 20:19:45 CST 2016
      */
+    @Id
+    @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -120,7 +131,7 @@ public class Account {
      * @mbggenerated Fri Jan 22 20:19:45 CST 2016
      */
     public void setPhone(String phone) {
-        this.phone = phone;
+    	if(StringUtils.isNotBlank(phone)) this.phone = phone;
     }
 
     /**
@@ -144,7 +155,7 @@ public class Account {
      * @mbggenerated Fri Jan 22 20:19:45 CST 2016
      */
     public void setName(String name) {
-        this.name = name;
+    	if(StringUtils.isNotBlank(name)) this.name = name;
     }
 
     /**
@@ -168,7 +179,7 @@ public class Account {
      * @mbggenerated Fri Jan 22 20:19:45 CST 2016
      */
     public void setEmail(String email) {
-        this.email = email;
+    	if(StringUtils.isNotBlank(email)) this.email = email;
     }
 
     /**
@@ -290,4 +301,47 @@ public class Account {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    @Transient
+    private Integer page = 1;
+
+    @Transient
+    private Integer rows = 10;
+    
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getRows() {
+        return rows;
+    }
+
+    public void setRows(Integer rows) {
+        this.rows = rows;
+    }
+    
+    /**
+     * 接收页面的password
+     * 与数据库的hash_password存在映射关系
+     */
+    @Transient
+    private String password;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+		
+		// 在这里设置hash_password成员变量
+		// 设置为Discuz加密方式，为数据迁移做准备
+		DiscuzHashPasswordResult result = DiscuzHashPassword.getDiscuzHashPasswordResult(password);
+		this.hashPassword = result.getHashPassword();
+		this.salt = result.getSalt();
+	}
 }
