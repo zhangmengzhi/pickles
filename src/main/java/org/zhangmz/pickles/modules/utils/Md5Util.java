@@ -1,7 +1,6 @@
 package org.zhangmz.pickles.modules.utils;
 
 import java.security.MessageDigest;
-import java.util.Random;
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -46,7 +45,7 @@ public class Md5Util {
      * 
      * @Title: getRandomString 
      * @Description: 生成随机字符串
-     * @param length
+     * @param length  生成字符串的长度
      * @return
      * @throws 
      * 增加人:张孟志
@@ -54,9 +53,10 @@ public class Md5Util {
      * 说明：生成随机字符串
      * String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
      */
-    public static String getRandomString(int length) { //length表示生成字符串的长度
+    public static String getRandomString(int length) {
     	Validate.isTrue(length > 0, "length argument must be a positive integer (1 or larger)", length);
         
+    	/* 减少重复编码  张孟志  2016-01-23
     	String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   
         Random random = new Random();   
         StringBuffer sb = new StringBuffer();   
@@ -65,6 +65,9 @@ public class Md5Util {
             sb.append(base.charAt(number));   
         }   
         return sb.toString();   
+        */
+        
+        return Ids.randomBase62(length);
      }   
 
 }

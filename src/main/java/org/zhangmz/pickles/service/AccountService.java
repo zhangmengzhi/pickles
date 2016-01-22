@@ -80,13 +80,9 @@ public class AccountService {
 			throw new ServiceException("该Email为未注册用户", ErrorCode.UNAUTHORIZED);
 		}
 
-//		if (!account.getHashPassword().equals(HashPassword.sha1Base64(password))) {
-//			logger.error(email + "登录失败，密码错误。 ");
-//			throw new ServiceException("密码错误", ErrorCode.UNAUTHORIZED);
-//		}
 		// 设置为Discuz加密方式，为数据迁移做准备
 		if (!account.getHashPassword().equals(
-				DiscuzHashPassword.getDiscuzHashPassword(password, account.getSalt()))) {
+				DiscuzHashPassword.getHashPassword(password, account.getSalt()))) {
 			logger.error(email + "登录失败，密码错误。 ");
 			throw new ServiceException("密码错误", ErrorCode.UNAUTHORIZED);
 		}

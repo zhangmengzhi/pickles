@@ -9,7 +9,7 @@ package org.zhangmz.pickles.modules.vo;
  * @version V1.0
  * 说明：Discuz HashPassword 包括SALT、HASHPASSWORD
  */
-public class DiscuzHashPasswordResult {
+public class HashPasswordResult {
 	private String hashPassword;
 	private String salt;
 	

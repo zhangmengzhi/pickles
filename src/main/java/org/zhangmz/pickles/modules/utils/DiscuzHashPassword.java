@@ -1,6 +1,6 @@
 package org.zhangmz.pickles.modules.utils;
 
-import org.zhangmz.pickles.modules.vo.DiscuzHashPasswordResult;
+import org.zhangmz.pickles.modules.vo.HashPasswordResult;
 
 /**
  * 
@@ -24,14 +24,55 @@ import org.zhangmz.pickles.modules.vo.DiscuzHashPasswordResult;
  *      即当插入用户的时候，生成的那个随机数。而且用户登陆的时候，验证用的随机数，也是这个。
  */
 public class DiscuzHashPassword {
-
-	public static DiscuzHashPasswordResult getDiscuzHashPasswordResult(String input) {
-		return getDiscuzHashPasswordResult(input, null);
+	
+	/**
+	 * 
+	 * @Title: getHashPassword 
+	 * @Description: 获取加密后的hashpassword
+	 * @param input
+	 * @param salt
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月23日 上午7:46:58
+	 * 说明：根据用户输入的密码、数据库保存的salt，计算加密后的hashpassword
+	 */
+	public static String getHashPassword(String input, String salt) {
+		HashPasswordResult result = getHashPasswordResult(input, salt);
+		return result.getHashPassword();
 	}
 	
-	private static DiscuzHashPasswordResult getDiscuzHashPasswordResult(String input, String salt) {
-		DiscuzHashPasswordResult result = new DiscuzHashPasswordResult();
+	/**
+	 * 
+	 * @Title: getHashPasswordResult 
+	 * @Description: 获取加密后对象
+	 * @param input
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月23日 上午7:49:44
+	 * 说明：该方法获取原始加密后对象，设置salt为null，加密过程随机产生salt。
+	 */
+	public static HashPasswordResult getHashPasswordResult(String input) {
+		return getHashPasswordResult(input, null);
+	}
+	
+	/**
+	 * 
+	 * @Title: getHashPasswordResult 
+	 * @Description: 获取加密后对象
+	 * @param input
+	 * @param salt
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月23日 上午7:50:32
+	 * 说明：加密后产生了加密salt、hashPassword，封装在HashPasswordResult
+	 */
+	private static HashPasswordResult getHashPasswordResult(String input, String salt) {
+		HashPasswordResult result = new HashPasswordResult();
 		
+		// 兼顾密码生成（即使产生salt）与密码检验(salt已保存在数据库中)
 		result.setSalt(salt);
 		if(null == salt){ result.setSalt(Md5Util.getRandomString(6));}
 
@@ -39,11 +80,6 @@ public class DiscuzHashPassword {
 		result.setHashPassword(Md5Util.getMd5(passwordMd5 + result.getSalt()));
 		
 		return result;
-	}
-	
-	public static String getDiscuzHashPassword(String input, String salt) {
-		DiscuzHashPasswordResult result = getDiscuzHashPasswordResult(input, salt);
-		return result.getHashPassword();
 	}
 }
 

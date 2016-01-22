@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.zhangmz.pickles.modules.utils.DiscuzHashPassword;
-import org.zhangmz.pickles.modules.vo.DiscuzHashPasswordResult;
+import org.zhangmz.pickles.modules.vo.HashPasswordResult;
 
 public class Account {
     /**
@@ -340,7 +340,7 @@ public class Account {
 		
 		// 在这里设置hash_password成员变量
 		// 设置为Discuz加密方式，为数据迁移做准备
-		DiscuzHashPasswordResult result = DiscuzHashPassword.getDiscuzHashPasswordResult(password);
+		HashPasswordResult result = DiscuzHashPassword.getHashPasswordResult(password);
 		this.hashPassword = result.getHashPassword();
 		this.salt = result.getSalt();
 	}
