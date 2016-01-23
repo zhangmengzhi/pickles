@@ -1,3 +1,9 @@
+-- pickles 示例脚本
+-- 作者：张孟志
+-- Email：104446930@qq.com
+-- 日期：2016-01-23
+
+-- 建库、建用户、授权相关语句已注释，请根据实际参考。
 -- CREATE DATABASE `pickles` /*!40100 COLLATE 'utf8_unicode_ci' */
 -- CREATE USER 'pickles'@'localhost' IDENTIFIED BY 'pickles';
 -- GRANT USAGE ON *.* TO 'pickles'@'localhost';

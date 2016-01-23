@@ -13,7 +13,7 @@ springside4（https://github.com/springside/springside4）。已尽量根据各�
 可以利用MyBatisGenerator插件在eclipse中自动生成mybatis model文件，在*.model包下。
 注意自动生成的model没有主键的注解，在selectByPrimaryKey 查找时会将所有字段作为查询条件，会出现null转换错误。
 为了完成分页查询，还需要给model添加page、raws变量，及get/set方法。
-示例使用的脚本为resources/mysql_demo.sql。
+示例使用的脚本为resources/mysql_demo.sql。建库、建用户、授权相关语句已注释，请根据实际参考。
 
 **效率辅助说明**
 在*.modules下包含大量的辅助类，可以提高开发效率。
