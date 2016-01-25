@@ -306,9 +306,5 @@
 			 jQuery('#'+id).addClass('visible');
 			}
 		</script>
-	<!--
-	<div style="display:none"><script src='${base}/static/assets/js/v7cnzzcom.stat.php.js' language='JavaScript'></script></div>
-	<div style="display:none"><script src='${base}/static/assets/js/ccnzzcom.core.php.js' language='JavaScript'></script></div>
-	-->
 </body>
 </html>
