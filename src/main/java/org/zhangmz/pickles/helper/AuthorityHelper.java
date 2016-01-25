@@ -50,6 +50,18 @@ public class AuthorityHelper {
  				.build();
  	}
  	
+ 	public void putAccount(String token, Account account) {
+ 		loginUsers.put(token, account);
+ 	}
+ 	
+ 	public Account getAccount(String token) {
+ 		return loginUsers.getIfPresent(token);
+	}
+ 	
+ 	public void invalidateAccount(String token) {
+ 		loginUsers.invalidate(token);
+	}
+ 	
  	/**
  	 * 
  	 * @Title: isAdministrator 
@@ -62,11 +74,11 @@ public class AuthorityHelper {
  	 * 说明：超级管理员有且只有一个，  account.id、account.groudId 必须为1
  	 */
  	public boolean isAdministrator(String token) {
- 		return hasLoginCacheAuthority(token, 1);
+ 		return hasLoginCache(token, 1);
 	}
  	
- 	public Account getAdministrator(String token) {
- 		return getLoginCacheAuthority(token, 1);
+ 	public Account getAdministratorAccount(String token) {
+ 		return getLoginAccount(token, 1);
 	}
  	
  	/**
@@ -81,11 +93,11 @@ public class AuthorityHelper {
  	 * 说明：管理员account.groudId 为2
  	 */
  	public boolean isAdmin(String token) {
- 		return hasLoginCacheAuthority(token, 2);
+ 		return hasLoginCache(token, 2);
 	}
  	
- 	public Account getAdmin(String token) {
- 		return getLoginCacheAuthority(token, 2);
+ 	public Account getAdminAccount(String token) {
+ 		return getLoginAccount(token, 2);
 	}
  	
  	/**
@@ -100,11 +112,11 @@ public class AuthorityHelper {
  	 * 说明：从登录缓存中获取登录信息，判断是否有登录
  	 */
  	public boolean isLogin(String token) { 		
- 		return hasLoginCacheAuthority(token, 3);
+ 		return hasLoginCache(token, 3);
 	}
 
- 	public Account getLogin(String token) { 		
- 		return getLoginCacheAuthority(token, 3);
+ 	public Account getLoginAccount(String token) { 		
+ 		return getLoginAccount(token, 3);
 	}
  	
  	/**
@@ -119,7 +131,7 @@ public class AuthorityHelper {
  	 * 增加日期:2016年1月25日 上午9:35:11
  	 * 说明：重构是否超级管理员、管理员、已登录判断
  	 */
- 	private boolean hasLoginCacheAuthority (String token, int type) {
+ 	private boolean hasLoginCache (String token, int type) {
  		boolean bln = false;
  		if(StringUtils.isNotBlank(token)){
  			Account account = loginUsers.getIfPresent(token);
@@ -157,9 +169,9 @@ public class AuthorityHelper {
  	 * 增加日期:2016年1月25日 上午9:54:26
  	 * 说明：获取有相关权限的用户信息
  	 */
- 	private Account getLoginCacheAuthority (String token, int type) {
+ 	private Account getLoginAccount (String token, int type) {
  		Account account = null;
- 		if(hasLoginCacheAuthority(token, type)){
+ 		if(hasLoginCache(token, type)){
  			account = loginUsers.getIfPresent(token);
  		}
  		return account;

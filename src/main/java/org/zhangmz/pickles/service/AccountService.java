@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.modules.utils.DiscuzHashPassword;
 import org.zhangmz.pickles.modules.utils.Ids;
 import org.zhangmz.pickles.orm.mapper.AccountMapper;
@@ -38,24 +39,12 @@ public class AccountService {
     @Autowired
     private AccountMapper accountMapper;
 
-    // 登录信息缓存时间设置  TOKEN有效期
- 	@Value("${app.loginTimeoutSecs:600}")
- 	private int loginTimeoutSecs;
- 
+    @Autowired
+    private AuthorityHelper authorityHelper;
+    
  	// codehale metrics
  	@Autowired
  	private CounterService counterService;
-
-	// guava cache
- 	// <TOKEN, account>
-	private Cache<String, Account> loginUsers;
-	
-	@PostConstruct
-	public void init() {
-		logger.debug("登录信息缓存时间设置 = " + loginTimeoutSecs);
-		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
-				.build();
-	}
 
 	/*************************************************************************
 	 * 说明：处理API用户登录请求
@@ -91,7 +80,7 @@ public class AccountService {
 		
 		// 这里可以将登录信息保存到数据库		
 		// 将登录信息放入缓存
-		loginUsers.put(token, account);
+		authorityHelper.putAccount(token, account);
 		/*
 		loginTimeInfos.put(email, new Date());
 		*/
@@ -114,11 +103,11 @@ public class AccountService {
  			return;
  		}
  		
-		Account account = loginUsers.getIfPresent(token);
+		Account account = authorityHelper.getAccount(token);
 		if (account == null) {
 			logger.warn("logout an alreay logout token:" + token);
 		} else {
-			loginUsers.invalidate(token);
+			authorityHelper.invalidateAccount(token);
 			counterService.decrement("loginUser");
 		}		
 
@@ -155,7 +144,7 @@ public class AccountService {
  	public boolean isLogin(String token) {
  		boolean bln = false;
  		if(StringUtils.isNotEmpty(token)){
- 			Account account = loginUsers.getIfPresent(token);
+ 			Account account = authorityHelper.getAccount(token);
  			if (account != null) {
  				bln = true;
  			}
@@ -172,7 +161,7 @@ public class AccountService {
  	public boolean isAdmin(String token) {
  		boolean bln = false;
  		if(StringUtils.isNotEmpty(token)){
- 			Account account = loginUsers.getIfPresent(token);
+ 			Account account = authorityHelper.getAccount(token);
  			// 判断是否为管理员，管理员的GroupId为1
  			if ((account != null) && (1 == account.getGroupId().intValue())) {
  				bln = true;
