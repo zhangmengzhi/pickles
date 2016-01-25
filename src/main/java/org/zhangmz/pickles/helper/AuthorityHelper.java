@@ -144,7 +144,12 @@ public class AuthorityHelper {
 				break;
 			case 2:
 				bln = (account != null) 
-	 					&& (2 == account.getGroupId().intValue());
+	 					&& (	(2 == account.getGroupId().intValue())
+	 							|| (// 超级管理员
+	 								(1 == account.getGroupId().intValue())
+	 				 				&& (1 == account.getId().intValue())
+	 				 				)
+	 						);
 				break;
 			case 3:
 				bln = account != null;

@@ -88,7 +88,7 @@ public class AccountService {
 		// 系统监控  统计登录用户总数
 		counterService.increment("loginUser");
 		
-		logger.info(email + " login, TOKEN = " + token + ", admin? " + this.isAdmin(token));
+		logger.info(email + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
 		return token;
 	}
  	
@@ -146,24 +146,6 @@ public class AccountService {
  		if(StringUtils.isNotEmpty(token)){
  			Account account = authorityHelper.getAccount(token);
  			if (account != null) {
- 				bln = true;
- 			}
- 		}
- 		
- 		return bln;
-	}
- 	
- 	/*************************************************************************
-	 * 说明：校验是否为管理员
-	 * 作者：张孟志
-	 * 日期：2016-01-13
-	 ************************************************************************/
- 	public boolean isAdmin(String token) {
- 		boolean bln = false;
- 		if(StringUtils.isNotEmpty(token)){
- 			Account account = authorityHelper.getAccount(token);
- 			// 判断是否为管理员，管理员的GroupId为1
- 			if ((account != null) && (1 == account.getGroupId().intValue())) {
  				bln = true;
  			}
  		}
