@@ -29,6 +29,8 @@ import com.google.common.cache.CacheBuilder;
  * 		权限包括组权限、是否已登录、是否管理员
  * 		另外超级管理员有且只有一个，  account.id、account.groudId 必须为1
  * 		管理员account.groudId 为2
+ * 
+ * 		这个类应该是单例（Sping Bean默认为单例）
  */
 @Component
 public class AuthorityHelper {
