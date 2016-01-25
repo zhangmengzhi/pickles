@@ -1,14 +1,10 @@
 package org.zhangmz.pickles.service;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zhangmz.pickles.helper.AuthorityHelper;
@@ -18,8 +14,6 @@ import org.zhangmz.pickles.orm.mapper.AccountMapper;
 import org.zhangmz.pickles.orm.model.Account;
 import org.zhangmz.pickles.service.exception.ErrorCode;
 import org.zhangmz.pickles.service.exception.ServiceException;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -42,10 +36,6 @@ public class AccountService {
     @Autowired
     private AuthorityHelper authorityHelper;
     
- 	// codehale metrics
- 	@Autowired
- 	private CounterService counterService;
-
 	/*************************************************************************
 	 * 说明：处理API用户登录请求
 	 *      检验用户登录凭证，目前使用email/password
@@ -84,10 +74,7 @@ public class AccountService {
 		/*
 		loginTimeInfos.put(email, new Date());
 		*/
-		
-		// 系统监控  统计登录用户总数
-		counterService.increment("loginUser");
-		
+				
 		logger.info(email + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
 		return token;
 	}
@@ -108,7 +95,6 @@ public class AccountService {
 			logger.warn("logout an alreay logout token:" + token);
 		} else {
 			authorityHelper.invalidateAccount(token);
-			counterService.decrement("loginUser");
 		}		
 
 		logger.info("logout, TOKEN = " + token);
