@@ -63,6 +63,10 @@ public class AuthorityHelper {
  		return hasLoginCacheAuthority(token, 1);
 	}
  	
+ 	public Account getAdministrator(String token) {
+ 		return getLoginCacheAuthority(token, 1);
+	}
+ 	
  	/**
  	 * 
  	 * @Title: isAdmin 
@@ -78,6 +82,10 @@ public class AuthorityHelper {
  		return hasLoginCacheAuthority(token, 2);
 	}
  	
+ 	public Account getAdmin(String token) {
+ 		return getLoginCacheAuthority(token, 2);
+	}
+ 	
  	/**
  	 * 
  	 * @Title: isLogin 
@@ -91,6 +99,10 @@ public class AuthorityHelper {
  	 */
  	public boolean isLogin(String token) { 		
  		return hasLoginCacheAuthority(token, 3);
+	}
+
+ 	public Account getLogin(String token) { 		
+ 		return getLoginCacheAuthority(token, 3);
 	}
  	
  	/**
@@ -129,5 +141,25 @@ public class AuthorityHelper {
  		}
  		
  		return bln;
+ 	}
+ 	
+ 	/**
+ 	 * 
+ 	 * @Title: getLoginCacheAuthority 
+ 	 * @Description: 1是否超级管理员、2是否管理员、3是否已登录
+ 	 * @param token
+ 	 * @param type
+ 	 * @return
+ 	 * @throws 
+ 	 * 增加人:张孟志
+ 	 * 增加日期:2016年1月25日 上午9:54:26
+ 	 * 说明：获取有相关权限的用户信息
+ 	 */
+ 	private Account getLoginCacheAuthority (String token, int type) {
+ 		Account account = null;
+ 		if(hasLoginCacheAuthority(token, type)){
+ 			account = loginUsers.getIfPresent(token);
+ 		}
+ 		return account;
  	}
 }
