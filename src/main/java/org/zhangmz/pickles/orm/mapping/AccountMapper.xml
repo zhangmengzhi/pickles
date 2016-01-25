@@ -26,4 +26,15 @@
     id, phone, name, email, hash_password, salt, register_date, group_id, status
   </sql>
   
+  <!-- add by zhangmz 2016-01-25 用户登录，用户信息可以是手机号，也可以是Email begin -->
+  <select id="getByPhoneEmail" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    <where>  
+        phone = #{phoneEmail} OR email = #{phoneEmail}
+    </where>  
+  </select>
+  <!-- add by zhangmz 2016-01-25 用户登录，用户信息可以是手机号，也可以是Email end -->
+  
 </mapper>

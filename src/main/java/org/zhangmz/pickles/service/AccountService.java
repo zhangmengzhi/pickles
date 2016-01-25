@@ -36,33 +36,41 @@ public class AccountService {
     @Autowired
     private AuthorityHelper authorityHelper;
     
-	/*************************************************************************
-	 * 说明：处理API用户登录请求
+    /**
+     * 
+     * @Title: login 
+     * @Description: 处理用户登录请求
+     * @param phoneEmail
+     * @param password
+     * @return
+     * @throws 
+     * 增加人:张孟志
+     * 增加日期:2016年1月25日 下午8:14:29
+     * 说明：处理用户登录请求
 	 *      检验用户登录凭证，目前使用email/password
 	 *      登录成功产生一个唯一的标识TOKEN，
 	 *      保存登录记录（如果不保存数据库则需要将TOKEN保存在缓存）返回TOKEN
-	 * 作者：张孟志
-	 * 日期：2016-01-10
-	 ************************************************************************/
- 	@Transactional(readOnly = true)
-	public String login(String email, String password) {
+	 *      
+ 	 *	只查询一次数据库，忽略 @Transactional(readOnly = true)
+     */
+	public String login(String phoneEmail, String password) {
  		
- 		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
- 			logger.error(email + "用户名或密码为空。 ");
-			throw new ServiceException("用户名或密码为空。", ErrorCode.UNAUTHORIZED);
+ 		if (StringUtils.isBlank(phoneEmail) || StringUtils.isBlank(password)) {
+ 			logger.warn(phoneEmail + "用户信息或密码为空。 ");
+			throw new ServiceException("用户信息或密码为空。", ErrorCode.UNAUTHORIZED);
  		}
  		
-		Account account = this.getByEmail(email);
+		Account account = this.getByPhoneEmail(phoneEmail);
 
 		if (account == null) {
-			logger.error(email + "登录失败，该Email为未注册用户。 ");
-			throw new ServiceException("该Email为未注册用户", ErrorCode.UNAUTHORIZED);
+			logger.error(phoneEmail + "登录失败，未注册用户。 ");
+			throw new ServiceException("未注册用户", ErrorCode.UNAUTHORIZED);
 		}
 
 		// 设置为Discuz加密方式，为数据迁移做准备
 		if (!account.getHashPassword().equals(
 				DiscuzHashPassword.getHashPassword(password, account.getSalt()))) {
-			logger.error(email + "登录失败，密码错误。 ");
+			logger.warn(phoneEmail + "登录失败，密码错误。 ");
 			throw new ServiceException("密码错误", ErrorCode.UNAUTHORIZED);
 		}
 
@@ -75,18 +83,38 @@ public class AccountService {
 		loginTimeInfos.put(email, new Date());
 		*/
 				
-		logger.info(email + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
+		logger.info(phoneEmail + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
 		return token;
 	}
- 	
- 	/*************************************************************************
-	 * 说明：处理API用户退出请求
+    
+    /**
+     * 
+     * @Title: getByPhoneEmail 
+     * @Description: TODO(这里用一句话描述这个方法的作用) 
+     * @param email
+     * @return
+     * @throws 
+     * 增加人:张孟志
+     * 增加日期:2016年1月25日 下午8:21:09
+     * 说明：用户登录，用户信息可以是手机号，也可以是Email
+     */
+    public Account getByPhoneEmail(String phoneEmail) {    	
+    	return accountMapper.getByPhoneEmail(phoneEmail);
+    }    
+
+	/**
+	 * 
+	 * @Title: logout 
+	 * @Description: 处理用户退出请求
+	 * @param token
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月25日 下午8:16:52
+	 * 说明：处理用户退出请求
 	 *      从缓存中取出用户信息、登录用户计数减少
-	 * 作者：张孟志
-	 * 日期：2016-01-10
-	 ************************************************************************/
+	 */
  	public void logout(String token) {
- 		if(StringUtils.isEmpty(token)){
+ 		if(StringUtils.isBlank(token)){
  			return;
  		}
  		
@@ -100,12 +128,19 @@ public class AccountService {
 		logger.info("logout, TOKEN = " + token);
 	}
  	
- 	/*************************************************************************
-	 * 说明：处理API用户注册请求
+ 	/**
+ 	 * 
+ 	 * @Title: register 
+ 	 * @Description:处理用户注册请求
+ 	 * @param email
+ 	 * @param name
+ 	 * @param password
+ 	 * @throws 
+ 	 * 增加人:张孟志
+ 	 * 增加日期:2016年1月25日 下午8:17:13
+ 	 * 说明：处理用户注册请求
 	 *      从缓存中取出用户信息、登录用户计数减少
-	 * 作者：张孟志
-	 * 日期：2016-01-10
-	 ************************************************************************/
+ 	 */
  	@Transactional
 	public void register(String email, String name, String password) {
 
@@ -120,24 +155,7 @@ public class AccountService {
 		this.save(account);
 
 		logger.info(email + " register. ");
-	}
- 	
- 	/*************************************************************************
-	 * 说明：校验是否登录，做权限控制
-	 * 作者：张孟志
-	 * 日期：2016-01-13
-	 ************************************************************************/
- 	public boolean isLogin(String token) {
- 		boolean bln = false;
- 		if(StringUtils.isNotEmpty(token)){
- 			Account account = authorityHelper.getAccount(token);
- 			if (account != null) {
- 				bln = true;
- 			}
- 		}
- 		
- 		return bln;
-	}
+	} 	
  	
  	/*************************************************************************
  	 * 说明：以下是单表CURD
@@ -184,16 +202,5 @@ public class AccountService {
             PageHelper.startPage(account.getPage(), account.getRows());
         }
         return null;
-    }
-    
-    /*************************************************************************
- 	 * 说明：email条件查询，用于校验Email是否已注册，登录查询是否有该用户
- 	 * 作者：张孟志
- 	 * 日期：2016-01-10
- 	 ************************************************************************/
-    public Account getByEmail(String email) {
-    	Account account = new Account();
-    	account.setEmail(email);
-    	return accountMapper.selectOne(account);
-    }
+    }    
 }

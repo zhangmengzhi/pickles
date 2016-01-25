@@ -61,25 +61,32 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="icon-coffee green"></i>
-												请输入你的信息
-											</h4>
+											<#if message??>
+												<div id="message" class="alert alert-warning alert-dismissable">
+													<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+													<font color=red>${message}</font>
+												</div>
+											<#else>
+												<h4 class="header blue lighter bigger">
+													<i class="icon-coffee green"></i>
+													请输入你的信息
+												</h4>
+											</#if>
 
 											<div class="space-6"></div>
 
-											<form>
+											<form method="post" action="/admin/login">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="手机号/Email" />
+															<input type="text" name="phoneEmail" class="form-control" placeholder="手机号/Email" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="密码" />
+															<input type="password" name="password" class="form-control" placeholder="密码" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>
@@ -89,10 +96,10 @@
 													<div class="clearfix">
 														<label class="inline">
 															<input type="checkbox" class="ace" />
-															<span class="lbl"> 十天内免登录</span>
+															<span class="lbl">TODO 十天内免登录</span>
 														</label>
 
-														<button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="icon-key"></i>
 															登录
 														</button>
@@ -103,7 +110,7 @@
 											</form>
 
 											<div class="social-or-login center">
-												<span class="bigger-110">第三方账户登录</span>
+												<span class="bigger-110">TODO 第三方账户登录</span>
 											</div>
 
 											<div class="social-login center">
@@ -144,7 +151,7 @@
 										<div class="widget-main">
 											<h4 class="header red lighter bigger">
 												<i class="icon-key"></i>
-												重置密码
+												TODO 重置密码
 											</h4>
 
 											<div class="space-6"></div>
@@ -185,7 +192,7 @@
 										<div class="widget-main">
 											<h4 class="header green lighter bigger">
 												<i class="icon-group blue"></i>
-												新用户注册
+												TODO 新用户注册
 											</h4>
 
 											<div class="space-6"></div>
@@ -298,6 +305,8 @@
 			if("ontouchend" in document) document.write("<script src='${base}/static/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 
+        <script type="text/javascript" src="${base}/static/assets/js/bootstrap.min.js"></script>
+        
 		<!-- inline scripts related to this page -->
 
 		<script type="text/javascript">

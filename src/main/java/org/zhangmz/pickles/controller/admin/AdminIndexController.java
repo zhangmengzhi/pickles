@@ -5,11 +5,14 @@
  *******************************************************************************/
 package org.zhangmz.pickles.controller.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zhangmz.pickles.service.AccountService;
 
 /**
  * Title:AdminIndexController.java
@@ -19,20 +22,82 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @date:2016年1月25日 下午3:15:00
  * 说明：管理员首页（登录页）控制器
  */
-
 @Controller
-@EnableWebMvc
 @RequestMapping("/admin")
 public class AdminIndexController {
+
+	// 首页（登录页）
+	private String indexPage = "admin/index";
+	private String redirectIndexController = "redirect:/admin/index";
+	private String loginPage = "admin/index";
+	private String redirectLoginController = "redirect:/admin/login";
+	// private String mainPage = "admin/main";
+	private String redirectMainController = "redirect:/admin/main";
 	
+    @Autowired
+    private AccountService accountService;
+    
 	@RequestMapping
 	String home() {
-		return "redirect:/admin/index";
+		return this.redirectIndexController;
     }
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView index() {
-		ModelAndView result = new ModelAndView("admin/index");
+		ModelAndView result = new ModelAndView(this.indexPage);
 		return result;
+    }
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login() {
+		ModelAndView result = new ModelAndView(this.loginPage);
+		return result;
+    }
+	
+	/**
+	 * 
+	 * @Title: login 
+	 * @Description: 登录请求
+	 * @param phoneEmail  手机号码或Email
+	 * @param password    密码
+	 * @param redirectAttributes
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月25日 下午7:14:05
+	 * 说明：根据手机号码或Email、密码登录
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam("phoneEmail") String phoneEmail, 
+						@RequestParam("password") String password, 
+						RedirectAttributes redirectAttributes) {
+		String token = null;
+		try {
+			token = accountService.login(phoneEmail, password);
+			redirectAttributes.addFlashAttribute("TOKEN", token);
+		} catch (Exception e) {
+			// e.printStackTrace();
+			redirectAttributes.addFlashAttribute("message", e.getMessage());
+			return this.redirectLoginController;
+		}
+		
+		return this.redirectMainController + "?TOKEN=" + token;
+    }
+	
+	/**
+	 * 
+	 * @Title: logout 
+	 * @Description: 退出
+	 * @param token
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月25日 下午8:05:22
+	 * 说明：清理用户登录信息
+	 */
+	@RequestMapping(value = "/logout")
+	public String logout(@RequestParam("TOKEN") String token) {
+		accountService.logout(token);
+		return this.redirectLoginController;
     }
 }
