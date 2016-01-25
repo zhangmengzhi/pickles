@@ -50,7 +50,7 @@
 								<h1>
 									<i class="icon-leaf green"></i>
 									<span class="red">Pickles</span>
-									<span class="white">Application</span>
+									<span class="white">咸菜</span>
 								</h1>
 								<h4 class="blue">&copy; 张孟志</h4>
 							</div>
@@ -72,7 +72,7 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="手机号/Email/用户名" />
+															<input type="text" class="form-control" placeholder="手机号/Email" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
