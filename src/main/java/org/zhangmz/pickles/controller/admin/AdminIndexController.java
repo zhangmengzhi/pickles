@@ -78,13 +78,16 @@ public class AdminIndexController {
 		try {
 			token = accountService.login(phoneEmail, password);
 			redirectAttributes.addFlashAttribute("TOKEN", token);
+			
 			// 判断是否管理员（包括超级管理员）
 			if(accountService.isAdmin(token)){
 				url = this.redirectMainController + "?TOKEN=" + token;
 			} else {
+				accountService.invalidateAccount(token);
 				redirectAttributes.addFlashAttribute("message", Messages.USER_NOT_ADMIN);
 				url = this.redirectLoginController;
 			}
+			
 		} catch (Exception e) {
 			// e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", e.getMessage());

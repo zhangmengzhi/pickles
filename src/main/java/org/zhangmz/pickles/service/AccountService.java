@@ -219,5 +219,9 @@ public class AccountService {
     
     public boolean isLogin(String token){
     	return authorityHelper.isLogin(token);
+    }   
+
+    public void invalidateAccount(String token){
+    	authorityHelper.invalidateAccount(token);
     }
 }
