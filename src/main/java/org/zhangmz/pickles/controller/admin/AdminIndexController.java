@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zhangmz.pickles.helper.constants.Messages;
 import org.zhangmz.pickles.service.AccountService;
 
 /**
@@ -71,17 +72,26 @@ public class AdminIndexController {
 	public String login(@RequestParam("phoneEmail") String phoneEmail, 
 						@RequestParam("password") String password, 
 						RedirectAttributes redirectAttributes) {
-		String token = null;
+		String token;
+		String url;
+		
 		try {
 			token = accountService.login(phoneEmail, password);
 			redirectAttributes.addFlashAttribute("TOKEN", token);
+			// 判断是否管理员（包括超级管理员）
+			if(accountService.isAdmin(token)){
+				url = this.redirectMainController + "?TOKEN=" + token;
+			} else {
+				redirectAttributes.addFlashAttribute("message", Messages.USER_NOT_ADMIN);
+				url = this.redirectLoginController;
+			}
 		} catch (Exception e) {
 			// e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			return this.redirectLoginController;
+			url = this.redirectLoginController;
 		}
 		
-		return this.redirectMainController + "?TOKEN=" + token;
+		return url;
     }
 	
 	/**

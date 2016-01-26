@@ -18,7 +18,6 @@
 		<!-- page specific plugin styles -->
 
 		<!-- fonts -->
-
 		<link rel="stylesheet" href="${base}/static/assets/css/googleapis.fonts.css" />
 
 		<!-- ace styles -->

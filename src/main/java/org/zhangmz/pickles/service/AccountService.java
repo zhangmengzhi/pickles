@@ -202,5 +202,22 @@ public class AccountService {
             PageHelper.startPage(account.getPage(), account.getRows());
         }
         return null;
-    }    
+    }   
+    
+    /*************************************************************************
+ 	 * 说明：权限判断服务
+ 	 * 作者：张孟志
+ 	 * 日期：2016-01-26
+ 	 ************************************************************************/
+    public boolean isAdmin(String token){
+    	return authorityHelper.isAdmin(token);
+    }
+    
+    public boolean isAdministrator(String token){
+    	return authorityHelper.isAdministrator(token);
+    }
+    
+    public boolean isLogin(String token){
+    	return authorityHelper.isLogin(token);
+    }
 }
