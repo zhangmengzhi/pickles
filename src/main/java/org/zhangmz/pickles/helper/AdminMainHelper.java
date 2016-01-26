@@ -6,18 +6,17 @@
 package org.zhangmz.pickles.helper;
 
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.zhangmz.pickles.orm.model.Account;
+import org.zhangmz.pickles.helper.vo.MainInfo;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;  
+import org.apache.commons.lang3.builder.ToStringStyle;  
 
 /**
  * Title:AdminMainHelper.java
@@ -86,12 +85,5 @@ public class AdminMainHelper {
 
  		logger.debug(token + "重新获取控制台主页信息： " + mf.toString());
  		return mf;
- 	}
- 	
- 	class MainInfo {
- 		
- 		public String toString() {
- 			return null;
- 		}
- 	}
+ 	} 		
 }

@@ -66,13 +66,13 @@
 						<li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-tasks"></i>
-								<span class="badge badge-grey">4</span>
+								<span class="badge badge-grey">${(mainInfo.tasks)!}</span>
 							</a>
 
 							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="icon-ok"></i>
-									还有4个任务完成
+									还有${(mainInfo.tasks)!}个任务完成
 								</li>
 
 								<li>
@@ -139,13 +139,13 @@
 						<li class="purple">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-bell-alt icon-animated-bell"></i>
-								<span class="badge badge-important">8</span>
+								<span class="badge badge-important">${(mainInfo.notices)!}</span>
 							</a>
 
 							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="icon-warning-sign"></i>
-									8条通知
+									${(mainInfo.notices)!}条通知
 								</li>
 
 								<li>
@@ -203,18 +203,18 @@
 						<li class="green">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-envelope icon-animated-vertical"></i>
-								<span class="badge badge-success">5</span>
+								<span class="badge badge-success">${(mainInfo.messages)!}</span>
 							</a>
 
 							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="icon-envelope-alt"></i>
-									5条消息
+									${(mainInfo.messages)!}条消息
 								</li>
 
 								<li>
 									<a href="#">
-										<img src="${base}/static/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+										<img src="${base}${(mainInfo.userImageUrl)!}" class="msg-photo" alt="Alex's Avatar" />
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Alex:</span>
@@ -277,7 +277,7 @@
 								<img class="nav-user-photo" src="${base}/static/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎光临,</small>
-									Jason
+									${(mainInfo.username)!}
 								</span>
 
 								<i class="icon-caret-down"></i>
@@ -714,10 +714,9 @@
 
 									欢迎使用
 									<strong class="green">
-										Ace后台管理系统
-										<small>(v1.2)</small>
-									</strong>
-									,轻量级好用的后台管理系统模版.	
+										pickles管理系统
+										<small>(v1.0)</small>
+									</strong>。
 								</div>
 
 								<div class="row">
@@ -1750,7 +1749,7 @@
 																	<a href="#">Bob</a>
 																	<span class="label label-info arrowed arrowed-in-right">admin</span>
 																</div>
-																<div class="text">欢迎大家使用ACE后台管理系统.</div>
+																<div class="text">欢迎大家使用pickles管理系统.</div>
 
 																<div class="tools">
 																	<a href="#" class="btn btn-minier btn-info">
@@ -1798,7 +1797,7 @@
 																<div class="name">
 																	<a href="#">Alexa</a>
 																</div>
-																<div class="text">继续支持ACE后台系统</div>
+																<div class="text">继续支持pickles系统</div>
 
 																<div class="tools">
 																	<a href="#" class="btn btn-minier btn-info">

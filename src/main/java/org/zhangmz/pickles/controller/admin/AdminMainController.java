@@ -5,9 +5,12 @@
  *******************************************************************************/
 package org.zhangmz.pickles.controller.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.zhangmz.pickles.helper.AdminMainHelper;
 
 /**
  * Title:AdminMainController.java
@@ -21,9 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin/main")
 public class AdminMainController {
 
+    @Autowired
+    private AdminMainHelper adminMainHelper;
+    
 	@RequestMapping
-	public ModelAndView home() {
+	public ModelAndView home(@RequestParam("TOKEN") String token) {
 		ModelAndView result = new ModelAndView("admin/main");
+        result.addObject("mainInfo", adminMainHelper.getMainInfo(token));
+        result.addObject("TOKEN", token);
 		return result;
     }
 }
