@@ -314,9 +314,9 @@
 								</li>
 
 								<li>
-									<a href="#">
+									<a href="${base}/admin/profile?TOKEN=${(TOKEN)!}">
 										<i class="icon-user"></i>
-										Profile
+										个人资料
 									</a>
 								</li>
 

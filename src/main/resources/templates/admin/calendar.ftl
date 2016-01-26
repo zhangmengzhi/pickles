@@ -293,6 +293,13 @@
 									</a>
 								</li>
 
+								<li>
+									<a href="${base}/admin/profile?TOKEN=${(TOKEN)!}">
+										<i class="icon-user"></i>
+										个人资料
+									</a>
+								</li>
+								
 								<li class="divider"></li>
 
 								<li>
