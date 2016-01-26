@@ -308,9 +308,9 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="#">
+									<a href="${base}/admin/logout?TOKEN=${(TOKEN)!}">
 										<i class="icon-off"></i>
-										Logout
+										退出
 									</a>
 								</li>
 							</ul>
