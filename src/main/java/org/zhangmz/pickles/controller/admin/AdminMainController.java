@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.zhangmz.pickles.controller.admin.constants.AdminUrl;
+import org.zhangmz.pickles.helper.constants.AdminUrl;
 import org.zhangmz.pickles.helper.AdminMainHelper;
-import org.zhangmz.pickles.helper.AuthorityHelper;
-import org.zhangmz.pickles.helper.constants.Messages;
 
 /**
  * Title:AdminMainController.java
@@ -31,6 +29,8 @@ public class AdminMainController {
     @Autowired
     private AdminMainHelper adminMainHelper;
     
+    //modify by 张孟志 2016年1月26日 下午4:14:04 使用AOP重构权限管理 begin
+    /*
     @Autowired
     private AuthorityHelper authorityHelper;
     
@@ -48,6 +48,17 @@ public class AdminMainController {
         result.addObject("TOKEN", token);
 		return result;
     }
+	*/
+
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public ModelAndView home(@RequestParam("TOKEN") String token) {
+		ModelAndView result = new ModelAndView(AdminUrl.mainPage);
+		result.addObject("mainInfo", adminMainHelper.getMainInfo(token));
+        result.addObject("TOKEN", token);
+		return result;
+    }
+	
+	//modify by 张孟志 2016年1月26日 下午4:14:04 使用AOP重构权限管理 end
 	
 	@RequestMapping("/blank")
 	public ModelAndView blank(@RequestParam("TOKEN") String token) {		

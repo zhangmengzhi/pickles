@@ -21,5 +21,7 @@ public class Messages {
 	public static final String MUST_BE_ADMIN = "操作人必须为管理员!";
 	public static final String MUST_BE_LOGGED = "操作人必须登录!";
 
-	public static final String USER_NOT_ADMIN = "该用户不是管理员!";
+	public static final String USER_NOT_ADMIN = "该用户不是管理员!";	
+
+	public static final String AOP_HAS_ERROR = "AOP切面发生错误，请稍后再试!";
 }
