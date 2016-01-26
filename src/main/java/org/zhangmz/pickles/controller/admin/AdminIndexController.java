@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zhangmz.pickles.controller.admin.constants.AdminUrl;
 import org.zhangmz.pickles.helper.constants.Messages;
 import org.zhangmz.pickles.service.AccountService;
 
@@ -27,31 +28,23 @@ import org.zhangmz.pickles.service.AccountService;
 @RequestMapping("/admin")
 public class AdminIndexController {
 
-	// 首页（登录页）
-	private String indexPage = "admin/index";
-	private String redirectIndexController = "redirect:/admin/index";
-	private String loginPage = "admin/index";
-	private String redirectLoginController = "redirect:/admin/login";
-	// private String mainPage = "admin/main";
-	private String redirectMainController = "redirect:/admin/main";
-	
-    @Autowired
+	@Autowired
     private AccountService accountService;
     
 	@RequestMapping
 	String home() {
-		return this.redirectIndexController;
+		return AdminUrl.redirectIndexController;
     }
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView index() {
-		ModelAndView result = new ModelAndView(this.indexPage);
+		ModelAndView result = new ModelAndView(AdminUrl.indexPage);
 		return result;
     }
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login() {
-		ModelAndView result = new ModelAndView(this.loginPage);
+		ModelAndView result = new ModelAndView(AdminUrl.loginPage);
 		return result;
     }
 	
@@ -81,17 +74,17 @@ public class AdminIndexController {
 			
 			// 判断是否管理员（包括超级管理员）
 			if(accountService.isAdmin(token)){
-				url = this.redirectMainController + "?TOKEN=" + token;
+				url = AdminUrl.redirectMainController + "?TOKEN=" + token;
 			} else {
 				accountService.invalidateAccount(token);
 				redirectAttributes.addFlashAttribute("message", Messages.USER_NOT_ADMIN);
-				url = this.redirectLoginController;
+				url = AdminUrl.redirectLoginController;
 			}
 			
 		} catch (Exception e) {
 			// e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			url = this.redirectLoginController;
+			url = AdminUrl.redirectLoginController;
 		}
 		
 		return url;
@@ -111,6 +104,6 @@ public class AdminIndexController {
 	@RequestMapping(value = "/logout")
 	public String logout(@RequestParam("TOKEN") String token) {
 		accountService.logout(token);
-		return this.redirectLoginController;
+		return AdminUrl.redirectLoginController;
     }
 }
