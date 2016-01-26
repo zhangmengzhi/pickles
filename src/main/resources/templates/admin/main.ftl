@@ -292,7 +292,7 @@
 								</li>
 
 								<li>
-									<a href="#">
+									<a href="${base}/admin/profile?TOKEN=${(TOKEN)!}">
 										<i class="icon-user"></i>
 										个人资料
 									</a>
@@ -562,13 +562,6 @@
 							</a>
 
 							<ul class="submenu">
-								<li>
-									<a href="${base}/admin/profile?TOKEN=${(TOKEN)!}">
-										<i class="icon-double-angle-right"></i>
-										用户信息
-									</a>
-								</li>
-
 								<li>
 									<a href="${base}/admin/inbox?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
