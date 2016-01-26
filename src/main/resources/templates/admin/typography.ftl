@@ -1,50 +1,49 @@
+<#assign base=request.contextPath />
 <!DOCTYPE html>
-<html lang="en">
-	<head>
+<html>
+    <head>
+    	<base id="base" href="${base}">
 		<meta charset="utf-8" />
-		<title>文字排版 - Bootstrap后台管理系统模版Ace下载</title>
-		<meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
-		<meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />
+		<title>文字排版 - pickles</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- basic styles -->
 
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+		<link href="${base}/static/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="${base}/static/assets/css/font-awesome.min.css" />
 
 		<!--[if IE 7]>
-		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		  <link rel="stylesheet" href="${base}/static/assets/css/font-awesome-ie7.min.css" />
 		<![endif]-->
 
 		<!-- page specific plugin styles -->
 
-		<link rel="stylesheet" href="assets/css/prettify.css" />
+		<link rel="stylesheet" href="${base}/static/assets/css/prettify.css" />
 
 		<!-- fonts -->
-
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+		<link rel="stylesheet" href="${base}/static/assets/css/googleapis.fonts.css" />
 
 		<!-- ace styles -->
 
-		<link rel="stylesheet" href="assets/css/ace.min.css" />
-		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
-		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="${base}/static/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="${base}/static/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="${base}/static/assets/css/ace-skins.min.css" />
 
 		<!--[if lte IE 8]>
-		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		  <link rel="stylesheet" href="${base}/static/assets/css/ace-ie.min.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
 
 		<!-- ace settings handler -->
 
-		<script src="assets/js/ace-extra.min.js"></script>
+		<script src="${base}/static/assets/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lt IE 9]>
-		<script src="assets/js/html5shiv.js"></script>
-		<script src="assets/js/respond.min.js"></script>
+		<script src="${base}/static/assets/js/html5shiv.js"></script>
+		<script src="${base}/static/assets/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 
@@ -217,7 +216,7 @@
 
 								<li>
 									<a href="#">
-										<img src="assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+										<img src="${base}/static/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Alex:</span>
@@ -234,7 +233,7 @@
 
 								<li>
 									<a href="#">
-										<img src="assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+										<img src="${base}/static/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Susan:</span>
@@ -251,7 +250,7 @@
 
 								<li>
 									<a href="#">
-										<img src="assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+										<img src="${base}/static/assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Bob:</span>
@@ -277,7 +276,7 @@
 
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="${base}/static/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>Welcome,</small>
 									Jason
@@ -360,16 +359,17 @@
 							<span class="btn btn-danger"></span>
 						</div>
 					</div><!-- #sidebar-shortcuts -->
-<ul class="nav nav-list">
-						<li>
-							<a href="index.html">
+
+					<ul class="nav nav-list">
+						<li class="active">
+							<a href="${base}/admin/main?TOKEN=${(TOKEN)!}">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 控制台 </span>
 							</a>
 						</li>
 
-						<li class="active">
-							<a href="typography.html">
+						<li>
+							<a href="${base}/admin/typography?TOKEN=${(TOKEN)!}">
 								<i class="icon-text-width"></i>
 								<span class="menu-text"> 文字排版 </span>
 							</a>
@@ -385,35 +385,35 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="elements.html">
+									<a href="${base}/admin/elements?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										组件
 									</a>
 								</li>
 
 								<li>
-									<a href="buttons.html">
+									<a href="${base}/admin/buttons?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										按钮 &amp; 图表
 									</a>
 								</li>
 
 								<li>
-									<a href="treeview.html">
+									<a href="${base}/admin/treeview?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										树菜单
 									</a>
 								</li>
 
 								<li>
-									<a href="jquery-ui.html">
+									<a href="${base}/admin/jquery-ui?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										jQuery UI
 									</a>
 								</li>
 
 								<li>
-									<a href="nestable-list.html">
+									<a href="${base}/admin/nestable-list?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										可拖拽列表
 									</a>
@@ -474,14 +474,14 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="tables.html">
+									<a href="${base}/admin/tables?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										简单 &amp; 动态
 									</a>
 								</li>
 
 								<li>
-									<a href="jqgrid.html">
+									<a href="${base}/admin/jqgrid?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										jqGrid plugin
 									</a>
@@ -499,28 +499,28 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="form-elements.html">
+									<a href="${base}/admin/form-elements?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										表单组件
 									</a>
 								</li>
 
 								<li>
-									<a href="form-wizard.html">
+									<a href="${base}/admin/form-wizard?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										向导提示 &amp; 验证
 									</a>
 								</li>
 
 								<li>
-									<a href="wysiwyg.html">
+									<a href="${base}/admin/wysiwyg?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										编辑器
 									</a>
 								</li>
 
 								<li>
-									<a href="dropzone.html">
+									<a href="${base}/admin/dropzone?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										文件上传
 									</a>
@@ -529,14 +529,14 @@
 						</li>
 
 						<li>
-							<a href="widgets.html">
+							<a href="${base}/admin/widgets?TOKEN=${(TOKEN)!}">
 								<i class="icon-list-alt"></i>
 								<span class="menu-text"> 插件 </span>
 							</a>
 						</li>
 
 						<li>
-							<a href="calendar.html">
+							<a href="${base}/admin/calendar?TOKEN=${(TOKEN)!}">
 								<i class="icon-calendar"></i>
 
 								<span class="menu-text">
@@ -549,7 +549,7 @@
 						</li>
 
 						<li>
-							<a href="gallery.html">
+							<a href="${base}/admin/gallery?TOKEN=${(TOKEN)!}">
 								<i class="icon-picture"></i>
 								<span class="menu-text"> 相册 </span>
 							</a>
@@ -565,44 +565,37 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="profile.html">
+									<a href="${base}/admin/profile?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										用户信息
 									</a>
 								</li>
 
 								<li>
-									<a href="inbox.html">
+									<a href="${base}/admin/inbox?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										收件箱
 									</a>
 								</li>
 
 								<li>
-									<a href="pricing.html">
+									<a href="${base}/admin/pricing?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										售价单
 									</a>
 								</li>
 
 								<li>
-									<a href="invoice.html">
+									<a href="${base}/admin/invoice?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										购物车
 									</a>
 								</li>
 
 								<li>
-									<a href="timeline.html">
+									<a href="${base}/admin/timeline?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										时间轴
-									</a>
-								</li>
-
-								<li>
-									<a href="login.html">
-										<i class="icon-double-angle-right"></i>
-										登录 &amp; 注册
 									</a>
 								</li>
 							</ul>
@@ -622,35 +615,35 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="faq.html">
+									<a href="${base}/admin/faq?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										帮助
 									</a>
 								</li>
 
 								<li>
-									<a href="error-404.html">
+									<a href="${base}/admin/error-404?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										404错误页面
 									</a>
 								</li>
 
 								<li>
-									<a href="error-500.html">
+									<a href="${base}/admin/error-500?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										500错误页面
 									</a>
 								</li>
 
 								<li>
-									<a href="grid.html">
+									<a href="${base}/admin/grid?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										网格
 									</a>
 								</li>
 
 								<li>
-									<a href="blank.html">
+									<a href="${base}/admin/blank?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										空白页面
 									</a>
@@ -1047,42 +1040,42 @@
 
 		<!--[if !IE]> -->
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="${base}/static/assets/js/jquery-2.0.3.min.js"></script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<![endif]-->
+		<script src="${base}/static/assets/js/jquery-1.10.2.min.js"></script>
+		<![endif]-->
 
 		<!--[if !IE]> -->
 
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='${base}/static/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
+		<script type="text/javascript">
+		 window.jQuery || document.write("<script src='${base}/static/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
 
 		<script type="text/javascript">
-			if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if("ontouchend" in document) document.write("<script src='${base}/static/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/typeahead-bs2.min.js"></script>
+		<script src="${base}/static/assets/js/bootstrap.min.js"></script>
+		<script src="${base}/static/assets/js/typeahead-bs2.min.js"></script>
 
 		<!-- page specific plugin scripts -->
 
-		<script src="assets/js/prettify.js"></script>
+		<script src="${base}/static/assets/js/prettify.js"></script>
 
 		<!-- ace scripts -->
 
-		<script src="assets/js/ace-elements.min.js"></script>
-		<script src="assets/js/ace.min.js"></script>
+		<script src="${base}/static/assets/js/ace-elements.min.js"></script>
+		<script src="${base}/static/assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 
@@ -1096,6 +1089,5 @@
 			
 			})
 		</script>
-	<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
 </html>

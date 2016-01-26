@@ -3,7 +3,7 @@
 <html>
     <head>
     	<base id="base" href="${base}">
-        <title>管理员登录页面 | pickles</title>
+        <title>管理员登录页面 - pickles</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
