@@ -78,7 +78,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         try {
         	// modify by 张孟志 2016年1月6日 下午2:58:41
 			// bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
-            bean.setMapperLocations(resolver.getResources("classpath*:org/zhangmz/pickles/orm/mapping/*.xml"));
+            bean.setMapperLocations(resolver.getResources("classpath:org/zhangmz/pickles/orm/mapping/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();

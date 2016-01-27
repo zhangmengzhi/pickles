@@ -27,7 +27,7 @@
   </sql>
   
   <!-- add by zhangmz 2016-01-25 用户登录，用户信息可以是手机号，也可以是Email begin -->
-  <select id="getByPhoneEmail" parameterType="String" resultMap="BaseResultMap">
+  <select id="getByPhoneEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from account
