@@ -25,7 +25,6 @@
 package org.zhangmz.pickles.conf;
 
 import com.github.pagehelper.PageHelper;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
