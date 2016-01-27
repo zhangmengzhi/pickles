@@ -613,20 +613,6 @@
 								</li>
 
 								<li>
-									<a href="${base}/admin/error-404?TOKEN=${(TOKEN)!}">
-										<i class="icon-double-angle-right"></i>
-										404错误页面
-									</a>
-								</li>
-
-								<li>
-									<a href="${base}/admin/error-500?TOKEN=${(TOKEN)!}">
-										<i class="icon-double-angle-right"></i>
-										500错误页面
-									</a>
-								</li>
-
-								<li>
 									<a href="${base}/admin/grid?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										网格

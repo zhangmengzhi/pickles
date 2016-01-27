@@ -197,39 +197,39 @@
 											<div class="space-6"></div>
 											<p> 填写基本信息： </p>
 
-											<form>
+											<form id="register-form" role="form" method="post" action="#">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
+															<input id="email" type="email" class="form-control" placeholder="Email" />
 															<i class="icon-envelope"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="phone" class="form-control" placeholder="手机号" />
+															<input id="phone" type="phone" class="form-control" placeholder="手机号" />
 															<i class="icon-phone"></i>
 														</span>
 													</label>
 													
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="用户名" />
+															<input id="name" type="text" class="form-control" placeholder="用户名" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="密码" />
+															<input id="password" type="password" class="form-control" placeholder="密码" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="确认密码" />
+															<input id="confirm_password" type="password" class="form-control" placeholder="确认密码" />
 															<i class="icon-retweet"></i>
 														</span>
 													</label>
@@ -305,6 +305,8 @@
 		</script>
 
         <script type="text/javascript" src="${base}/static/assets/js/bootstrap.min.js"></script>
+        
+        <!-- page specific plugin scripts -->
         
 		<!-- inline scripts related to this page -->
 

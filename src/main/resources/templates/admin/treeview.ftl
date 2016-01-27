@@ -359,7 +359,7 @@
 					</div><!-- #sidebar-shortcuts -->
 
 					<ul class="nav nav-list">
-						<li class="active">
+						<li>
 							<a href="${base}/admin/main?TOKEN=${(TOKEN)!}">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 控制台 </span>
@@ -396,7 +396,7 @@
 									</a>
 								</li>
 
-								<li>
+								<li class="active">
 									<a href="${base}/admin/treeview?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										树菜单
@@ -609,20 +609,6 @@
 									<a href="${base}/admin/faq?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										帮助
-									</a>
-								</li>
-
-								<li>
-									<a href="${base}/admin/error-404?TOKEN=${(TOKEN)!}">
-										<i class="icon-double-angle-right"></i>
-										404错误页面
-									</a>
-								</li>
-
-								<li>
-									<a href="${base}/admin/error-500?TOKEN=${(TOKEN)!}">
-										<i class="icon-double-angle-right"></i>
-										500错误页面
 									</a>
 								</li>
 
