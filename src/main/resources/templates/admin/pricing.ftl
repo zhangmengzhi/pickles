@@ -627,6 +627,41 @@
 								</li>
 							</ul>
 						</li>
+						
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-group"></i>
+
+								<span class="menu-text">
+									用户管理
+								</span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li>
+									<a href="${base}/admin/accounts?TOKEN=${(TOKEN)!}">
+										<i class="icon-double-angle-right"></i>
+										用户管理
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<i class="icon-double-angle-right"></i>
+										用户组管理
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<i class="icon-double-angle-right"></i>
+										用户组权限管理
+									</a>
+								</li>								
+							</ul>
+						</li>
 					</ul><!-- /.nav-list -->
 
 					<div class="sidebar-collapse" id="sidebar-collapse">
