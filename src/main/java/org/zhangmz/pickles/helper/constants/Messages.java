@@ -20,6 +20,7 @@ public class Messages {
 	public static final String MUST_BE_ADMINISTRATOR = "操作人必须为超级管理员!";
 	public static final String MUST_BE_ADMIN = "操作人必须为管理员!";
 	public static final String MUST_BE_LOGGED = "操作人必须登录!";
+	public static final String ADMINISTRATOR_IS_STATIC = "超级管理员信息不可操作。";
 
 	public static final String USER_NOT_ADMIN = "该用户不是管理员!";	
 

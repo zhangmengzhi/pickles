@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package org.zhangmz.pickles.controller.admin;
+package org.zhangmz.pickles.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

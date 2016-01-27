@@ -26,7 +26,7 @@ create table account (
 	UNIQUE index_account_email (email)
 );
 
-insert into account (id,phone,email,name,hash_password,salt,group_id,status) values(1,'13000000001','1@gmail.com','管理员','48577990717ce63726608c92c6ab257f','4sG3vd',1,'Y');
+insert into account (id,phone,email,name,hash_password,salt,group_id,status) values(1,'13000000001','1@gmail.com','超级管理员','48577990717ce63726608c92c6ab257f','4sG3vd',1,'Y');
 insert into account (id,phone,email,name,hash_password,salt,status) values(2,'13000000002','2@gmail.com','东方不败','48577990717ce63726608c92c6ab257f','4sG3vd','Y');
 insert into account (id,phone,email,name,hash_password,salt,status) values(3,'13000000003','3@gmail.com','张三','48577990717ce63726608c92c6ab257f','4sG3vd','Y');
 insert into account (id,phone,email,name,hash_password,salt) values(4,'13000000004','4@gmail.com','李四','48577990717ce63726608c92c6ab257f','4sG3vd');

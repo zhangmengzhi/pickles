@@ -213,6 +213,10 @@ public class AccountService {
     	return authorityHelper.isAdmin(token);
     }
     
+    public boolean isAdministrator(Account account){
+    	return authorityHelper.isAdministrator(account);
+    }
+    
     public boolean isAdministrator(String token){
     	return authorityHelper.isAdministrator(token);
     }

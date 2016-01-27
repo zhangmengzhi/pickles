@@ -76,6 +76,10 @@ public class AuthorityHelper {
  	public boolean isAdministrator(String token) {
  		return hasLoginCache(token, 1);
 	}
+
+ 	public boolean isAdministrator(Account account) {
+ 		return account!=null && 1==account.getId().intValue() && 1==account.getGroupId().intValue();
+	}
  	
  	public Account getAdministratorAccount(String token) {
  		return getLoginAccount(token, 1);

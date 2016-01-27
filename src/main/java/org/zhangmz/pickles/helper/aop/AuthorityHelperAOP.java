@@ -31,9 +31,11 @@ public class AuthorityHelperAOP {
     @Autowired
     private AuthorityHelper authorityHelper;
 	
-    @Pointcut("execution(org.springframework.web.servlet.ModelAndView org.zhangmz.pickles.controller.admin.AdminMainController.*(..))")
+//    @Pointcut("execution(* org.zhangmz.pickles.controller.admin..*(..)) "
+//    		+ " and !execution(* org.zhangmz.pickles.controller.admin.AdminIndexController.(..))")
+//    private void actionMethod() {}
+    @Pointcut("execution(* org.zhangmz.pickles.controller.admin..*(..)) ")
     private void actionMethod() {}
-    
 //	/**
 //	 * 
 //	 * @Title: authorityBeforeService 
@@ -80,7 +82,9 @@ public class AuthorityHelperAOP {
 	            // System.out.println("end! performance took " + (end-start) + " milliseconds");
 	            // 计算服务时间 end
 	        }catch(Throwable e){
-	            System.out.println(Messages.AOP_HAS_ERROR);
+	        	// e.printStackTrace();
+    			result = new ModelAndView(AdminUrl.loginPage);
+    	        result.addObject("message", Messages.AOP_HAS_ERROR);
 	        }
 		 
 		 return result;

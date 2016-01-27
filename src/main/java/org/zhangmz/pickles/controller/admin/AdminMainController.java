@@ -90,18 +90,6 @@ public class AdminMainController {
 		return result;
     }
 	
-	@RequestMapping("/error-400")
-	public ModelAndView error400(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/error-400");		
-		return result;
-    }
-	
-	@RequestMapping("/error-500")
-	public ModelAndView error500(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/error-500");		
-		return result;
-    }
-	
 	@RequestMapping("/faq")
 	public ModelAndView faq(@RequestParam("TOKEN") String token) {		
 		ModelAndView result = new ModelAndView("admin/faq");		

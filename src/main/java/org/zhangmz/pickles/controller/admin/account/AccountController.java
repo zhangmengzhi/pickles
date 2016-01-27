@@ -35,7 +35,7 @@ public class AccountController {
     private AccountService accountService;
     
     @RequestMapping
-    public ModelAndView search(Account account, @RequestParam("TOKEN") String token) {
+    public ModelAndView search(@RequestParam("TOKEN") String token, Account account) {
         ModelAndView result = new ModelAndView("admin/account/index");
         List<Account> accountList = accountService.search(account);
         result.addObject("pageInfo", new PageInfo<Account>(accountList));
@@ -57,7 +57,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/view/{id}")
-    public ModelAndView view(@PathVariable Long id, @RequestParam("TOKEN") String token) {
+    public ModelAndView view(@RequestParam("TOKEN") String token, @PathVariable Long id) {
         ModelAndView result = new ModelAndView("admin/account/view");
         Account account = accountService.getById(id);
         result.addObject("account", account);
@@ -68,36 +68,67 @@ public class AccountController {
         return result;
     }
 
+    /**
+     * 
+     * @Title: delete 
+     * @Description: 删除用户
+     * @param token
+     * @param id
+     * @param ra
+     * @return
+     * @throws 
+     * 增加人:张孟志
+     * 增加日期:2016年1月27日 下午5:03:56
+     * 说明：因为使用了AOP，必须返回ModelAndView对象。
+     * 		这个方法应该改为异步调用方法。
+     */
     @RequestMapping(value = "/delete/{id}")
-    public String delete(@PathVariable Long id, @RequestParam("TOKEN") String token, RedirectAttributes ra) {
-    	// 删除操作人必须为管理员
-    	if(accountService.isAdmin(token)){
+    public ModelAndView delete(@RequestParam("TOKEN") String token, @PathVariable Long id) {
+    	ModelAndView result = new ModelAndView("admin/account/index");
+    	String message;
+    	// 删除操作人必须为管理员，被删除的不能是超级管理员
+    	if(accountService.isAdmin(token) && 1!=id.intValue()){
     		accountService.deleteById(id);
-            ra.addFlashAttribute("message", Messages.DELETE_SUCCESS);
+    		message = Messages.DELETE_SUCCESS;
     	} else {
-    		ra.addFlashAttribute("message", Messages.MUST_BE_ADMINISTRATOR);
-    	}    	
+    		message = Messages.MUST_BE_ADMIN + Messages.ADMINISTRATOR_IS_STATIC;
+    	}
     	
-        return "redirect:/admin/accounts?TOKEN=" + token;
+    	// 因为使用了AOP，必须返回ModelAndView对象。调回用户管理页面
+    	Account account = new Account();
+        List<Account> accountList = accountService.search(account);
+        result.addObject("pageInfo", new PageInfo<Account>(accountList));
+        result.addObject("queryParam", account);
+        result.addObject("page", account.getPage());
+        result.addObject("rows", account.getRows());
+        result.addObject("message", message);
+        result.addObject("TOKEN", token);
+        return result;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView save(Account account, @RequestParam("TOKEN") String token) {
+    public ModelAndView save(@RequestParam("TOKEN") String token, Account account) {
         ModelAndView result = new ModelAndView("admin/account/view");
-        String msg = account.getId() == null ? Messages.INSERT_SUCCESS : Messages.UPDATE_SUCCESS;
+        String message = account.getId() == null ? Messages.INSERT_SUCCESS : Messages.UPDATE_SUCCESS;
         
         // 浏览器保存用户/密码下，可以只输入浏览器缓存（用户名/密码两个字段）提交表单
         // MySQLIntegrityConstraintViolationException: Column 'email' cannot be null
         // 为了避免这个bug，拦截一下异常。
         try {
-        	accountService.save(account);
+        	// modify by zhangmz 只有超级管理员可以修改自己的信息
+        	if(!accountService.isAdministrator(token)         		
+        		&& accountService.isAdministrator(account)){
+    			message = Messages.MUST_BE_ADMINISTRATOR;
+        	}else{
+            	accountService.save(account);
+        	}
 		} catch (Exception e) {
 			// msg = e.getMessage();
-			msg = Messages.SYSTEM_BUSY;
+			message = Messages.SYSTEM_BUSY;
 		}
         
         result.addObject("account", account);
-        result.addObject("message", msg);
+        result.addObject("message", message);
         // add by zhangmz 2016-01-09 添加操作表示
         // result.addObject("action", "view");
         result.addObject("action", "edit");
