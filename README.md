@@ -24,6 +24,11 @@ ConcurrenHashSet、支持HMAC-SHA1消息签名 及 DES/AES对称加密的工具�
 数字的工具类（Numbers）、反射工具类（Reflections）、线程相关工具类等。vo下是辅助类使用的数据对象。
 例如对密码加密后产生了加密salt、hashPassword，封装在HashPasswordResult。
 
+**打包说明**
+mvn package
+cd target
+java -jar pickles.jar --server.port=80
+
 作者：张孟志
 E-mail：104446930@qq.com
 日期：2016-01-23
