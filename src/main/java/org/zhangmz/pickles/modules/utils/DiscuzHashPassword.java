@@ -10,6 +10,8 @@ import org.zhangmz.pickles.modules.vo.HashPasswordResult;
  * @date:2016年1月20日 上午9:35:08 
  * @version V1.0
  * 说明：实现Discuz密码操作，为数据迁移做准备
+ * 		DiscuzHashPassword对原始密码加密
+ * 		DiscuzHashMd5Password对已MD5加密的字符串加密
  * 
  *      uc_client/model/user.php  function add_user
  *      $password = md5(md5($password).$salt);
@@ -38,7 +40,12 @@ public class DiscuzHashPassword {
 	 * 说明：根据用户输入的密码、数据库保存的salt，计算加密后的hashpassword
 	 */
 	public static String getHashPassword(String input, String salt) {
-		HashPasswordResult result = getHashPasswordResult(input, salt);
+		HashPasswordResult result = getHashPasswordResult(input, salt, false);
+		return result.getHashPassword();
+	}	
+
+	public static String getHashPassword(String input, String salt, boolean isMd5Input) {
+		HashPasswordResult result = getHashPasswordResult(input, salt, isMd5Input);
 		return result.getHashPassword();
 	}
 	
@@ -54,7 +61,11 @@ public class DiscuzHashPassword {
 	 * 说明：该方法获取原始加密后对象，设置salt为null，加密过程随机产生salt。
 	 */
 	public static HashPasswordResult getHashPasswordResult(String input) {
-		return getHashPasswordResult(input, null);
+		return getHashPasswordResult(input, null, false);
+	}
+
+	public static HashPasswordResult getHashPasswordResult(String input, boolean isMd5Input) {
+		return getHashPasswordResult(input, null, isMd5Input);
 	}
 	
 	/**
@@ -63,20 +74,27 @@ public class DiscuzHashPassword {
 	 * @Description: 获取加密后对象
 	 * @param input
 	 * @param salt
+	 * @param isMd5Input
 	 * @return
 	 * @throws 
 	 * 增加人:张孟志
 	 * 增加日期:2016年1月23日 上午7:50:32
 	 * 说明：加密后产生了加密salt、hashPassword，封装在HashPasswordResult
 	 */
-	private static HashPasswordResult getHashPasswordResult(String input, String salt) {
+	private static HashPasswordResult getHashPasswordResult(String input, String salt, boolean isMd5Input) {
 		HashPasswordResult result = new HashPasswordResult();
+		String passwordMd5 = null;
 		
 		// 兼顾密码生成（即使产生salt）与密码检验(salt已保存在数据库中)
 		result.setSalt(salt);
 		if(null == salt){ result.setSalt(Md5Util.getRandomString(6));}
 
-		String passwordMd5 = Md5Util.getMd5(input);		
+		if(isMd5Input){
+			passwordMd5 = input;
+		}else{
+			passwordMd5 = Md5Util.getMd5(input);
+		}
+		
 		result.setHashPassword(Md5Util.getMd5(passwordMd5 + result.getSalt()));
 		
 		return result;
