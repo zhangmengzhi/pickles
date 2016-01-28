@@ -22,12 +22,18 @@
 		<javaClientGenerator type="XMLMAPPER" 
 							 targetPackage="org.zhangmz.pickles.orm.mapper" 	
 							 targetProject="pickles" />  
-
+		<!--
 		<table schema="" tableName="account" domainObjectName="Account" 
 			enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false" >
 		</table>
-
+		-->
+		
+		<table schema="" tableName="navtree" domainObjectName="Navtree" 
+			enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false" >
+		</table>
 	</context>
 </generatorConfiguration>

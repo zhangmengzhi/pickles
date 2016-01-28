@@ -5,6 +5,9 @@
  *******************************************************************************/
 package org.zhangmz.pickles.controller.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.zhangmz.pickles.helper.constants.AdminUrl;
+import org.zhangmz.pickles.helper.vo.NavTreeNode;
+import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.helper.AdminMainHelper;
 
 /**
@@ -45,7 +50,7 @@ public class AdminMainController {
 	        result.addObject("message", Messages.USER_NOT_ADMIN);
 		}
         result.addObject("mainInfo", adminMainHelper.getMainInfo(token));
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
 		return result;
     }
 	*/
@@ -54,7 +59,7 @@ public class AdminMainController {
 	public ModelAndView home(@RequestParam("TOKEN") String token) {
 		ModelAndView result = new ModelAndView(AdminUrl.mainPage);
 		result.addObject("mainInfo", adminMainHelper.getMainInfo(token));
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
 		return result;
     }
 	
@@ -200,7 +205,44 @@ public class AdminMainController {
 	
 	@RequestMapping("/navtree")
 	public ModelAndView navtree(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/navtree");		
+		ModelAndView result = new ModelAndView("admin/navtree");
+		// 获取导航栏的JSON数据
+		String treeDataJson = tempMethod();
+		result.addObject("treeDataJson", treeDataJson);
 		return result;
     }
+	
+	public String tempMethod(){
+		NavTreeNode ntn = new NavTreeNode(); 		ntn.setText("根节点"); 		ntn.setValue("0");		
+		NavTreeNode ntnP1 = new NavTreeNode(); 		ntnP1.setText("父1"); 		ntnP1.setValue("p1");		
+		NavTreeNode ntnP2 = new NavTreeNode();		ntnP2.setText("父2");		ntnP2.setValue("p2");		
+		NavTreeNode ntnP3 = new NavTreeNode();		ntnP3.setText("父3");		ntnP3.setValue("p3");		
+		NavTreeNode ntnP4 = new NavTreeNode();		ntnP4.setText("父4");		ntnP4.setValue("p4");		
+		NavTreeNode ntnP5 = new NavTreeNode();		ntnP5.setText("父5");		ntnP5.setValue("p5");		
+		NavTreeNode ntnC1 = new NavTreeNode();		ntnC1.setText("子1");		ntnC1.setValue("c1");		
+		NavTreeNode ntnC2 = new NavTreeNode();		ntnC2.setText("子2");		ntnC2.setValue("c2");		
+		NavTreeNode ntnC3 = new NavTreeNode();		ntnC3.setText("子3");		ntnC3.setValue("c3");		
+		NavTreeNode ntnG1 = new NavTreeNode();		ntnG1.setText("孙1");		ntnG1.setValue("g1");		
+		NavTreeNode ntnG2 = new NavTreeNode();		ntnG2.setText("孙2");		ntnG2.setValue("g2");
+		
+		List<NavTreeNode> cg1 = new ArrayList<>();		cg1.add(ntnC1);		cg1.add(ntnC2);
+		ntnP2.setNodes(cg1);
+		
+		List<NavTreeNode> cg2 = new ArrayList<>();		cg2.add(ntnC3);
+		// 给ntnC3带入nodes
+		List<NavTreeNode> cg3 = new ArrayList<>();		cg3.add(ntnG1);		cg3.add(ntnG2);		ntnC3.setNodes(cg3);		
+		ntnP3.setNodes(cg2);
+		
+		// 所有父节点
+		List<NavTreeNode> cg4 = new ArrayList<>();
+		cg4.add(ntnP1);		cg4.add(ntnP2);		cg4.add(ntnP3);		cg4.add(ntnP4);		cg4.add(ntnP5);
+		ntn.setNodes(cg4);
+		
+		JsonMapper binder = JsonMapper.nonDefaultMapper();
+		String beanString = binder.toJson(cg4);
+		System.out.println(beanString);
+		String beanStringRoot = binder.toJson(ntn);
+		System.out.println(beanStringRoot);
+		return beanString;
+	}
 }

@@ -732,7 +732,7 @@
 									<div class="col-sm-6">
 										<div class="widget-box">
 											<div class="widget-header header-color-blue2">
-												<h4 class="lighter smaller">Choose Categories</h4>
+												<h4 class="lighter smaller">导航栏操作：</h4>
 											</div>
 
 											<div class="widget-body">
@@ -854,7 +854,7 @@
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($){
-			var json = '[{"text":"父1","value":"p1"},{"text":"父2","value":"p2","nodes":[{"text":"子1","value":"c1"},{"text":"子2","value":"c2"}]},{"text":"父3","value":"p3","nodes":[{"text":"子3","value":"c3","nodes":[{"text":"孙1","value":"g1"},{"text":"孙2","value":"g2"}]}]},{"text":"父4","value":"p4"},{"text":"父5","value":"p5"}]';
+			var json = ${(treeDataJson)!};
         
 				$('#tree1').treeview({
 		          color: "#428bca",

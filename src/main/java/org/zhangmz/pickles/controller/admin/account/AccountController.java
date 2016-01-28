@@ -41,7 +41,7 @@ public class AccountController {
         result.addObject("queryParam", account);
         result.addObject("page", account.getPage());
         result.addObject("rows", account.getRows());
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
         return result;
     }
 
@@ -51,7 +51,7 @@ public class AccountController {
         result.addObject("account", new Account());
         // add by zhangmz 2016-01-09 添加操作表示
         result.addObject("action", "add");
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
         return result;
     }
 
@@ -63,7 +63,7 @@ public class AccountController {
         // add by zhangmz 2016-01-09 添加操作表示
         // result.addObject("action", "view");
         result.addObject("action", "edit");
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
         return result;
     }
 
@@ -101,7 +101,7 @@ public class AccountController {
         result.addObject("page", account.getPage());
         result.addObject("rows", account.getRows());
         result.addObject("message", message);
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
         return result;
     }
 
@@ -131,7 +131,7 @@ public class AccountController {
         // add by zhangmz 2016-01-09 添加操作表示
         // result.addObject("action", "view");
         result.addObject("action", "edit");
-        result.addObject("TOKEN", token);
+        // result.addObject("TOKEN", token);
         return result;
     }
 }
