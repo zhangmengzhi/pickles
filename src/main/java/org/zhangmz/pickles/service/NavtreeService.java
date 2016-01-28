@@ -5,6 +5,7 @@
  *******************************************************************************/
 package org.zhangmz.pickles.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,8 @@ public class NavtreeService {
  	 * 先查找一级导航，pid=1; 获取以及导航的id查找二级导航
  	 ************************************************************************/	
 	public String getNavTreeString() {
+		NavtreeNode rtnNavtreeNode = new NavtreeNode();
+		List<Navtree> NavtreeList0 = navtreeMapper.selectNavTreeList(0);
 		List<Navtree> NavtreeList1 = navtreeMapper.selectNavTreeList(1);
 		List<Navtree> NavtreeList2 = navtreeMapper.selectNavTreeSecondList();
 		
@@ -72,24 +75,45 @@ public class NavtreeService {
 		Map<Integer, NavtreeNode> navtreeNodeMap = new LinkedHashMap<Integer, NavtreeNode>();
 		
 		// 一级导航菜单
-		for (Navtree navtree : NavtreeList1) {
+		for (Navtree navtree1 : NavtreeList1) {
 			NavtreeNode navtreeNode = new NavtreeNode();
-			navtreeNode.setText(navtree.getName());
-			navtreeNode.setValue(String.valueOf(navtree.getId()));
-			navtreeNodeMap.put(navtree.getId(), navtreeNode);
+			navtreeNode.setText(navtree1.getName());
+			navtreeNode.setValue(String.valueOf(navtree1.getId()));
+			navtreeNodeMap.put(navtree1.getId(), navtreeNode);
 		}
 		
 		// 二级导航菜单
-		for (Navtree navtree : NavtreeList2) {
+		for (Navtree navtree2 : NavtreeList2) {
 			NavtreeNode navtreeNode = new NavtreeNode();
-			navtreeNode.setText(navtree.getName());
-			navtreeNode.setValue(String.valueOf(navtree.getId()));
-			navtreeNodeMap.get(navtree.getPid()).setNode(navtreeNode);
+			navtreeNode.setText(navtree2.getName());
+			navtreeNode.setValue(String.valueOf(navtree2.getId()));
+			navtreeNodeMap.get(navtree2.getPid()).setNode(navtreeNode);
 		}
 		
-		// List navtreeNodeList = new ArrayList<NavtreeNode>(navtreeNodeMap.values());
-		// String rtn = JsonMapper.nonDefaultMapper().toJson(navtreeNodeList);
-		String rtn = JsonMapper.nonDefaultMapper().toJson(navtreeNodeMap.values());
+		// 处理根菜单
+		List<NavtreeNode> navtreeNodeList = new ArrayList<NavtreeNode>(navtreeNodeMap.values());
+		rtnNavtreeNode.setNodes(navtreeNodeList);
+		// 根目录 NavtreeList0 有且只有一条记录。
+		if(NavtreeList0 != null && NavtreeList0.size() > 0){
+			rtnNavtreeNode.setText(NavtreeList0.get(0).getName());
+			rtnNavtreeNode.setValue(String.valueOf(NavtreeList0.get(0).getId()));
+		}
+		
+		// 为了方便设置NavtreeNode的nodes对象是个List实例
+		// 但输出时不能序列化
+		// rtnNavtreeNode.clearEmpty2Null();
+		
+		NavtreeNode rtnNavtreeNodeRoot = new NavtreeNode();
+		// 根目录 NavtreeList0 有且只有一条记录。
+		if(NavtreeList0 != null && NavtreeList0.size() > 0){
+			rtnNavtreeNode.setText(NavtreeList0.get(0).getName());
+			rtnNavtreeNode.setValue(String.valueOf(NavtreeList0.get(0).getId()));
+		}
+		
+		List<NavtreeNode> rtnList = new ArrayList<NavtreeNode>();
+		rtnList.add(rtnNavtreeNode);
+		rtnList.add(rtnNavtreeNodeRoot);
+		String rtn = JsonMapper.nonEmptyMapper().toJson(rtnList);
 		logger.debug(rtn);
 		return rtn;
 	}

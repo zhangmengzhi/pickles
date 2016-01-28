@@ -7,6 +7,7 @@ package org.zhangmz.pickles.helper.vo;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.zhangmz.pickles.modules.utils.Collections3;
 
 /**
  * Title:NavTree.java
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public class NavtreeNode {
 	// 节点文本
-	private String text;
+	private String text = "根菜单";
 	// 节点值，对应navtree表中的id字段
-	private String value;
+	private String value = "1";
 	// 直接点
 	private List<NavtreeNode> nodes = new ArrayList<NavtreeNode>();
 
@@ -45,4 +46,15 @@ public class NavtreeNode {
 	public void setNode(NavtreeNode node) {
 		this.nodes.add(node);
 	}	
+	
+	public void clearEmpty() {
+		if(Collections3.isEmpty(nodes)){
+			nodes = null;
+		}else{
+			// 递归将所有对象置为null
+			for (NavtreeNode navtreeNode : nodes) {
+				navtreeNode.clearEmpty();
+			}
+		}
+	}
 }
