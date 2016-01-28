@@ -4,9 +4,9 @@
     <head>
     	<base id="base" href="${base}">
 		<meta charset="utf-8" />
-		<title>空白页 - pickles</title>
-		<meta name="keywords" content="pickles空白页" />
-		<meta name="description" content="pickles空白页" />
+		<title>导航栏管理 - pickles</title>
+		<meta name="keywords" content="pickles导航栏管理" />
+		<meta name="description" content="pickles导航栏管理" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
 		<!-- basic styles -->
@@ -57,7 +57,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							Ace Admin
+							Pickles后台管理系统
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
@@ -745,7 +745,74 @@
 
 									<!-- 导航表单 -->
 									<div class="col-sm-6">
-										
+										<form class="form-horizontal" role="form">
+											<input type="hidden" name="id" value="${(navtree.id)!}"/>
+		
+											<div class="space-4"></div>
+											
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="name"> 菜单名称: </label>
+		
+												<div class="col-sm-9">
+													<input type="text" id="name" placeholder="新菜单" class="col-xs-10 col-sm-5" value="${(navtree.name)!}"/>
+												</div>
+											</div>
+		
+											<div class="space-4"></div>
+		
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="href"> 超链接: </label>
+		
+												<div class="col-sm-9">
+													<input type="text" id="href" placeholder="从根开始，例如：/index" class="col-xs-10 col-sm-5" value="${(navtree.href)!}"/>
+												</div>
+											</div>
+		
+											<div class="space-4"></div>
+		
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="param"> 参数： </label>
+		
+												<div class="col-sm-9">
+													<input type="text" id="param" placeholder="需要TOKEN？" class="col-xs-10 col-sm-5" value="${(navtree.param)!}"/>
+												</div>
+											</div>
+		
+											<div class="space-4"></div>
+		
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="status"> 状态： </label>
+		
+												<div class="col-sm-9">
+													<input type="text" id="status" placeholder="N，无效；Y，有效" class="col-xs-10 col-sm-5" value="${(navtree.status)!}"/>
+												</div>
+											</div>
+		
+											<div class="clearfix form-actions">
+												<div class="col-md-offset-2 col-md-10">
+													<button class="btn btn-info" type="submit">
+														<i class="icon-ok bigger-110"></i>
+														保存
+													</button>
+		
+													&nbsp; &nbsp; &nbsp;
+													
+													<button class="btn" type="reset">
+														<i class="icon-undo bigger-110"></i>
+														重置
+													</button>
+													
+													&nbsp; &nbsp; &nbsp;
+													
+													<button id="delete" class="btn btn-info" type="button">
+														<i class="icon-ok bigger-110"></i>
+														删除
+													</button>
+													
+												</div>
+											</div>
+		
+										</form>
 									</div>
 
 								</div>
