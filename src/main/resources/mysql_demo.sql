@@ -51,4 +51,51 @@ insert into account (id,phone,email,name,hash_password,salt) values(22,'13000000
 insert into account (id,phone,email,name,hash_password,salt) values(23,'13000000023','23@gmail.com','王五','48577990717ce63726608c92c6ab257f','4sG3vd');
 insert into account (id,phone,email,name,hash_password,salt) values(24,'13000000024','24@gmail.com','赵六','48577990717ce63726608c92c6ab257f','4sG3vd');
 
+--  导航菜单
+--  使用id/pid关联，考虑到实际使用普遍只有两级菜单，不实现多重菜单
+--  导航菜单的配置查询（只考虑两级菜单）
+-- select
+-- p.id pid, p.name pname, p.href phref, p.param pparam, p.status pstatus,
+-- c.id cid, c.name cname, c.href chref, c.param cparam, c.status cstatus
+-- from   navtree as p left join navtree as c on p.id=c.pid
+-- where  p.pid = 1
+-- and    p.status='Y'
+-- and    (c.status='Y' or c.status is null)
+-- order by p.id asc
+-- ;
+drop table if exists navtree;
+
+create table navtree (
+	id INT(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	pid INT(3) NOT NULL,
+	name varchar(64) DEFAULT '新菜单',
+	href varchar(128),
+	param varchar(128),
+	status char(1) DEFAULT 'Y'
+);
+
+insert into navtree (id,pid,name,href,param,status) values(1,0,'根菜单','#','','Y');
+insert into navtree (id,pid,name,href,param,status) values(2,1,'咸菜罐子','/index','','Y');
+insert into navtree (id,pid,name,href,param,status) values(3,1,'个人电脑','#','','Y');
+insert into navtree (id,pid,name,href,param,status) values(4,3,'Window','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(5,3,'MacBook','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(6,1,'工作站&amp;笔记本','#','','Y');
+insert into navtree (id,pid,name,href,param,status) values(7,6,'Dell','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(8,6,'Asus','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(9,6,'Samsung','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(10,6,'Lenovo','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(11,6,'Acer','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(12,1,'移动电话&amp;平板','#','','Y');
+insert into navtree (id,pid,name,href,param,status) values(13,12,'Iphone','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(14,12,'Samsung','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(15,12,'Nokia','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(16,12,'Lenovo','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(17,12,'Google','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(18,1,'软件','#','','Y');
+insert into navtree (id,pid,name,href,param,status) values(19,18,'游戏','/category','?TOKEN=${(TOKEN)!}','N');
+insert into navtree (id,pid,name,href,param,status) values(20,18,'通讯','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(21,1,'配件','#','','N');
+insert into navtree (id,pid,name,href,param,status) values(22,21,'键盘&amp;鼠标','/category','?TOKEN=${(TOKEN)!}','Y');
+insert into navtree (id,pid,name,href,param,status) values(23,21,'音响','/category','?TOKEN=${(TOKEN)!}','Y');
+
 commit;

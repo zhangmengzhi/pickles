@@ -768,7 +768,7 @@
 								</div>
 
 								<script type="text/javascript">
-									var $${base}/static/assets = "${base}/static/assets";//this will be used in fuelux.tree-sampledata.js
+									var $assets = "${base}/static/assets";//this will be used in fuelux.tree-sampledata.js
 								</script>
 
 								<!-- PAGE CONTENT ENDS -->
@@ -864,12 +864,10 @@
 		<script src="${base}/static/assets/js/typeahead-bs2.min.js"></script>
 
 		<!-- page specific plugin scripts -->
-
 		<script src="${base}/static/assets/js/fuelux/data/fuelux.tree-sampledata.js"></script>
 		<script src="${base}/static/assets/js/fuelux/fuelux.tree.min.js"></script>
 
 		<!-- ace scripts -->
-
 		<script src="${base}/static/assets/js/ace-elements.min.js"></script>
 		<script src="${base}/static/assets/js/ace.min.js"></script>
 

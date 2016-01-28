@@ -728,6 +728,32 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="widget-box">
+											<div class="widget-header header-color-blue2">
+												<h4 class="lighter smaller">Choose Categories</h4>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main padding-8">
+													<div id="tree1" class="tree"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- 导航表单 -->
+									<div class="col-sm-6">
+										
+									</div>
+
+								</div>
+
+								<script type="text/javascript">
+									var $assets = "${base}/static/assets";//this will be used in fuelux.tree-sampledata.js
+								</script>
+
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -819,11 +845,27 @@
 		<script src="${base}/static/assets/js/typeahead-bs2.min.js"></script>
 
 		<!-- page specific plugin scripts -->
+		<script src="${base}/static/assets/js/bootstrap-treeview.min.js"></script>
 
 		<!-- ace scripts -->
 		<script src="${base}/static/assets/js/ace-elements.min.js"></script>
 		<script src="${base}/static/assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			jQuery(function($){
+			var json = '[{"text":"父1","value":"p1"},{"text":"父2","value":"p2","nodes":[{"text":"子1","value":"c1"},{"text":"子2","value":"c2"}]},{"text":"父3","value":"p3","nodes":[{"text":"子3","value":"c3","nodes":[{"text":"孙1","value":"g1"},{"text":"孙2","value":"g2"}]}]},{"text":"父4","value":"p4"},{"text":"父5","value":"p5"}]';
+        
+				$('#tree1').treeview({
+		          color: "#428bca",
+		          showBorder: false,
+		          data: json,
+		          onNodeSelected: function (event, node) {
+		            alert(node.value);
+		          }
+		        });
+				
+			});
+		</script>
 </body>
 </html>

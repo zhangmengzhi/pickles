@@ -683,27 +683,6 @@
 								</li>							
 							</ul>
 						</li>
-						
-						<li>
-							<a href="#" class="dropdown-toggle">
-								<i class="icon-globe"></i>
-
-								<span class="menu-text">
-									菜单管理
-								</span>
-
-								<b class="arrow icon-angle-down"></b>
-							</a>
-
-							<ul class="submenu">
-								<li>
-									<a href="${base}/admin/navtree?TOKEN=${(TOKEN)!}">
-										<i class="icon-double-angle-right"></i>
-										导航栏管理
-									</a>
-								</li>							
-							</ul>
-						</li>
 					</ul><!-- /.nav-list -->
 
 					<div class="sidebar-collapse" id="sidebar-collapse">
