@@ -141,4 +141,30 @@
       status = #{status,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- add by zhangmz 2016-01-28 根据PID查询下级导航菜单 begin -->
+  <select id="selectNavTreeList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from navtree
+    <where>  
+    		status='Y'
+        <if test="pid != null">  
+            and pid = #{pid,jdbcType=INTEGER}
+        </if>  
+    </where>
+    ORDER BY id asc
+  </select>
+  <!-- add by zhangmz 2016-01-28 根据PID查询下级导航菜单 end -->
+  
+  <!-- add by zhangmz 2016-01-28 根据PID查询二级导航菜单 begin -->
+  <select id="selectNavTreeSecondList" resultMap="BaseResultMap">
+    select   c.*
+    from     navtree as p left join navtree as c on p.id=c.pid
+    <where>  p.pid = 1
+	and      p.status='Y'
+	and      c.status='Y'
+    </where>  
+  </select>
+  <!-- add by zhangmz 2016-01-28 根据PID查询二级导航菜单 end -->
 </mapper>

@@ -5,6 +5,7 @@
  *******************************************************************************/
 package org.zhangmz.pickles.helper.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,13 +16,13 @@ import java.util.List;
  * @date:2016年1月28日 下午2:56:46
  * 说明：导航栏树结构
  */
-public class NavTreeNode {
+public class NavtreeNode {
 	// 节点文本
 	private String text;
 	// 节点值，对应navtree表中的id字段
 	private String value;
 	// 直接点
-	private List<NavTreeNode> nodes;
+	private List<NavtreeNode> nodes = new ArrayList<NavtreeNode>();
 
 	public String getText() {
 		return text;
@@ -35,10 +36,13 @@ public class NavTreeNode {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	public List<NavTreeNode> getNodes() {
+	public List<NavtreeNode> getNodes() {
 		return nodes;
 	}
-	public void setNodes(List<NavTreeNode> nodes) {
+	public void setNodes(List<NavtreeNode> nodes) {
 		this.nodes = nodes;
+	}	
+	public void setNode(NavtreeNode node) {
+		this.nodes.add(node);
 	}	
 }

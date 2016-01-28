@@ -82,7 +82,7 @@ public class AuthorityHelperAOP {
 	            // System.out.println("end! performance took " + (end-start) + " milliseconds");
 	            // 计算服务时间 end
 	        }catch(Throwable e){
-	        	// e.printStackTrace();
+	        	e.printStackTrace();
     			result = new ModelAndView(AdminUrl.loginPage);
     	        result.addObject("message", Messages.AOP_HAS_ERROR);
 	        }

@@ -1,5 +1,8 @@
 package org.zhangmz.pickles.orm.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.zhangmz.pickles.orm.model.Navtree;
 
 public interface NavtreeMapper {
@@ -50,4 +53,26 @@ public interface NavtreeMapper {
      * @mbggenerated Thu Jan 28 15:45:27 CST 2016
      */
     int updateByPrimaryKey(Navtree record);
+    
+    /**
+     * 
+     * @Title: selectNavTreeList 
+     * @Description: 获取导航栏树形数据结构的List
+     * @return
+     * @throws 
+     * 增加人:张孟志
+     * 增加日期:2016年1月28日 下午4:05:04
+     * 说明：获取导航栏树形数据结构的List
+		-- select
+		-- p.id pid, p.name pname, p.href phref, p.param pparam, p.status pstatus,
+		-- c.id cid, c.name cname, c.href chref, c.param cparam, c.status cstatus
+		-- from   navtree as p left join navtree as c on p.id=c.pid
+		-- where  p.pid = 1
+		-- and    p.status='Y'
+		-- and    (c.status='Y' or c.status is null)
+		-- order by p.id asc
+		-- ;
+     */
+    List<Navtree> selectNavTreeList(@Param(value="pid") Integer pid);
+    List<Navtree> selectNavTreeSecondList();
 }
