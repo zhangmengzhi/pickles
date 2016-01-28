@@ -197,4 +197,10 @@ public class AdminMainController {
 		ModelAndView result = new ModelAndView("admin/wysiwyg");		
 		return result;
     }
+	
+	@RequestMapping("/navtree")
+	public ModelAndView navtree(@RequestParam("TOKEN") String token) {		
+		ModelAndView result = new ModelAndView("admin/navtree");		
+		return result;
+    }
 }

@@ -8,6 +8,7 @@ package org.zhangmz.pickles.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -33,6 +34,30 @@ public class IndexController {
 	@RequestMapping(value = "index", method = RequestMethod.GET)
 	public ModelAndView index() {
 		ModelAndView result = new ModelAndView("index");
+		return result;
+    }
+	
+	@RequestMapping("/contact")
+	public ModelAndView contact(@RequestParam(value="TOKEN", required=false) String token) {		
+		ModelAndView result = new ModelAndView("contact");		
+		return result;
+    }
+	
+	@RequestMapping("/category")
+	public ModelAndView category(@RequestParam(value="TOKEN", required=false) String token) {		
+		ModelAndView result = new ModelAndView("category");		
+		return result;
+    }
+	
+	@RequestMapping("/cart")
+	public ModelAndView cart(@RequestParam(value="TOKEN", required=false) String token) {		
+		ModelAndView result = new ModelAndView("cart");		
+		return result;
+    }
+	
+	@RequestMapping("/product")
+	public ModelAndView product(@RequestParam(value="TOKEN", required=false) String token) {		
+		ModelAndView result = new ModelAndView("product");		
 		return result;
     }
 }
