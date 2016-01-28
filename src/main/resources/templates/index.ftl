@@ -9,8 +9,6 @@
 	<meta name="description" content="pickles空白页" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-    <title>Mobile Shop</title>
-	
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="${base}/static/assets/css/bootstrap.min.css"  type="text/css">
 	
