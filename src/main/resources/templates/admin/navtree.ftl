@@ -746,7 +746,22 @@
 									<!-- 导航表单 -->
 									<div class="col-sm-6">
 										<form class="form-horizontal" role="form">
-											<input type="hidden" name="id" value="${(navtree.id)!}"/>
+											<div class="space-4"></div>
+											<button id="add" class="btn btn-app btn-xs btn-primary radius-4" type="button">
+												<i class="icon-edit bigger-100"></i>
+												新增
+											</button>													
+											
+											&nbsp; &nbsp; &nbsp;
+											
+											<button id="delete" class="btn btn-app btn-xs btn-danger radius-4" type="button">
+												<i class="icon-trash bigger-100"></i>
+												删除
+											</button>
+											<div class="space-4"></div>
+											
+											<input type="hidden" id="id" value="${(navtree.id)!}"/>
+											<input type="hidden" id="pid" value="${(navtree.pid)!}"/>
 		
 											<div class="space-4"></div>
 											
@@ -789,26 +804,18 @@
 											</div>
 		
 											<div class="clearfix form-actions">
-												<div class="col-md-offset-2 col-md-10">
-													<button class="btn btn-info" type="submit">
-														<i class="icon-ok bigger-110"></i>
+												<div class="col-md-offset-3 col-md-9">
+													<button id="save" class="btn btn-app btn-xs btn-primary radius-4" type="submit">
+														<i class="icon-save bigger-110"></i>
 														保存
 													</button>
 		
 													&nbsp; &nbsp; &nbsp;
 													
-													<button class="btn" type="reset">
-														<i class="icon-undo bigger-110"></i>
+													<button id="reset" class="btn btn-app btn-xs btn-warning radius-4" type="reset">
+														<i class="icon-undo bigger-100"></i>
 														重置
-													</button>
-													
-													&nbsp; &nbsp; &nbsp;
-													
-													<button id="delete" class="btn btn-info" type="button">
-														<i class="icon-ok bigger-110"></i>
-														删除
-													</button>
-													
+													</button>													
 												</div>
 											</div>
 		

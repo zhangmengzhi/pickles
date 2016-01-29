@@ -67,7 +67,6 @@ public class NavtreeService {
  	 ************************************************************************/	
 	public String getNavTreeString() {
 		NavtreeNode rtnNavtreeNode = new NavtreeNode();
-		List<Navtree> NavtreeList0 = navtreeMapper.selectNavTreeList(0);
 		List<Navtree> NavtreeList1 = navtreeMapper.selectNavTreeList(1);
 		List<Navtree> NavtreeList2 = navtreeMapper.selectNavTreeSecondList();
 		
@@ -93,26 +92,10 @@ public class NavtreeService {
 		// 处理根菜单
 		List<NavtreeNode> navtreeNodeList = new ArrayList<NavtreeNode>(navtreeNodeMap.values());
 		rtnNavtreeNode.setNodes(navtreeNodeList);
-		// 根目录 NavtreeList0 有且只有一条记录。
-		if(NavtreeList0 != null && NavtreeList0.size() > 0){
-			rtnNavtreeNode.setText(NavtreeList0.get(0).getName());
-			rtnNavtreeNode.setValue(String.valueOf(NavtreeList0.get(0).getId()));
-		}
-		
-		// 为了方便设置NavtreeNode的nodes对象是个List实例
-		// 但输出时不能序列化
-		// rtnNavtreeNode.clearEmpty2Null();
-		
-		NavtreeNode rtnNavtreeNodeRoot = new NavtreeNode();
-		// 根目录 NavtreeList0 有且只有一条记录。
-		if(NavtreeList0 != null && NavtreeList0.size() > 0){
-			rtnNavtreeNode.setText(NavtreeList0.get(0).getName());
-			rtnNavtreeNode.setValue(String.valueOf(NavtreeList0.get(0).getId()));
-		}
 		
 		List<NavtreeNode> rtnList = new ArrayList<NavtreeNode>();
 		rtnList.add(rtnNavtreeNode);
-		rtnList.add(rtnNavtreeNodeRoot);
+		rtnList.add(new NavtreeNode());
 		String rtn = JsonMapper.nonEmptyMapper().toJson(rtnList);
 		logger.debug(rtn);
 		return rtn;

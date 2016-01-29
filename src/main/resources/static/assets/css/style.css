@@ -10,7 +10,7 @@ Free Bootstrap Themes : http://www.365bootstrap.com
 /* ---------------------------------------------------------------------------- */
 /* ------------------------------------Html-Body------------------------------- */
 /* ---------------------------------------------------------------------------- */
-body {font-family: 'Ek Mukta', sans-serif;color: #666;background-color: #fff;font-size: 16px;line-height: 1.6em;font-weight: 400;}
+body {font-family: 'Ek Mukta', sans-serif;color: #FF8827;background-color: #fff;font-size: 16px;line-height: 1.6em;font-weight: 400;}
 html, body {width:100%; padding:0; margin:0;}
 
 /* ---------------------------------------------------------------------------- */
@@ -27,7 +27,7 @@ h4 {font-size: 28px;}
 h5 {font-size: 24px;}
 h6 {font-size: 20px;}
 
-h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;font-weight: 600;color: #111;}
+h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;font-weight: 600;color: #FF8827;}
 
 p {margin: 0 0 20px;}
 
@@ -59,7 +59,7 @@ hr.line { margin: 15px auto; padding: 0; max-width: 90px;border: 0; border-top: 
 #top .language{}
 #top .currency {}
 #top ul.top-link {float: right;}
-#top ul.top-link li {display: inline-block;padding-right: 5px;margin-right: 5px;border-right: 1px solid #bbb;}
+#top ul.top-link li {display: inline-block;padding-right: 5px;margin-right: 5px;border-right: 1px solid #ddd;}
 #top ul.top-link li:last-child {border: none;}
 @media(max-width:767px) {
 	#top ul.top-link li{float: none;border: none;}
@@ -67,16 +67,16 @@ hr.line { margin: 15px auto; padding: 0; max-width: 90px;border: 0; border-top: 
 
 header {padding: 50px 0; }
 header #logo{margin: 5px 0 15px;}
-header #cart {float: right;}
+header #cart {background: #FF8827; color: #fff;float: right;}
 header .form-search input{width: 70%;height: 56px;}
-header .form-search button {background: #222; color: #fff;padding: 12px 20px;font-size: 20px;}
+header .form-search button {background: #FF8827; color: #fff;padding: 12px 20px;font-size: 20px;}
 header .form-search button:hover {color: #eee;}
 @media(max-width:968px) {
 	header #cart {margin-top: 20px;}
 	header #cart {float: none;}
 }
 
-#menu {background-color: #111;border-radius: 0;}
+#menu {background-color: #FF8827;border-radius: 0;}
 #menu #heading {float: left;padding-left: 15px;font-size: 20px;font-weight: 700;line-height: 40px;color: #fff;margin-top: 10px;text-transform: uppercase;}
 #menu .dropdown-menu {background-color: #111;}
 #menu .dropdown-menu li > a:hover {color: #ffffff;background-color: #3f3f3f;}

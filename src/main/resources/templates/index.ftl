@@ -43,6 +43,7 @@
 				</div>
 				<div class="col-xs-6">
 					<ul class="top-link">
+						<li><a href="${base}/cart"><span class="glyphicon glyphicon-shopping-cart"></span>购物车</a></li>
 						<li><a href="${base}/user/account"><span class="glyphicon glyphicon-user"></span>我的账户</a></li>
 						<li><a href="${base}/contact"><span class="glyphicon glyphicon-envelope"></span> 联系我们</a></li>
 					</ul>
@@ -62,17 +63,11 @@
 					<button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>  
 				</form>
 			</div>
-			<div class="col-md-4">
-				<div id="cart"><a class="btn btn-1" href="${base}/cart"><span class="glyphicon glyphicon-shopping-cart"></span>购物车 : 0</a></div>
-			</div>
 		</div>
 	</header>
 	<!--Navigation-->
     <nav id="menu" class="navbar">
 		<div class="container">
-			<div class="navbar-header"><span id="heading" class="visible-xs">Categories</span>
-			  <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
-			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="${base}/index">咸菜罐子</a></li>
