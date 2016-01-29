@@ -677,7 +677,7 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="${base}/admin/navtree?TOKEN=${(TOKEN)!}">
+									<a href="${base}/admin/navtrees?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										导航栏管理
 									</a>

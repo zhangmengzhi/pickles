@@ -745,7 +745,7 @@
 
 									<!-- 导航表单 -->
 									<div class="col-sm-6">
-										<form class="form-horizontal" role="form">
+										<form id="nav-form" role="form" action="${base}/admin/navtrees/save?TOKEN=${(TOKEN)!}" method="post" class="form-horizontal">
 											<div class="space-4"></div>
 											<button id="add" class="btn btn-app btn-xs btn-primary radius-4" type="button">
 												<i class="icon-edit bigger-100"></i>
@@ -935,7 +935,7 @@
 		          showBorder: false,
 		          data: json,
 		          onNodeSelected: function (event, node) {
-		            alert(node.value);
+		            // alert(node.value);
 		          }
 		        });
 				

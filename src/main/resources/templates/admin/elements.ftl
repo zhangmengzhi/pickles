@@ -78,7 +78,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							Ace Admin
+							Pickles后台管理系统
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
@@ -705,7 +705,7 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="${base}/admin/navtree?TOKEN=${(TOKEN)!}">
+									<a href="${base}/admin/navtrees?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										导航栏管理
 									</a>

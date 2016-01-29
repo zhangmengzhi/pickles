@@ -21,13 +21,13 @@ import org.zhangmz.pickles.service.NavtreeService;
  * 说明：
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/navtrees")
 public class NavtreeController {
 	
 	@Autowired
 	private NavtreeService navtreeService;
 	
-	@RequestMapping("/navtree")
+	@RequestMapping("")
 	public ModelAndView navtree(@RequestParam("TOKEN") String token) {		
 		ModelAndView result = new ModelAndView("admin/navtree");
 		// 获取导航栏的JSON数据
