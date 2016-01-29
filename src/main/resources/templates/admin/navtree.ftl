@@ -744,23 +744,29 @@
 									</div>
 
 									<!-- 导航表单 -->
-									<div class="col-sm-6">
-										<form id="nav-form" role="form" action="${base}/admin/navtrees/save?TOKEN=${(TOKEN)!}" method="post" class="form-horizontal">
-											<div class="space-4"></div>
-											<button id="add" class="btn btn-app btn-xs btn-primary radius-4" type="button">
-												<i class="icon-edit bigger-100"></i>
+									<div class="col-sm-6">									
+										<form id="nav-form" role="form" action="${base}/api/admin/navtrees/save?TOKEN=${(TOKEN)!}" method="post" class="form-horizontal">
+											<input id="resetNavTreeNode" type="reset" style="display:none;" /> 
+											<button id="addNavTreeNode" class="btn btn-app btn-xs btn-primary radius-4" type="button">
+												<i class="icon-edit bigger-110"></i>
 												新增
-											</button>													
-											
+											</button>
 											&nbsp; &nbsp; &nbsp;
 											
-											<button id="delete" class="btn btn-app btn-xs btn-danger radius-4" type="button">
-												<i class="icon-trash bigger-100"></i>
+											<button id="saveNavTreeNode" class="btn btn-app btn-xs btn-primary radius-4" type="button" disabled="true">
+												<i class="icon-save bigger-110"></i>
+												保存
+											</button>
+											&nbsp; &nbsp; &nbsp;
+											
+											<button id="deleteNavTreeNode" class="btn btn-app btn-xs btn-danger radius-4" type="button" disabled="true">
+												<i class="icon-trash bigger-110"></i>
 												删除
 											</button>
 											<div class="space-4"></div>
 											
 											<input type="hidden" id="id" name="id" value="${(navtree.id)!}"/>
+											<div class="space-4"></div>
 											<input type="hidden" id="pid" name="pid" value="${(navtree.pid)!}"/>
 		
 											<div class="space-4"></div>
@@ -800,22 +806,6 @@
 		
 												<div class="col-sm-9">
 													<input type="text" id="status" name="status" placeholder="N，无效；Y，有效" class="col-xs-10 col-sm-5" value="${(navtree.status)!}"/>
-												</div>
-											</div>
-		
-											<div class="clearfix form-actions">
-												<div class="col-md-offset-3 col-md-9">
-													<button id="save" class="btn btn-app btn-xs btn-primary radius-4" type="submit">
-														<i class="icon-save bigger-110"></i>
-														保存
-													</button>
-		
-													&nbsp; &nbsp; &nbsp;
-													
-													<button id="reset" class="btn btn-app btn-xs btn-warning radius-4" type="reset">
-														<i class="icon-undo bigger-100"></i>
-														重置
-													</button>													
 												</div>
 											</div>
 		
@@ -929,7 +919,10 @@
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($){
-			var json = ${(treeDataJson)!};
+				// 保存当前节点id
+				var currentId;
+				
+				var json = ${(treeDataJson)!};
         
 				$('#tree1').treeview({
 		          color: "#428bca",
@@ -937,8 +930,11 @@
 		          data: json,
 		          onNodeSelected: function (event, node) {
 		            // alert(node.value);
+		            currentId = node.value;
+		            $("#saveNavTreeNode").attr('disabled', false); 
+		            $("#deleteNavTreeNode").attr('disabled', false); 
 		            var url = "/api/admin/navtrees/"+node.value+"?TOKEN=${(TOKEN)!}";
-		            // TODO
+		            
 		            $.ajax({
 						    url: url,                //请求的url地址
 						    dataType: "json",        //返回格式为text/json
@@ -958,10 +954,76 @@
 						    },
 						    error: function() {
 						        //请求出错处理
+						        alert("系统繁忙，请稍后再试。");
 						    }
 						});
 		          }
 		        });
+		        
+		        // 给“新增”addNavTreeNode、“保存”saveNavTreeNode、“删除”deleteNavTreeNode添加方法。
+				$("#addNavTreeNode").click(function(){
+					$("#deleteNavTreeNode").attr('disabled', true); 
+					// 触发reset按钮 清除nav-form
+					$("#resetNavTreeNode").trigger("click"); 
+					
+					// 给pid赋值为当前id
+					// alert("after reset, pid:" + $("#pid").val());
+					if(currentId == null || "" == currentId){
+						// 保存按钮置灰
+						$("#saveNavTreeNode").attr('disabled', true); 
+						alert("请选择一个父节点。");						
+					} else {
+						$("#saveNavTreeNode").attr('disabled', false); 
+						$("#id").attr("value", "");
+						$("#pid").attr("value", currentId);
+					}
+					// alert($("#pid").val());
+				});
+				
+				$("#saveNavTreeNode").click(function(){
+					$.ajax({
+						    url: "${base}/api/admin/navtrees/save?TOKEN=${(TOKEN)!}", //请求的url地址
+						    dataType: "text",        //返回格式为text/json
+						    async: true,             //请求是否异步，默认为异步，这也是ajax重要特性
+						    data: $('#nav-form').serialize(), //参数值
+						    type: "POST",   //请求方式
+						    beforeSend: function() {
+						        //请求前的处理
+						    },
+						    success: function(data) {
+						        //请求成功时处理
+						        alert(data);
+						
+								//刷新当前页面
+								location.replace(location);
+						    },
+						    complete: function() {
+						        //请求完成的处理
+						    },
+						    error: function() {
+						        //请求出错处理
+						        alert("系统繁忙，请稍后再试。");
+						    }
+						});
+				});
+				
+				$("#deleteNavTreeNode").click(function(){
+					if(currentId == null || "" == currentId){
+						// 保存按钮置灰
+						$("#saveNavTreeNode").attr('disabled', true); 
+						alert("请选择一个节点。");						
+					} else {
+						// 提示框确认是否删除
+						if(confirm("是否继续删除当前节点？")){
+							$.get("${base}/api/admin/navtrees/delete/"+currentId+"?TOKEN=${(TOKEN)!}",function (data, textStatus){
+				                        // 把返回的数据添加到页面上
+				                        alert(data);
+				            });
+							//刷新当前页面
+							location.replace(location);
+						}
+					}
+				});
 				
 			});
 		</script>
