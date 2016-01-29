@@ -3,38 +3,35 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package org.zhangmz.pickles.controller.admin;
+package org.zhangmz.pickles.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.zhangmz.pickles.orm.model.Navtree;
 import org.zhangmz.pickles.service.NavtreeService;
 
 /**
- * Title:NavtreeController.java
+ * Title:NavtreeRestController.java
  * Description:导航栏控制器
  * Company: DigitalChina 2016
  * @author:张孟志
- * @date:2016年1月28日 下午5:22:14
- * 说明：
+ * @date:2016年1月29日 上午11:03:46
+ * 说明：用于异步请求
  */
-@Controller
-@RequestMapping("/admin/navtrees")
-public class NavtreeController {
+@RestController()
+@RequestMapping("/api/admin/navtrees")
+public class NavtreeRestController {
 	
 	@Autowired
 	private NavtreeService navtreeService;
-	
-	@RequestMapping("")
-	public ModelAndView home(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/navtree");
-		// 获取导航栏的JSON数据
-		String treeDataJson = navtreeService.getNavTreeString();
-		result.addObject("treeDataJson", treeDataJson);
-		return result;
+
+	@RequestMapping("/{id}")
+	public Navtree home(@RequestParam("TOKEN") String token, @PathVariable int id) {		
+		Navtree navtree = navtreeService.getById(id);		
+		return navtree;
     }
-	
-	
 }

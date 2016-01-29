@@ -760,8 +760,8 @@
 											</button>
 											<div class="space-4"></div>
 											
-											<input type="hidden" id="id" value="${(navtree.id)!}"/>
-											<input type="hidden" id="pid" value="${(navtree.pid)!}"/>
+											<input type="hidden" id="id" name="id" value="${(navtree.id)!}"/>
+											<input type="hidden" id="pid" name="pid" value="${(navtree.pid)!}"/>
 		
 											<div class="space-4"></div>
 											
@@ -769,7 +769,7 @@
 												<label class="col-sm-3 control-label no-padding-right" for="name"> 菜单名称: </label>
 		
 												<div class="col-sm-9">
-													<input type="text" id="name" placeholder="新菜单" class="col-xs-10 col-sm-5" value="${(navtree.name)!}"/>
+													<input type="text" id="name" name="name" placeholder="新菜单" class="col-xs-10 col-sm-5" value="${(navtree.name)!}"/>
 												</div>
 											</div>
 		
@@ -779,7 +779,7 @@
 												<label class="col-sm-3 control-label no-padding-right" for="href"> 超链接: </label>
 		
 												<div class="col-sm-9">
-													<input type="text" id="href" placeholder="从根开始，例如：/index" class="col-xs-10 col-sm-5" value="${(navtree.href)!}"/>
+													<input type="text" id="href" name="href" placeholder="从根开始，例如：/index" class="col-xs-10 col-sm-5" value="${(navtree.href)!}"/>
 												</div>
 											</div>
 		
@@ -789,7 +789,7 @@
 												<label class="col-sm-3 control-label no-padding-right" for="param"> 参数： </label>
 		
 												<div class="col-sm-9">
-													<input type="text" id="param" placeholder="需要TOKEN？" class="col-xs-10 col-sm-5" value="${(navtree.param)!}"/>
+													<input type="text" id="param" name="param" placeholder="需要TOKEN？" class="col-xs-10 col-sm-5" value="${(navtree.param)!}"/>
 												</div>
 											</div>
 		
@@ -799,7 +799,7 @@
 												<label class="col-sm-3 control-label no-padding-right" for="status"> 状态： </label>
 		
 												<div class="col-sm-9">
-													<input type="text" id="status" placeholder="N，无效；Y，有效" class="col-xs-10 col-sm-5" value="${(navtree.status)!}"/>
+													<input type="text" id="status" name="status" placeholder="N，无效；Y，有效" class="col-xs-10 col-sm-5" value="${(navtree.status)!}"/>
 												</div>
 											</div>
 		
@@ -920,6 +920,7 @@
 
 		<!-- page specific plugin scripts -->
 		<script src="${base}/static/assets/js/bootstrap-treeview.min.js"></script>
+		<script src="${base}/static/assets/js/jquery.custom.js"></script>
 
 		<!-- ace scripts -->
 		<script src="${base}/static/assets/js/ace-elements.min.js"></script>
@@ -936,6 +937,29 @@
 		          data: json,
 		          onNodeSelected: function (event, node) {
 		            // alert(node.value);
+		            var url = "/api/admin/navtrees/"+node.value+"?TOKEN=${(TOKEN)!}";
+		            // TODO
+		            $.ajax({
+						    url: url,                //请求的url地址
+						    dataType: "json",        //返回格式为text/json
+						    async: true,             //请求是否异步，默认为异步，这也是ajax重要特性
+						    data: { "id": node.value }, //参数值
+						    type: "GET",   //请求方式
+						    beforeSend: function() {
+						        //请求前的处理
+						    },
+						    success: function(data) {
+						        //请求成功时处理
+						        // JSON对象 alert(data.id);
+						        $("#nav-form").formEdit(data);
+						    },
+						    complete: function() {
+						        //请求完成的处理
+						    },
+						    error: function() {
+						        //请求出错处理
+						    }
+						});
 		          }
 		        });
 				

@@ -29,7 +29,7 @@ import org.zhangmz.pickles.orm.model.Navtree;
 @Service
 public class NavtreeService {
 
-	private static Logger logger = LoggerFactory.getLogger(AccountService.class);
+	private static Logger logger = LoggerFactory.getLogger(NavtreeService.class);
 
     @Autowired
     private NavtreeMapper navtreeMapper;
