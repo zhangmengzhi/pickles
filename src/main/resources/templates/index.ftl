@@ -69,60 +69,8 @@
     <nav id="menu" class="navbar">
 		<div class="container">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="${base}/index">咸菜罐子</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">个人电脑</a>
-						<div class="dropdown-menu">
-							<div class="dropdown-inner">
-								<ul class="list-unstyled">
-									<li><a href="${base}/category">Window</a></li>
-									<li><a href="${base}/category">MacBook</a></li>
-								</ul>
-							</div>
-						</div>
-					</li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">工作站 &amp; 笔记本</a>
-						<div class="dropdown-menu">
-							<div class="dropdown-inner">
-								<ul class="list-unstyled">
-									<li><a href="${base}/category">Dell</a></li>
-									<li><a href="${base}/category">Asus</a></li>
-									<li><a href="${base}/category">Samsung</a></li>
-									<li><a href="${base}/category">Lenovo</a></li>
-									<li><a href="${base}/category">Acer</a></li>
-								</ul>
-							</div> 
-						</div>
-					</li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">移动电话 &amp; 平板</a>
-						<div class="dropdown-menu" style="margin-left: -203.625px;">
-							<div class="dropdown-inner">
-								<ul class="list-unstyled">
-									<li><a href="${base}/category">Iphone</a></li>
-									<li><a href="${base}/category">Samsung</a></li>
-									<li><a href="${base}/category">Nokia</a></li>
-									<li><a href="${base}/category">Lenovo</a></li>
-									<li><a href="${base}/category">Google</a></li>
-								</ul>
-								<ul class="list-unstyled">
-									<li><a href="${base}/category">Nexus</a></li>
-									<li><a href="${base}/category">Dell</a></li>
-									<li><a href="${base}/category">Oppo</a></li>
-									<li><a href="${base}/category">Blackberry</a></li>
-									<li><a href="${base}/category">HTC</a></li>
-								</ul>
-								<ul class="list-unstyled">
-									<li><a href="${base}/category">LG</a></li>
-									<li><a href="${base}/category">Q-Mobiles</a></li>
-									<li><a href="${base}/category">Sony</a></li>
-									<li><a href="${base}/category">Wiko</a></li>
-									<li><a href="${base}/category">T&T</a></li>
-								</ul>
-							</div>
-						</div>
-					</li>
-					<li><a href="${base}/category">软件</a></li>
-				</ul>
+				// TODO 导航栏配置
+				${navBar}
 			</div>
 		</div>
 	</nav>

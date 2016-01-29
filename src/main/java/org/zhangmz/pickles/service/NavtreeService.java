@@ -47,6 +47,7 @@ public class NavtreeService {
 
     public void deleteById(int id) {
     	navtreeMapper.deleteByPrimaryKey(id);
+    	navtreeHelper.clearCache();
     }
 
     public void save(Navtree navtree) {
@@ -55,9 +56,14 @@ public class NavtreeService {
         } else {
         	navtreeMapper.insert(navtree);
         }
+    	navtreeHelper.clearCache();
     }
     
 	public String getNavTreeString() {		
 		return navtreeHelper.getNavTreeString(navtreeMapper);
+	}
+	
+	public String getNavTreeHtml() {		
+		return navtreeHelper.getNavTreeHtml(navtreeMapper);
 	}
 }

@@ -34,7 +34,7 @@ public class AuthorityHelperAOP {
 //    @Pointcut("execution(* org.zhangmz.pickles.controller.admin..*(..)) "
 //    		+ " and !execution(* org.zhangmz.pickles.controller.admin.AdminIndexController.(..))")
 //    private void actionMethod() {}
-    @Pointcut("execution(* org.zhangmz.pickles.controller.admin..*(..)) ")
+    @Pointcut("execution(org.springframework.web.servlet.ModelAndView org.zhangmz.pickles.controller.admin..*(..)) ")
     private void actionMethod() {}
 //	/**
 //	 * 

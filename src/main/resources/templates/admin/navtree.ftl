@@ -1018,9 +1018,9 @@
 							$.get("${base}/api/admin/navtrees/delete/"+currentId+"?TOKEN=${(TOKEN)!}",function (data, textStatus){
 				                        // 把返回的数据添加到页面上
 				                        alert(data);
+										//刷新当前页面
+										location.replace(location);
 				            });
-							//刷新当前页面
-							location.replace(location);
 						}
 					}
 				});

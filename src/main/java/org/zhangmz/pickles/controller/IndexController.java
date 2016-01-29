@@ -5,12 +5,14 @@
  *******************************************************************************/
 package org.zhangmz.pickles.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.zhangmz.pickles.service.NavtreeService;
 
 /**
  * Title:IndexController.java
@@ -25,6 +27,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @RequestMapping("/")
 public class IndexController {
+    @Autowired
+    private NavtreeService navtreeService;
 	
 	@RequestMapping
 	String home() {
@@ -34,6 +38,7 @@ public class IndexController {
 	@RequestMapping(value = "index", method = RequestMethod.GET)
 	public ModelAndView index() {
 		ModelAndView result = new ModelAndView("index");
+		result.addObject("navBar", navtreeService.getNavTreeHtml());
 		return result;
     }
 	

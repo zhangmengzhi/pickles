@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.zhangmz.pickles.helper.vo.NavtreeNode;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
+import org.zhangmz.pickles.modules.utils.Collections3;
 import org.zhangmz.pickles.orm.mapper.NavtreeMapper;
 import org.zhangmz.pickles.orm.model.Navtree;
 import com.google.common.cache.Cache;
@@ -36,7 +37,8 @@ public class NavtreeHelper {
 	
 	private static Logger logger = LoggerFactory.getLogger(NavtreeHelper.class);
 	
-	public static final String ROOTKEY = "NAV_TREE_ROOT";
+	public static final String ROOTTREEKEY = "NavtreeHelper_NAV_TREE_ROOT";
+	public static final String ROOTBARKEY = "NavtreeHelper_NAV_BAR_ROOT";
 	
 	// 注入配置值  30分钟过期  30X60=1800
 	@Value("${app.loginTimeoutSecs:1800}")
@@ -51,15 +53,19 @@ public class NavtreeHelper {
  		navTree = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}
- 	
-	/*************************************************************************
- 	 * 说明：树形数据结构查询
- 	 * 作者：张孟志
- 	 * 日期：2016-01-28
- 	 * 先查找一级导航，pid=1; 获取以及导航的id查找二级导航
- 	 ************************************************************************/	
+ 	/**
+ 	 * 
+ 	 * @Title: getNavTreeString 
+ 	 * @Description: 树形数据结构查询
+ 	 * @param navtreeMapper
+ 	 * @return
+ 	 * @throws 
+ 	 * 增加人:张孟志
+ 	 * 增加日期:2016年1月29日 下午6:56:21
+ 	 * 说明：先查找一级导航，pid=1; 获取以及导航的id查找二级导航
+ 	 */
 	public String getNavTreeString(NavtreeMapper navtreeMapper) {
-		NavtreeNode rtnNavtreeNode = getNavTreeRoot(navtreeMapper);
+		NavtreeNode rtnNavtreeNode = getNavTreeRoot(navtreeMapper, 1);
 		
 		// jquery tree控件有一个bug，不能独立显示根节点
 		// 也有可能是我不会用这个控件。
@@ -70,41 +76,169 @@ public class NavtreeHelper {
 		
 		logger.debug(rtn);
 		return rtn;
+	}	
+	
+	public String getNavTreeHtml(NavtreeMapper navtreeMapper) {
+		String rtn = null;
+		NavtreeNode rtnNavtreeNode = getNavTreeRoot(navtreeMapper, 2);
+		
+		// 拼装HTML 不要根节点
+		// TODO 这个字符串应该放在缓存中，访问量较大是非常消耗资源
+		rtn = getHtml(rtnNavtreeNode.getNodes());
+		
+		logger.debug(rtn);
+		return rtn;
 	}
 	
-	private NavtreeNode getNavTreeRoot(NavtreeMapper navtreeMapper){
-		NavtreeNode rtnNavtreeNode = navTree.getIfPresent(ROOTKEY);
+	private NavtreeNode getNavTreeRoot(NavtreeMapper navtreeMapper, int type){
+		NavtreeNode rtnNavtreeNode = null;
+		
+		if(1 == type){
+			rtnNavtreeNode = navTree.getIfPresent(ROOTTREEKEY);
+		}else if(2 == type){
+			rtnNavtreeNode = navTree.getIfPresent(ROOTBARKEY);
+		}
+		
 		if(null == rtnNavtreeNode){
-			rtnNavtreeNode = new NavtreeNode();
-			List<Navtree> NavtreeList1 = navtreeMapper.selectNavTreeList(1);
-			List<Navtree> NavtreeList2 = navtreeMapper.selectNavTreeSecondList();
+			rtnNavtreeNode = new NavtreeNode();			
+			rtnNavtreeNode.setNodes(getNavTreeList(navtreeMapper, type));
 			
-			// 排序需要，使用LinkedHashMap
-			Map<Integer, NavtreeNode> navtreeNodeMap = new LinkedHashMap<Integer, NavtreeNode>();
-			
-			// 一级导航菜单
-			for (Navtree navtree1 : NavtreeList1) {
-				NavtreeNode navtreeNode = new NavtreeNode();
-				navtreeNode.setText(navtree1.getName());
-				navtreeNode.setValue(String.valueOf(navtree1.getId()));
-				navtreeNodeMap.put(navtree1.getId(), navtreeNode);
+			if(1 == type){
+				navTree.put(ROOTTREEKEY, rtnNavtreeNode);
+			}else if(2 == type){
+				navTree.put(ROOTBARKEY, rtnNavtreeNode);
 			}
-			
-			// 二级导航菜单
-			for (Navtree navtree2 : NavtreeList2) {
-				NavtreeNode navtreeNode = new NavtreeNode();
-				navtreeNode.setText(navtree2.getName());
-				navtreeNode.setValue(String.valueOf(navtree2.getId()));
-				navtreeNodeMap.get(navtree2.getPid()).setNode(navtreeNode);
-			}
-			
-			// 处理根菜单
-			List<NavtreeNode> navtreeNodeList = new ArrayList<NavtreeNode>(navtreeNodeMap.values());
-			rtnNavtreeNode.setNodes(navtreeNodeList);
-
-			navTree.put(ROOTKEY, rtnNavtreeNode);
 		}
 		
 		return rtnNavtreeNode;
+	}
+
+	/**
+	 * 
+	 * @Title: getNavTreeList 
+	 * @Description: 获取导航栏数据
+	 * @param navtreeMapper
+	 * @param type           类型 1取name/id;2取name/href
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月29日 下午6:46:44
+	 * 说明：先查找一级导航，pid=1; 获取以及导航的id查找二级导航
+	 * 		类型 1用于树形取name-text, id-value;2用于导航栏取name-text, href-value, status='Y'
+	 */
+	private List<NavtreeNode> getNavTreeList(NavtreeMapper navtreeMapper, int type) {
+		List<Navtree> NavtreeList1 = navtreeMapper.selectNavTreeList(1);
+		List<Navtree> NavtreeList2 = navtreeMapper.selectNavTreeSecondList();
+		
+		// 排序需要，使用LinkedHashMap
+		Map<Integer, NavtreeNode> navtreeNodeMap = new LinkedHashMap<Integer, NavtreeNode>();
+		
+		// 一级导航菜单
+		for (Navtree navtree1 : NavtreeList1) {
+			NavtreeNode navtreeNode = new NavtreeNode();
+			navtreeNode.setText(navtree1.getName());
+			navtreeNode.setValue(String.valueOf(navtree1.getId()));
+			if("Y".equals(navtree1.getStatus()) && 2==type){
+				navtreeNode.setValue(navtree1.getHref());
+			}
+			navtreeNodeMap.put(navtree1.getId(), navtreeNode);
+			if(2==type && !"Y".equals(navtree1.getStatus())){
+				navtreeNodeMap.remove(navtree1.getId());
+			}
+		}
+		
+		// 二级导航菜单
+		for (Navtree navtree2 : NavtreeList2) {
+			NavtreeNode navtreeNode = new NavtreeNode();
+			navtreeNode.setText(navtree2.getName());
+			navtreeNode.setValue(String.valueOf(navtree2.getId()));
+			if("Y".equals(navtree2.getStatus()) && 2==type){
+				navtreeNode.setValue(navtree2.getHref());
+			}
+			
+			if(navtreeNodeMap.get(navtree2.getPid()) != null){
+				navtreeNodeMap.get(navtree2.getPid()).setNode(navtreeNode);
+			}
+			
+			if(2==type && !"Y".equals(navtree2.getStatus())){
+				navtreeNodeMap.remove(navtree2.getId());
+			}
+		}
+		
+		// 处理根菜单
+		return new ArrayList<NavtreeNode>(navtreeNodeMap.values());			
+	}
+	
+
+	
+	/**
+	 * 
+	 * @Title: getHtml 
+	 * @Description: 拼装HTML
+	 * @param navtreeNodes
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年1月29日 下午7:04:59
+	 * 说明：
+		<ul class="nav navbar-nav">
+			<li><a href="${base}/index">咸菜罐子</a></li>
+			<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">个人电脑</a>
+				<div class="dropdown-menu">
+					<div class="dropdown-inner">
+						<ul class="list-unstyled">
+							<li><a href="${base}/category">Window</a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
+		</ul>
+	 */
+	private String getHtml(List<NavtreeNode> navtreeNodes){
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("<ul class=\"nav navbar-nav\">");		
+		sb.append(createLi(navtreeNodes));
+		sb.append("</ul>");
+		
+		return sb.toString();
+	}
+	
+	private StringBuffer createLi(List<NavtreeNode> navtreeNodes) {
+		StringBuffer sb = new StringBuffer();
+		
+		// 开始拼装li
+		for (NavtreeNode navtreeNode : navtreeNodes) {
+			List<NavtreeNode> nns = navtreeNode.getNodes();
+			if(Collections3.isEmpty(nns)){
+				// <li><a href="${base}/index">咸菜罐子</a></li>
+				sb.append("<li><a href=\"")
+					.append(navtreeNode.getValue())
+					.append("\">")
+					.append(navtreeNode.getText())
+					.append("</a></li>");
+			}else{
+				sb.append("<li class=\"dropdown\"><a href=\"")
+					.append(navtreeNode.getValue())
+					.append("\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">")
+					.append(navtreeNode.getText())
+					.append("</a>\n" +
+								"  <div class=\"dropdown-menu\">\n" + 
+								"    <div class=\"dropdown-inner\">\n" + 
+								"      <ul class=\"list-unstyled\">\n" 
+					).append(createLi(nns)).append(
+								"      </ul>\n" + 
+								"    </div>\n" + 
+								"  </div>\n" + 
+								"</li>"
+						);
+			}
+		}
+		
+		return sb;
+	}
+	
+	public void clearCache(){
+		navTree.invalidateAll();
 	}
 }
