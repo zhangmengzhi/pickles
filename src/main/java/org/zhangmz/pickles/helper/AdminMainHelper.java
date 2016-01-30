@@ -29,16 +29,16 @@ public class AdminMainHelper {
 	private static Logger logger = LoggerFactory.getLogger(AdminMainHelper.class);
 	
 	// 注入配置值  30分钟过期  5X60=300
-	@Value("${app.loginTimeoutSecs:300}")
-	private int loginTimeoutSecs;
+	@Value("${app.AdminMainHelperTimeoutSecs:300}")
+	private int AdminMainHelperTimeoutSecs;
 
 	// guava cache
  	private Cache<String, MainInfo> mainInfos;
 
  	@PostConstruct
  	public void init() {
- 		logger.debug("控制台信息缓存过期时间设置（秒）： " + loginTimeoutSecs);
- 		mainInfos = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
+ 		logger.debug("控制台信息缓存过期时间设置（秒）： " + AdminMainHelperTimeoutSecs);
+ 		mainInfos = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(AdminMainHelperTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}
  	

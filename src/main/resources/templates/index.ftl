@@ -69,7 +69,6 @@
     <nav id="menu" class="navbar">
 		<div class="container">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				// TODO 导航栏配置
 				${navBar}
 			</div>
 		</div>

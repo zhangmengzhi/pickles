@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.zhangmz.pickles.helper.vo.NavtreeNode;
@@ -37,35 +38,37 @@ public class NavtreeHelper {
 	
 	private static Logger logger = LoggerFactory.getLogger(NavtreeHelper.class);
 	
+    @Autowired
+    private NavtreeMapper navtreeMapper;
+	
 	public static final String ROOTTREEKEY = "NavtreeHelper_NAV_TREE_ROOT";
 	public static final String ROOTBARKEY = "NavtreeHelper_NAV_BAR_ROOT";
 	
 	// 注入配置值  30分钟过期  30X60=1800
-	@Value("${app.loginTimeoutSecs:1800}")
-	private int loginTimeoutSecs;
+	@Value("${app.NavtreeHelperTimeoutSecs:1800}")
+	private int NavtreeHelperTimeoutSecs;
 
 	// guava cache
  	private Cache<String, NavtreeNode> navTree;
 
  	@PostConstruct
  	public void init() {
- 		logger.debug("导航树缓存过期时间设置（秒）： " + loginTimeoutSecs);
- 		navTree = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
+ 		logger.debug("导航树缓存过期时间设置（秒）： " + NavtreeHelperTimeoutSecs);
+ 		navTree = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(NavtreeHelperTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}
  	/**
  	 * 
  	 * @Title: getNavTreeString 
  	 * @Description: 树形数据结构查询
- 	 * @param navtreeMapper
  	 * @return
  	 * @throws 
  	 * 增加人:张孟志
  	 * 增加日期:2016年1月29日 下午6:56:21
  	 * 说明：先查找一级导航，pid=1; 获取以及导航的id查找二级导航
  	 */
-	public String getNavTreeString(NavtreeMapper navtreeMapper) {
-		NavtreeNode rtnNavtreeNode = getNavTreeRoot(navtreeMapper, 1);
+	public String getNavTreeString() {
+		NavtreeNode rtnNavtreeNode = getNavTreeRoot(1);
 		
 		// jquery tree控件有一个bug，不能独立显示根节点
 		// 也有可能是我不会用这个控件。
@@ -78,9 +81,9 @@ public class NavtreeHelper {
 		return rtn;
 	}	
 	
-	public String getNavTreeHtml(NavtreeMapper navtreeMapper) {
+	public String getNavTreeHtml() {
 		String rtn = null;
-		NavtreeNode rtnNavtreeNode = getNavTreeRoot(navtreeMapper, 2);
+		NavtreeNode rtnNavtreeNode = getNavTreeRoot(2);
 		
 		// 拼装HTML 不要根节点
 		// TODO 这个字符串应该放在缓存中，访问量较大是非常消耗资源
@@ -90,7 +93,7 @@ public class NavtreeHelper {
 		return rtn;
 	}
 	
-	private NavtreeNode getNavTreeRoot(NavtreeMapper navtreeMapper, int type){
+	private NavtreeNode getNavTreeRoot(int type){
 		NavtreeNode rtnNavtreeNode = null;
 		
 		if(1 == type){
@@ -101,7 +104,7 @@ public class NavtreeHelper {
 		
 		if(null == rtnNavtreeNode){
 			rtnNavtreeNode = new NavtreeNode();			
-			rtnNavtreeNode.setNodes(getNavTreeList(navtreeMapper, type));
+			rtnNavtreeNode.setNodes(getNavTreeList(type));
 			
 			if(1 == type){
 				navTree.put(ROOTTREEKEY, rtnNavtreeNode);
@@ -117,7 +120,6 @@ public class NavtreeHelper {
 	 * 
 	 * @Title: getNavTreeList 
 	 * @Description: 获取导航栏数据
-	 * @param navtreeMapper
 	 * @param type           类型 1取name/id;2取name/href
 	 * @return
 	 * @throws 
@@ -126,7 +128,7 @@ public class NavtreeHelper {
 	 * 说明：先查找一级导航，pid=1; 获取以及导航的id查找二级导航
 	 * 		类型 1用于树形取name-text, id-value;2用于导航栏取name-text, href-value, status='Y'
 	 */
-	private List<NavtreeNode> getNavTreeList(NavtreeMapper navtreeMapper, int type) {
+	private List<NavtreeNode> getNavTreeList(int type) {
 		List<Navtree> NavtreeList1 = navtreeMapper.selectNavTreeList(1);
 		List<Navtree> NavtreeList2 = navtreeMapper.selectNavTreeSecondList();
 		

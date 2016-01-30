@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package org.zhangmz.pickles.controller.user;
+package org.zhangmz.pickles.controller.picklejar;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class UserController {
 	
 	@RequestMapping("/account")
 	public ModelAndView account(@RequestParam(value="TOKEN", required=false) String token) {		
-		ModelAndView result = new ModelAndView("user/account");		
+		ModelAndView result = new ModelAndView("account");		
 		return result;
     }
 }

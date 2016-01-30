@@ -60,10 +60,10 @@ public class NavtreeService {
     }
     
 	public String getNavTreeString() {		
-		return navtreeHelper.getNavTreeString(navtreeMapper);
+		return navtreeHelper.getNavTreeString();
 	}
 	
 	public String getNavTreeHtml() {		
-		return navtreeHelper.getNavTreeHtml(navtreeMapper);
+		return navtreeHelper.getNavTreeHtml();
 	}
 }

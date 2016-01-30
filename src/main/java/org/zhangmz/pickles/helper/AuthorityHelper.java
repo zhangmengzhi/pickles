@@ -37,16 +37,16 @@ public class AuthorityHelper {
 	private static Logger logger = LoggerFactory.getLogger(AuthorityHelper.class);
 
 	// 注入配置值  30分钟过期  30X60=1800
-	@Value("${app.loginTimeoutSecs:1800}")
-	private int loginTimeoutSecs;
+	@Value("${app.AuthorityHelperTimeoutSecs:1800}")
+	private int AuthorityHelperTimeoutSecs;
 
     // guava cache
  	private Cache<String, Account> loginUsers;
 
  	@PostConstruct
  	public void init() {
- 		logger.debug("登录信息缓存过期时间设置（秒）： " + loginTimeoutSecs);
- 		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
+ 		logger.debug("登录信息缓存过期时间设置（秒）： " + AuthorityHelperTimeoutSecs);
+ 		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(AuthorityHelperTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}
  	
