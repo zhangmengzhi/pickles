@@ -153,18 +153,25 @@ public class NavtreeHelper {
 		for (Navtree navtree2 : NavtreeList2) {
 			NavtreeNode navtreeNode = new NavtreeNode();
 			navtreeNode.setText(navtree2.getName());
-			navtreeNode.setValue(String.valueOf(navtree2.getId()));
-			if("Y".equals(navtree2.getStatus()) && 2==type){
+						
+			switch (type) {
+			case 1:
+				navtreeNode.setValue(String.valueOf(navtree2.getId()));
+				break;
+			case 2:
 				navtreeNode.setValue(navtree2.getHref());
+				break;
+			default:
+				// 默认type=1，取id为value
+				navtreeNode.setValue(String.valueOf(navtree2.getId()));
+				break;
 			}
 			
 			if(navtreeNodeMap.get(navtree2.getPid()) != null){
-				navtreeNodeMap.get(navtree2.getPid()).setNode(navtreeNode);
-			}
-			
-			if(2==type && !"Y".equals(navtree2.getStatus())){
-				navtreeNodeMap.remove(navtree2.getId());
-			}
+				if( !(2==type && !"Y".equals(navtree2.getStatus())) ){
+					navtreeNodeMap.get(navtree2.getPid()).setNode(navtreeNode);
+				}
+			}			
 		}
 		
 		// 处理根菜单
