@@ -4,7 +4,7 @@
 
   <groupId>org.zhangmz</groupId>
   <artifactId>pickles</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>pickles 咸菜</name>
