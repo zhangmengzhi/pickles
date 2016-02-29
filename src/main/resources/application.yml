@@ -36,3 +36,9 @@ spring:
     freemarker:
         cache: false
         request-context-attribute: request
+    # batch config 
+    batch:
+        task:
+            # concurrent: false
+            sayHelloTimeTask:
+                cronExpression: "*/1 * * * * ?"

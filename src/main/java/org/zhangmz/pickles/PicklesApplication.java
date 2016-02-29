@@ -6,6 +6,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 
@@ -15,8 +16,10 @@ import org.springframework.http.HttpStatus;
  * @date:2016年1月22日 下午7:42:52 
  * @version V1.0
  * 说明：启动SpringBoot 应用入口
+ * @EnableScheduling 注解的作用是发现注解@Scheduled的任务并后台执行。
  */
 @SpringBootApplication
+@EnableScheduling
 public class PicklesApplication {
 	
 	/**
