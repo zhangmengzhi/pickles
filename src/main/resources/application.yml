@@ -38,7 +38,6 @@ spring:
         request-context-attribute: request
     # batch config 
     batch:
-        task:
-            # concurrent: false
-            sayHelloTimeTask:
-                cronExpression: "*/1 * * * * ?"
+        # concurrent: false
+        sayHelloTimeTask:
+            cronExpression: "*/1 * * * * ?"

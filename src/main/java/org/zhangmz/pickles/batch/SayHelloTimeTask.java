@@ -33,7 +33,7 @@ public class SayHelloTimeTask {
 	 * 也可以使用更灵活的设置方法 @Scheduled(cron="...") ，用一个表达式来设置定时任务。
 	 */
     // @Scheduled(fixedRate = 5000)  //每隔5秒钟运行一次
-    @Scheduled(cron="${spring.batch.task.sayHelloTimeTask.cronExpression}")
+    @Scheduled(cron="${spring.batch.sayHelloTimeTask.cronExpression}")
     public void reportCurrentTime() {
     	logger.debug("Hello, The time is now " + dateFormat.format(new Date()));
     }
