@@ -62,13 +62,13 @@ public class AdminMainController {
 	
 	@RequestMapping("/blank")
 	public ModelAndView blank(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/blank");		
+		ModelAndView result = new ModelAndView("admin/blank2");		
 		return result;
     }
 	
 	@RequestMapping("/buttons")
 	public ModelAndView buttons(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/buttons");		
+		ModelAndView result = new ModelAndView("admin/buttons2");		
 		return result;
     }
 	
