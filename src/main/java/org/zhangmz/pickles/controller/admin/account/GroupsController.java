@@ -5,8 +5,9 @@
  *******************************************************************************/
 package org.zhangmz.pickles.controller.admin.account;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.zhangmz.pickles.helper.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
-import org.zhangmz.pickles.orm.model.Account;
 import org.zhangmz.pickles.orm.model.Group;
+import org.zhangmz.pickles.orm.model.Group2;
 import org.zhangmz.pickles.service.GroupService;
 
 /**
@@ -54,16 +56,55 @@ public class GroupsController {
         return result;
     }
 
+    /**
+     * 
+     * @param token
+     * @param oper    	"edit", // 当在edit模式中提交数据时，操作的名称
+     * 					"add", // 当在add模式中提交数据时，操作的名称
+     * 					"del", // 当在delete模式中提交数据时，操作的名称
+     * @param group
+     * @return
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView save(@RequestParam("TOKEN") String token, 
-    		@RequestParam("oper") String oper) {
+    		@RequestParam("oper") String oper,
+    		Group2 group2) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ModelAndView result = new ModelAndView("admin/account/groups");
-        // String message = groups.getId() == null ? Messages.INSERT_SUCCESS : Messages.UPDATE_SUCCESS;
+        String message = Messages.SYSTEM_BUSY;
         
-        System.out.println("ModelAndView org.zhangmz.pickles.controller.admin.account.GroupsController.save");
+        // 注意jqGrid对于新增记录，id默认为""_empty""
+        if("_empty".equals(group2.getId())){
+        	group2.setId(null);
+        }
         
+        // 对象复制，属性相同，id的类型不同
+        Group group = group2.copyProperties();
+        
+        switch (oper) {
+		case "edit":
+	        groupService.save(group);
+	        message = Messages.UPDATE_SUCCESS;
+			break;
+			
+		case "add":
+	        groupService.save(group);
+	        message = Messages.INSERT_SUCCESS;
+			break;
+			
+		case "del":
+			groupService.deleteById(group.getId());
+			message = Messages.DELETE_SUCCESS;
+			break;
+
+		default:
+			break;
+		}
         
         result.addObject("TOKEN", token);
+        result.addObject("message", message);
         return result;
     }
    

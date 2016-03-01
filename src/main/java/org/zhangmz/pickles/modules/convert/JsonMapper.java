@@ -6,6 +6,7 @@
 package org.zhangmz.pickles.modules.convert;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Map;
 
@@ -40,6 +41,10 @@ public class JsonMapper {
 
 	public JsonMapper(Include include) {
 		mapper = new ObjectMapper();
+		
+		// add by zhangmz 2016-03-01 对输出的日期进行格式化
+		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));  
+		
 		// 设置输出时包含属性的风格
 		if (include != null) {
 			mapper.setSerializationInclusion(include);

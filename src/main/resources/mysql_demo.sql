@@ -20,7 +20,7 @@ create table account (
 	hash_password varchar(128) NOT NULL,
 	salt varchar(16) NOT NULL,
 	register_date timestamp DEFAULT CURRENT_TIMESTAMP() COMMENT '注册日期',
-	group_id INT(3) null DEFAULT 999 COMMENT '组ID，确认权限',
+	group_id INT(3) null DEFAULT 3 COMMENT '组ID，确认权限',
 	status varchar(4) DEFAULT 'N',
 	UNIQUE index_account_phone (phone),
 	UNIQUE index_account_email (email)
@@ -69,6 +69,16 @@ create table groups (
 
 insert into groups (id,code,group_name,admin_name,phone,status,note) values(1,'root','超级管理员组','超级管理员','13000000001','Y','超级管理员组，最高权限群体');
 insert into groups (id,code,group_name,admin_name,phone,status,note) values(2,'admin','管理员组','管理员','13000000002','Y','管理员组，可以登录admin控制台');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(999,'nogroup','零散的用户组','零散人员','13000000999','Y','零散的用户组，归集一些零散的用户、测试用户等');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(3,'nogroup','零散的用户组','零散人员','13000000003','Y','零散的用户组，归集一些零散的用户、测试用户等');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(4,'facebook','facebook','facebook管理员','13000000004','N','facebook');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(5,'gaoda','gaoda','gaoda管理员','13000000005','N','这里有各色的高达');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(6,'jimuda','吉姆达','吉姆达管理员','13000000006','Y','木人');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(7,'shouji','手机公司','手机控','13000000007','Y','一群手机控');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(8,'yaoshi','钥匙公司','开锁人','13000000008','Y','公安备案开锁人团体');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(9,'huwai','户外爱好者','户外管理员','13000000009','Y','一起去户外');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(10,'running','奔跑者','奔跑者','13000000010','Y','跑步爱好者');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(11,'automan','变形金刚','擎天柱','13000000011','Y','我们是变形金刚');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(12,'badman','大反派','威整天','13000000012','Y','我们是大反派，专门对付变形金刚');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(13,'google','google','google管理员','13000000013','N','google');
 
 commit;

@@ -38,32 +38,7 @@
 
   <#elseif section = "inline-scripts" >
 		<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"2",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"3",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"4",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"5",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"6",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"7",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"8",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"9",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"10",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"11",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"12",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"13",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"14",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"15",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"16",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"17",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"18",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"19",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"20",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"21",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"22",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
-			];	
+			var grid_data = ${(groups)!};	
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table";
@@ -75,12 +50,16 @@
 					data: grid_data,
 					datatype: "local",
 					height: 300,
-					colNames:['ID','组名', '是否有效','备注'],
+					colNames:['ID','用户组编码', '用户组名','管理员','手机号码','注册日期','是否有效','备注'],
 					colModel:[						
-						{name:'id',index:'id', width:60, sorttype:"int", editable: true},
-						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-						{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+						{name:'id',index:'id', width:30, sorttype:"int", editable: true, editable: true, editoptions:{readonly:true}},
+						{name:'code',index:'code', width:50,editable: true,editoptions:{size:"16",maxlength:"16"}},
+						{name:'groupName',index:'groupName', width:50,editable: true},
+						{name:'adminName',index:'adminName', width:50,editable: true},
+						{name:'phone',index:'phone', width:50,editable: true},
+						{name:'registerDate',index:'registerDate', width:50,formatter:'date',formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'},editable: false, editoptions:{readonly:true}},
+						{name:'status',index:'status', width:20, editable: true,edittype:"checkbox",editoptions: {value:"Y:N",defaultValue:"N"},unformat: aceSwitch},
+						{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"20"}} 
 					], 
 			
 					viewrecords : true,
@@ -218,9 +197,11 @@
 			
 				
 				function style_edit_form(form) {
-					//enable datepicker on "sdate" field and switches for "stock" field
+					//enable datepicker on "sdate" field and switches for "status" field
 					form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
-						.end().find('input[name=stock]')
+					    // 注释css
+						// .end().find('input[name=status]')
+						.end().find('input[name=nothingstatus]')
 							  .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
 			
 					//update buttons classes
@@ -270,6 +251,7 @@
 					var form = $(e[0]);
 					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 					style_edit_form(form);
+					alert('------------');
 				}
 			
 			
