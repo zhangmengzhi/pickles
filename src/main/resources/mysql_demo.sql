@@ -51,4 +51,24 @@ insert into account (id,phone,email,name,hash_password,salt) values(22,'13000000
 insert into account (id,phone,email,name,hash_password,salt) values(23,'13000000023','23@gmail.com','王五','48577990717ce63726608c92c6ab257f','4sG3vd');
 insert into account (id,phone,email,name,hash_password,salt) values(24,'13000000024','24@gmail.com','赵六','48577990717ce63726608c92c6ab257f','4sG3vd');
 
+drop table if exists groups;
+
+create table groups (
+	id INT(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	code varchar(16) NOT NULL COMMENT '用户组编码',
+	group_name varchar(64) DEFAULT '新用户组',
+	admin_name varchar(64) DEFAULT '新管理员',
+	phone varchar(20) NOT NULL COMMENT '联系人手机号码',
+	register_date timestamp DEFAULT CURRENT_TIMESTAMP() COMMENT '注册日期',
+	status varchar(4) DEFAULT 'N' COMMENT '是否有效',
+	note varchar(255) COMMENT '备注',
+	UNIQUE index_groups_code (code),
+	UNIQUE index_groups_group_name (group_name),
+	UNIQUE index_groups_phone (phone)
+);
+
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(1,'root','超级管理员组','超级管理员','13000000001','Y','超级管理员组，最高权限群体');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(2,'admin','管理员组','管理员','13000000002','Y','管理员组，可以登录admin控制台');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(999,'nogroup','零散的用户组','零散人员','13000000999','Y','零散的用户组，归集一些零散的用户、测试用户等');
+
 commit;
