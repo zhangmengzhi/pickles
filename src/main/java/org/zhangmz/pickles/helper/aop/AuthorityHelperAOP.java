@@ -71,6 +71,7 @@ public class AuthorityHelperAOP {
 	            
 	            if(args.length > 0 
 	            	&& authorityHelper.isAdmin((String) args[0])){
+	            	// 可以在这个切面为模板注入参数 TOKEN/mainInfo
 	            	// return joinpoint.proceed();
 	            	result = ((ModelAndView)joinpoint.proceed()).addObject("TOKEN", args[0]);
 	            }else{
