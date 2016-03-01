@@ -651,7 +651,7 @@
 								</li>
 
 								<li>
-									<a href="#">
+									<a href="${base}/admin/groups?TOKEN=${(TOKEN)!}">
 										<i class="icon-double-angle-right"></i>
 										用户组管理
 									</a>
