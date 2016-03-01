@@ -38,6 +38,7 @@ public class AdminMainHelper {
  	@PostConstruct
  	public void init() {
  		logger.debug("控制台信息缓存过期时间设置（秒）： " + loginTimeoutSecs);
+ 		// CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(loginTimeoutSecs, TimeUnit.SECONDS).build();
  		mainInfos = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}

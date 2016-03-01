@@ -68,7 +68,7 @@ public class AdminMainController {
 	
 	@RequestMapping("/buttons")
 	public ModelAndView buttons(@RequestParam("TOKEN") String token) {		
-		ModelAndView result = new ModelAndView("admin/buttons2");		
+		ModelAndView result = new ModelAndView("admin/buttons");		
 		return result;
     }
 	

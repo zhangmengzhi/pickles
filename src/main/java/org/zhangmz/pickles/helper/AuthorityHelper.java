@@ -46,6 +46,7 @@ public class AuthorityHelper {
  	@PostConstruct
  	public void init() {
  		logger.debug("登录信息缓存过期时间设置（秒）： " + loginTimeoutSecs);
+ 		// CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(loginTimeoutSecs, TimeUnit.SECONDS).build();
  		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}
