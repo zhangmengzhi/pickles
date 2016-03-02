@@ -35,6 +35,7 @@
 		<script src="${base}/static/assets/js/date-time/bootstrap-datepicker.min.js"></script>
 		<script src="${base}/static/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
 		<script src="${base}/static/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
+		<script src="${base}/static/assets/js/MyJqueryMethod.js"></script>
 
   <#elseif section = "inline-scripts" >
 		<script type="text/javascript">
@@ -52,14 +53,23 @@
 					height: 300,
 					colNames:['ID','用户组编码', '用户组名','管理员','手机号码','注册日期','是否有效','备注'],
 					colModel:[						
-						{name:'id',index:'id', width:30, sorttype:"int", editable: true, editable: true, editoptions:{readonly:true}},
-						{name:'code',index:'code', width:50,editable: true,editoptions:{size:"16",maxlength:"16"}},
-						{name:'groupName',index:'groupName', width:50,editable: true},
-						{name:'adminName',index:'adminName', width:50,editable: true},
-						{name:'phone',index:'phone', width:50,editable: true},
-						{name:'registerDate',index:'registerDate', width:50,formatter:'date',formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'},editable: false, editoptions:{readonly:true}},
-						{name:'status',index:'status', width:20, editable: true,edittype:"checkbox",editoptions: {value:"Y:N",defaultValue:"N"},unformat: aceSwitch},
-						{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"20"}} 
+						{name:'id',index:'id', hidden: true, key: true},
+						{name:'code',index:'code', width:50,
+								editable: true,editoptions:{size:"16",maxlength:"16"},
+								editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+						{name:'groupName',index:'groupName', width:50,
+								editable: true, editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+						{name:'adminName',index:'adminName', width:50,
+								editable: true, editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+						{name:'phone',index:'phone', width:50,
+								editable: true, editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+						{name:'registerDate',index:'registerDate', width:50,
+								formatter:'date',formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'},
+								editable: false, editoptions:{readonly:true}},
+						{name:'status',index:'status', width:20,
+								editable: true,edittype:"checkbox",editoptions: {value:"Y:N",defaultValue:"N"},unformat: aceSwitch},
+						{name:'note',index:'note', width:150, 
+								sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"20"}} 
 					], 
 			
 					viewrecords : true,
@@ -85,9 +95,19 @@
 					},
 			
 					editurl: $path_base+"/save?TOKEN=${(TOKEN)!}",//nothing is saved
-					caption: "用户组管理",
-			
-			
+					editParams: {
+							        aftersavefunc: function( rowid, response ){
+							        	alert(response.responseText);
+							            var result = eval('(' + response.responseText + ')');
+							            if (result.success == true) {
+							                alert('保存成功！');
+							            }  else {
+							                alert('保存失败！'+result.error);
+							            }
+							            return true;
+							        }
+							    },
+					caption: "用户组管理",			
 					autowidth: true
 			
 				});
@@ -251,7 +271,6 @@
 					var form = $(e[0]);
 					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 					style_edit_form(form);
-					alert('------------');
 				}
 			
 			
@@ -318,7 +337,65 @@
 			
 			
 			});
+		</script>		
+		
+		<script type="text/javascript">
+        //弹出form验证  'ID','用户组编码', '用户组名','管理员','手机号码','注册日期','是否有效','备注'
+        function formCheck(value, colname) {
+            var result = [true, ""];
+            switch (colname) {
+                case "用户组编码":
+                    if (flag != 0) {
+                        checkCode(value);
+                        if (flag == 0) {
+                            result = [false, colname + "不可重复！"];
+                        }
+                    }
+                    break;
+                case "用户组名":
+                    if (flag != 0) {
+                        checkGroupName(value);
+                        if (flag == 0) {
+                            result = [false, colname + "不可重复！"];
+                        }
+                    }
+                    break;
+                case "手机号码":
+                    if (!validForm("phone").test(value)) {
+                        result = [false, colname + "应为有效手机号码！"];
+                    }
+                    break;
+                default:
+                    result = [false, colname + "——" + value];
+                    break;
+            }
+            return result;
+        }
+        
+        var flag = 0;
+        
+        // TODO 表单校验可以写为一个方法
+        function checkName(nameValue) {
+            var success = function (request, textStatus) {
+                flag = request;
+                alert(flag);
+            }
+            AjaxRequestByData(false, "#", { action: "checkName", name: nameValue }, success);
+            // TODO 暂时写为true
+            true;
+        }
+        function checkGroupName(nameValue) {
+            var success = function (request, textStatus) {
+                flag = request;
+                alert(flag);
+            }
+            AjaxRequestByData(false, "#", { action: "checkGroupName", name: nameValue }, success);
+            // TODO 暂时写为true
+            true;
+        }
+        
 		</script>
+        
   <#else> 
     <div>Unsupported section??</div> 
   </#if> 
