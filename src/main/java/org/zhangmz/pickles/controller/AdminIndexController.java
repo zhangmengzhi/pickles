@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zhangmz.pickles.helper.constants.AdminUrl;
-import org.zhangmz.pickles.helper.constants.Messages;
+import org.zhangmz.pickles.modules.constants.AdminUrl;
+import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.service.AccountService;
 
 /**

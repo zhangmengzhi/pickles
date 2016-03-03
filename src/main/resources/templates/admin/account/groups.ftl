@@ -26,7 +26,7 @@
 								<div id="grid-pager"></div>
 
 								<script type="text/javascript">
-									var $path_base = "/admin/groups";
+									var $path_base = "/api/admin/groups";
 								</script>
 
 								<!-- PAGE CONTENT ENDS -->
@@ -49,25 +49,27 @@
 					//direction: "rtl",
 					
 					data: grid_data,
+					url: $path_base+"?TOKEN=${(TOKEN)!}",
 					datatype: "local",
 					height: 300,
 					colNames:['ID','用户组编码', '用户组名','管理员','手机号码','注册日期','是否有效','备注'],
 					colModel:[						
-						{name:'id',index:'id', hidden: true, key: true},
+						{name:'id',index:'id', width:50, 
+								editable: true,editoptions:{readonly:true}},
 						{name:'code',index:'code', width:50,
 								editable: true,editoptions:{size:"16",maxlength:"16"},
-								editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+								editrules: { edithidden: true, required: true}},
 						{name:'groupName',index:'groupName', width:50,
-								editable: true, editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+								editable: true, editrules: { edithidden: true, required: true}},
 						{name:'adminName',index:'adminName', width:50,
-								editable: true, editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
+								editable: true, editrules: { edithidden: true, required: true}},
 						{name:'phone',index:'phone', width:50,
 								editable: true, editrules: { edithidden: true, required: true, custom: true, custom_func: formCheck }},
 						{name:'registerDate',index:'registerDate', width:50,
 								formatter:'date',formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'},
 								editable: false, editoptions:{readonly:true}},
-						{name:'status',index:'status', width:20,
-								editable: true,edittype:"checkbox",editoptions: {value:"Y:N",defaultValue:"N"},unformat: aceSwitch},
+						{name:'status',index:'status', width:50,
+								editable: true,edittype:"checkbox",editoptions: {value:"Yes:No",defaultValue:"No"},unformat: aceSwitch},
 						{name:'note',index:'note', width:150, 
 								sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"20"}} 
 					], 
@@ -94,7 +96,7 @@
 						}, 0);
 					},
 			
-					editurl: $path_base+"/save?TOKEN=${(TOKEN)!}",//nothing is saved
+					editurl: $path_base+"/save?TOKEN=${(TOKEN)!}",
 					editParams: {
 							        aftersavefunc: function( rowid, response ){
 							        	alert(response.responseText);
@@ -219,9 +221,7 @@
 				function style_edit_form(form) {
 					//enable datepicker on "sdate" field and switches for "status" field
 					form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
-					    // 注释css
-						// .end().find('input[name=status]')
-						.end().find('input[name=nothingstatus]')
+					    .end().find('input[name=status]')
 							  .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
 			
 					//update buttons classes

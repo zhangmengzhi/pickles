@@ -1,11 +1,12 @@
 package org.zhangmz.pickles.orm.model;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Group {
     /**
@@ -203,6 +204,7 @@ public class Group {
      *
      * @mbggenerated Tue Mar 01 18:02:05 CST 2016
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
     public Date getRegisterDate() {
         return registerDate;
     }

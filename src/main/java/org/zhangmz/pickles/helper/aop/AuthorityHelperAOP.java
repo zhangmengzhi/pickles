@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.zhangmz.pickles.helper.AuthorityHelper;
-import org.zhangmz.pickles.helper.constants.AdminUrl;
-import org.zhangmz.pickles.helper.constants.Messages;
+import org.zhangmz.pickles.modules.constants.AdminUrl;
+import org.zhangmz.pickles.modules.constants.Messages;
 
 /**
  * Title:AuthorityHelperAOP.java
