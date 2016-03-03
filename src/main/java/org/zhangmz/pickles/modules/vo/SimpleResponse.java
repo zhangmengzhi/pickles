@@ -13,20 +13,7 @@ public class SimpleResponse {
 
 	private int code = 0;
 	private String message;
-	private String status;
-	
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
+
 	public int getCode() {
 		return code;
 	}

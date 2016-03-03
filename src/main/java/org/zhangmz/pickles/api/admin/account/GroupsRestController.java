@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
-import org.zhangmz.pickles.modules.vo.SimpleResponse;
+import org.zhangmz.pickles.helper.vo.SimpleResponse;
 import org.zhangmz.pickles.orm.model.Group;
 import org.zhangmz.pickles.orm.model.Group2;
 import org.zhangmz.pickles.service.GroupService;
@@ -86,7 +86,6 @@ public class GroupsRestController {
 			e.printStackTrace();
 	        sr.setCode(Codes.FAILURE_FALSE_NUMBER);
 			sr.setMessage(Messages.SYSTEM_BUSY);
-			sr.setStatus(Messages.ERROR_EN);
 			return sr;
 		}
         
@@ -99,7 +98,7 @@ public class GroupsRestController {
     			break;
     			
     		case "add":
-    	        groupService.save(group);
+    	        groupService.save(group);;
     	        sr.setMessage(Messages.INSERT_SUCCESS);
     			break;
     			
@@ -113,13 +112,12 @@ public class GroupsRestController {
     		}
 
             sr.setCode(Codes.SUCCESS_TRUE_NUMBER);
-			sr.setStatus(Messages.SUCCESS_EN);
+			sr.setGroupId(group.getId());
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 			e.printStackTrace();
 	        sr.setCode(Codes.FAILURE_FALSE_NUMBER);
 			sr.setMessage(Messages.SYSTEM_BUSY);
-			sr.setStatus(Messages.ERROR_EN);
 		}
         
         logger.debug(binder.toJson(sr));

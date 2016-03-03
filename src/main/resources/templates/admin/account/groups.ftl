@@ -46,8 +46,6 @@
 				var pager_selector = "#grid-pager";
 			
 				jQuery(grid_selector).jqGrid({
-					//direction: "rtl",
-					
 					data: grid_data,
 					url: $path_base+"?TOKEN=${(TOKEN)!}",
 					datatype: "local",
@@ -97,18 +95,6 @@
 					},
 			
 					editurl: $path_base+"/save?TOKEN=${(TOKEN)!}",
-					editParams: {
-							        aftersavefunc: function( rowid, response ){
-							        	alert(response.responseText);
-							            var result = eval('(' + response.responseText + ')');
-							            if (result.success == true) {
-							                alert('保存成功！');
-							            }  else {
-							                alert('保存失败！'+result.error);
-							            }
-							            return true;
-							        }
-							    },
 					caption: "用户组管理",			
 					autowidth: true
 			
@@ -153,12 +139,22 @@
 					},
 					{
 						//edit record form
-						//closeAfterEdit: true,
+						closeAfterEdit: true,
 						recreateForm: true,
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 							style_edit_form(form);
+						},
+						afterSubmit: function(response) {
+						    var result = eval('(' + response.responseText + ')');
+						    if (result.code == 1) {
+						        alert(result.message);
+						        // TODO 刷新页面数据 --修改页面数据即可
+						    } else {
+						        alert(result.message);
+						    }
+						    return [result.code, result.message, result.groupId] 
 						}
 					},
 					{
@@ -170,6 +166,17 @@
 							var form = $(e[0]);
 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 							style_edit_form(form);
+						},
+						afterSubmit: function(response) {
+						    var result = eval('(' + response.responseText + ')');
+						    if (result.code == 1) {
+						        alert(result.message);
+						        // 刷新页面数据--只是用于演示，应该使用异步数据刷新
+						        location.reload();
+						    } else {
+						        alert(result.message);
+						    }
+						    return [result.code, result.message, result.groupId] 
 						}
 					},
 					{
@@ -361,7 +368,10 @@
                     }
                     break;
                 case "手机号码":
-                    if (!validForm("phone").test(value)) {
+                   	// if (!validForm("phone").test(value)) {
+                    // 匹配13，14，15，17，18开头的手机号码！
+                    var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;                    
+                    if (!reg.test(value)) {
                         result = [false, colname + "应为有效手机号码！"];
                     }
                     break;
