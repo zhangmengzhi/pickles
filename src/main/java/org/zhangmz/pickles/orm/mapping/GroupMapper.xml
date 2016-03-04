@@ -16,6 +16,14 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="note" property="note" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <!-- add by zhangmz 2016-03-04 只查询id/name两个字段，用于下拉列表显示  begin -->
+  <resultMap id="IdNameResultMap" type="org.zhangmz.pickles.modules.vo.IdName" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="group_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>  
+  <!-- add by zhangmz 2016-03-04 只查询id/name两个字段，用于下拉列表显示  end -->
+  
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbggenerated
@@ -200,4 +208,39 @@
     order by id desc 
   </select>
   <!-- add by zhangmz 2016-03-01 查询所有记录 用户组记录不能太多 end -->
+  
+  <!-- add by zhangmz 2016-03-04 只查询id/name两个字段，用于下拉列表显示  begin -->
+  <select id="selectIdName" parameterType="org.zhangmz.pickles.orm.model.Group" resultMap="IdNameResultMap">
+    select 
+    id, group_name
+    from groups
+    <where>  
+    	  <if test="id != null" >
+	        id = #{id,jdbcType=INTEGER}
+	      </if>
+	      <if test="code != null" >
+	        AND code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="groupName != null" >
+	        AND group_name = #{groupName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="adminName != null" >
+	        AND admin_name = #{adminName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="phone != null" >
+	        AND phone = #{phone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="registerDate != null" >
+	        AND register_date = #{registerDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="status != null" >
+	        AND status = #{status,jdbcType=VARCHAR}
+	      </if>
+	      <if test="note != null" >
+	        AND note = #{note,jdbcType=VARCHAR}
+	      </if>
+    </where>  
+    order by id desc 
+  </select>
+  <!-- add by zhangmz 2016-03-04 只查询id/name两个字段，用于下拉列表显示 end -->
 </mapper>

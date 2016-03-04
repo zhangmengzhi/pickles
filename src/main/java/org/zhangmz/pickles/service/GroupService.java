@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.zhangmz.pickles.modules.vo.IdName;
 import org.zhangmz.pickles.orm.mapper.GroupMapper;
 import org.zhangmz.pickles.orm.model.Account;
 import org.zhangmz.pickles.orm.model.Group;
@@ -33,6 +34,10 @@ public class GroupService {
  	 ************************************************************************/
  	public List<Group> search(Group group) {
         return groupMapper.select(group);
+    }
+ 	
+ 	public List<IdName> searchIdName(Group group) {
+        return groupMapper.selectIdName(group);
     }
 
     public Group getById(Integer id) {

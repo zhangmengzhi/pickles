@@ -6,8 +6,8 @@
   <#elseif section = "specific-styles" > 
 
   <#elseif section = "inline-styles" > 
-
-  <#elseif section = "page-content" > 
+  
+  <#elseif section = "page-content" >
 								<!-- PAGE CONTENT BEGINS add by zhangmz 2016-01-27-->
 								
 							        <div class="container">
@@ -63,7 +63,9 @@
 														<div class="form-group">
 															<label class="col-sm-2 control-label" for="groupId">用户组：</label>
 															<div class="col-sm-10">
-																<input class="form-control" id="groupId" name="groupId" value="${(account.groupId)!}"/>
+																<select class="form-control" id="groupId" name="groupId" value="${(account.groupId)!}">
+																	<option value="-1">&nbsp;</option>
+																</select>
 															</div>
 														</div>
 														<div class="form-group">
@@ -80,7 +82,7 @@
 														</div>
 														<div class="control-group">
 															<label for="registerDate" class="col-sm-2 control-label"></label>
-															<p class="help-block class="col-sm-10"">TODO表单检验。</p>
+															<p class="help-block class="col-sm-10"">TODO 表单检验，密码为空的处理。</p>
 														</div>
 														<div class="form-group">
 															<div class="col-md-offset-2 col-md-10">
@@ -100,7 +102,27 @@
 								<!-- PAGE CONTENT ENDS -->
   <#elseif section = "specific-scripts" > 
 
-  <#elseif section = "inline-scripts" >
+  <#elseif section = "inline-scripts" >  
+  
+  <script type="text/javascript">
+			
+  			$.get("${base}/api/admin/groups/idNames?TOKEN=${(TOKEN)!}", function(data){
+  				var idNames = eval(data);
+				coverjsontoselect(idNames);    
+			});
+			 
+			function coverjsontoselect(nodearray){ 	
+				var tempselect=$("#groupId"); 
+				tempselect.empty();  
+				for(var i=0;i<nodearray.length;i++){ 
+					// alert(nodearray[i].id+" " + nodearray[i].name)  
+					tempselect.append("<option value='"+ nodearray[i].id +"'>"+ nodearray[i].name +"</option>"); 
+				} 
+				// 设置选中值
+				tempselect.val(${(account.groupId)!});
+			};
+	        
+  </script> 
 
   <#else> 
     <div>Unsupported section??</div> 

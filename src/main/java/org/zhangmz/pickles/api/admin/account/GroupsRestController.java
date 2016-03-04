@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
+import org.zhangmz.pickles.modules.vo.IdName;
 import org.zhangmz.pickles.helper.vo.SimpleResponse4Group;
 import org.zhangmz.pickles.orm.model.Group;
 import org.zhangmz.pickles.orm.model.Group2;
@@ -49,6 +50,14 @@ public class GroupsRestController {
     public List<Group> search(@RequestParam("TOKEN") String token) {
         // 获取所有的用户组数据
         List<Group> groupList = groupService.search(new Group());
+        logger.debug(binder.toJson(groupList));
+        return groupList;
+    }
+    
+    @RequestMapping(value = "/idNames", method = RequestMethod.GET)
+    public List<IdName> searchIdName(@RequestParam("TOKEN") String token) {
+        // 获取所有的用户组数据 只查询id/name两个字段，用于下拉列表显示
+        List<IdName> groupList = groupService.searchIdName(new Group());
         logger.debug(binder.toJson(groupList));
         return groupList;
     }
