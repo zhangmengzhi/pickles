@@ -6,6 +6,9 @@
 package org.zhangmz.pickles.controller.admin.account;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.zhangmz.pickles.modules.constants.Messages;
+import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.orm.model.Account;
 import org.zhangmz.pickles.service.AccountService;
 import com.github.pagehelper.PageInfo;
@@ -29,6 +33,9 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @RequestMapping("/admin/accounts")
 public class AccountController {
+	private static Logger logger = LoggerFactory.getLogger(AccountController.class);
+
+	private static JsonMapper binder = JsonMapper.nonDefaultMapper();
 
     @Autowired
     private AccountService accountService;
@@ -37,6 +44,7 @@ public class AccountController {
     public ModelAndView search(@RequestParam("TOKEN") String token, Account account) {
         ModelAndView result = new ModelAndView("admin/account/index");
         List<Account> accountList = accountService.search(account);
+        logger.debug(binder.toJson(accountList));
         result.addObject("pageInfo", new PageInfo<Account>(accountList));
         result.addObject("queryParam", account);
         result.addObject("page", account.getPage());

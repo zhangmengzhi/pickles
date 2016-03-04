@@ -1,5 +1,6 @@
 package org.zhangmz.pickles.helper.vo;
 
+import org.zhangmz.pickles.modules.vo.SimpleResponse;
 import org.zhangmz.pickles.orm.model.Group;
 
 /**
@@ -11,7 +12,7 @@ import org.zhangmz.pickles.orm.model.Group;
  * @version V1.0
  * 说明：一个简单的请求返回对象 只包含返回编码/返回信息
  */
-public class SimpleResponse4Group extends org.zhangmz.pickles.modules.vo.SimpleResponse {
+public class SimpleResponse4Group extends SimpleResponse {
 
 	private int groupId = -1;	
 	private Group group;

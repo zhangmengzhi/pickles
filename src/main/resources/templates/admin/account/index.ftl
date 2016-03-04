@@ -64,7 +64,7 @@
 													                    <td>${account.id}</td>
 													                    <td>${account.name}</td>
 													                    <td>${account.phone}</td>
-													                    <td>${account.email}</td>
+													                    <td>${(account.email)!}</td>
 													                    <td>${(account.registerDate?string("yyyy-MM-dd HH:mm:ss"))!''}</td>
 													                    <td class="visible-md visible-lg hidden-sm hidden-xs btn-group">
 													                    	<a href="${base}/admin/accounts/view/${account.id}?TOKEN=${(TOKEN)!}">

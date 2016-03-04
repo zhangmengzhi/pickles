@@ -20,6 +20,7 @@ import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.helper.vo.SimpleResponse4Group;
 import org.zhangmz.pickles.orm.model.Group;
 import org.zhangmz.pickles.orm.model.Group2;
+import org.zhangmz.pickles.service.AccountService;
 import org.zhangmz.pickles.service.GroupService;
 
 /**
@@ -40,6 +41,9 @@ public class GroupsRestController {
 	
     @Autowired
     private GroupService groupService;
+    
+    @Autowired
+    private AccountService accountService;
     
     @RequestMapping
     public List<Group> search(@RequestParam("TOKEN") String token) {
@@ -100,6 +104,9 @@ public class GroupsRestController {
     		case "add":
     	        groupService.save(group);;
     	        sr.setMessage(Messages.INSERT_SUCCESS);
+   	    	
+            	// 新增用户组  生成一个默认的管理员账户
+    	        accountService.save(groupService.getNewAccount(group));
     			break;
     			
     		case "del":

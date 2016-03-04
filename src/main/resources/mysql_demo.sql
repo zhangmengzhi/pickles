@@ -21,14 +21,14 @@ create table account (
 	salt varchar(16) NOT NULL,
 	register_date timestamp DEFAULT CURRENT_TIMESTAMP() COMMENT '注册日期',
 	group_id INT(3) null DEFAULT 3 COMMENT '组ID，确认权限',
-	status varchar(4) DEFAULT 'N',
+	status varchar(4) DEFAULT 'No' COMMENT '是否有效',
 	UNIQUE index_account_phone (phone),
 	UNIQUE index_account_email (email)
 );
 
-insert into account (id,phone,email,name,hash_password,salt,group_id,status) values(1,'13000000001','1@gmail.com','超级管理员','48577990717ce63726608c92c6ab257f','4sG3vd',1,'Y');
-insert into account (id,phone,email,name,hash_password,salt,status) values(2,'13000000002','2@gmail.com','东方不败','48577990717ce63726608c92c6ab257f','4sG3vd','Y');
-insert into account (id,phone,email,name,hash_password,salt,status) values(3,'13000000003','3@gmail.com','张三','48577990717ce63726608c92c6ab257f','4sG3vd','Y');
+insert into account (id,phone,email,name,hash_password,salt,group_id,status) values(1,'13000000001','1@gmail.com','超级管理员','48577990717ce63726608c92c6ab257f','4sG3vd',1,'Yes');
+insert into account (id,phone,email,name,hash_password,salt,status) values(2,'13000000002','2@gmail.com','东方不败','48577990717ce63726608c92c6ab257f','4sG3vd','Yes');
+insert into account (id,phone,email,name,hash_password,salt,status) values(3,'13000000003','3@gmail.com','张三','48577990717ce63726608c92c6ab257f','4sG3vd','Yes');
 insert into account (id,phone,email,name,hash_password,salt) values(4,'13000000004','4@gmail.com','李四','48577990717ce63726608c92c6ab257f','4sG3vd');
 insert into account (id,phone,email,name,hash_password,salt) values(5,'13000000005','5@gmail.com','王五','48577990717ce63726608c92c6ab257f','4sG3vd');
 insert into account (id,phone,email,name,hash_password,salt) values(6,'13000000006','6@gmail.com','赵六','48577990717ce63726608c92c6ab257f','4sG3vd');
@@ -60,25 +60,25 @@ create table groups (
 	admin_name varchar(64) DEFAULT '新管理员',
 	phone varchar(20) NOT NULL COMMENT '联系人手机号码',
 	register_date timestamp DEFAULT CURRENT_TIMESTAMP() COMMENT '注册日期',
-	status varchar(4) DEFAULT 'N' COMMENT '是否有效',
+	status varchar(4) DEFAULT 'No' COMMENT '是否有效',
 	note varchar(255) COMMENT '备注',
 	UNIQUE index_groups_code (code),
 	UNIQUE index_groups_group_name (group_name),
 	UNIQUE index_groups_phone (phone)
 );
 
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(1,'root','超级管理员组','超级管理员','13000000001','Y','超级管理员组，最高权限群体');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(2,'admin','管理员组','管理员','13000000002','Y','管理员组，可以登录admin控制台');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(3,'nogroup','零散的用户组','零散人员','13000000003','Y','零散的用户组，归集一些零散的用户、测试用户等');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(4,'facebook','facebook','facebook管理员','13000000004','N','facebook');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(5,'gaoda','gaoda','gaoda管理员','13000000005','N','这里有各色的高达');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(6,'jimuda','吉姆达','吉姆达管理员','13000000006','Y','木人');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(7,'shouji','手机公司','手机控','13000000007','Y','一群手机控');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(8,'yaoshi','钥匙公司','开锁人','13000000008','Y','公安备案开锁人团体');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(9,'huwai','户外爱好者','户外管理员','13000000009','Y','一起去户外');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(10,'running','奔跑者','奔跑者','13000000010','Y','跑步爱好者');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(11,'automan','变形金刚','擎天柱','13000000011','Y','我们是变形金刚');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(12,'badman','大反派','威整天','13000000012','Y','我们是大反派，专门对付变形金刚');
-insert into groups (id,code,group_name,admin_name,phone,status,note) values(13,'google','google','google管理员','13000000013','N','google');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(1,'root','超级管理员组','超级管理员','13000000001','Yes','超级管理员组，最高权限群体');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(2,'admin','管理员组','管理员','13000000002','Yes','管理员组，可以登录admin控制台');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(3,'nogroup','零散的用户组','零散人员','13000000003','Yes','零散的用户组，归集一些零散的用户、测试用户等');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(4,'facebook','facebook','facebook管理员','13000000004','No','facebook');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(5,'gaoda','gaoda','gaoda管理员','13000000005','No','这里有各色的高达');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(6,'jimuda','吉姆达','吉姆达管理员','13000000006','Yes','木人');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(7,'shouji','手机公司','手机控','13000000007','Yes','一群手机控');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(8,'yaoshi','钥匙公司','开锁人','13000000008','Yes','公安备案开锁人团体');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(9,'huwai','户外爱好者','户外管理员','13000000009','Yes','一起去户外');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(10,'running','奔跑者','奔跑者','13000000010','Yes','跑步爱好者');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(11,'automan','变形金刚','擎天柱','13000000011','Yes','我们是变形金刚');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(12,'badman','大反派','威整天','13000000012','Yes','我们是大反派，专门对付变形金刚');
+insert into groups (id,code,group_name,admin_name,phone,status,note) values(13,'google','google','google管理员','13000000013','No','google');
 
 commit;

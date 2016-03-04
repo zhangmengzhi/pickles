@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zhangmz.pickles.orm.mapper.GroupMapper;
+import org.zhangmz.pickles.orm.model.Account;
 import org.zhangmz.pickles.orm.model.Group;
 
 /**
@@ -52,5 +53,19 @@ public class GroupService {
         logger.debug("查看返回的变更记录数:" + rtn);
         return rtn;
     }
-    
+
+    /*************************************************************************
+ 	 * 说明：以下是业务方法
+ 	 * 作者：张孟志
+ 	 * 日期：2016-03-04
+ 	 ************************************************************************/
+    public Account getNewAccount(Group group) {
+    	Account account = new Account();
+        account.setPhone(group.getPhone());
+        account.setName(group.getAdminName());
+        account.setPassword(group.getPhone());
+        account.setGroupId(group.getId());
+        account.setStatus(group.getStatus());
+        return account;
+    }
 }
