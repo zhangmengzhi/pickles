@@ -20,6 +20,8 @@
 										<i class="icon-remove"></i>
 									</button>
 								</div>
+								
+    							<div id="dialogMessage" title="消息" style="display: none;"></div>
 
 								<table id="grid-table"></table>
 
@@ -39,7 +41,8 @@
 
   <#elseif section = "inline-scripts" >
 		<script type="text/javascript">
-			var grid_data = ${(groups)!};	
+			var grid_data = ${(groups)!};
+			// var grid_data = eval('(' + ${(groups)!} + ')');
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table";

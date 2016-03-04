@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
-import org.zhangmz.pickles.helper.vo.SimpleResponse;
+import org.zhangmz.pickles.helper.vo.SimpleResponse4Group;
 import org.zhangmz.pickles.orm.model.Group;
 import org.zhangmz.pickles.orm.model.Group2;
 import org.zhangmz.pickles.service.GroupService;
@@ -62,10 +62,10 @@ public class GroupsRestController {
      * @throws IllegalAccessException 
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public SimpleResponse save(@RequestParam("TOKEN") String token, 
+    public SimpleResponse4Group save(@RequestParam("TOKEN") String token, 
     		@RequestParam("oper") String oper,
     		Group2 group2) {
-    	SimpleResponse sr = new SimpleResponse();
+    	SimpleResponse4Group sr = new SimpleResponse4Group();
         
 //        // 注意jqGrid对于新增记录，id默认为""_empty""
 //        // jqGrid 使用inlineNav 会有不同表现，例如"jqg3"
@@ -113,6 +113,7 @@ public class GroupsRestController {
 
             sr.setCode(Codes.SUCCESS_TRUE_NUMBER);
 			sr.setGroupId(group.getId());
+			sr.setGroup(group);
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 			e.printStackTrace();

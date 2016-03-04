@@ -164,3 +164,19 @@ function stateFormate(cellvalue, options, rowObject) {
     }
     return showValue;
 }
+
+//提示信息统一弹窗
+//统一ID = "dialogMessage"
+function myDialogMessage(msg) {
+ var dialogID = $("#dialogMessage");
+ dialogID.html(
+     "<span class='ui-icon ui-icon-circle-close' style='float: left; margin: 0 7px 10px 0;'></span>" + msg);
+ dialogID.dialog({
+     modal: true,
+     buttons: {
+         Ok: function () {
+             $(this).dialog("close");
+         }
+     }
+ });
+};

@@ -197,6 +197,7 @@
 	        AND note = #{note,jdbcType=VARCHAR}
 	      </if>
     </where>  
+    order by id desc 
   </select>
   <!-- add by zhangmz 2016-03-01 查询所有记录 用户组记录不能太多 end -->
 </mapper>

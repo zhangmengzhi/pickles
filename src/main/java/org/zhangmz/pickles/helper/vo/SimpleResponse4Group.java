@@ -1,5 +1,7 @@
 package org.zhangmz.pickles.helper.vo;
 
+import org.zhangmz.pickles.orm.model.Group;
+
 /**
  * 
  * @ClassName:SimpleResponse 
@@ -9,9 +11,10 @@ package org.zhangmz.pickles.helper.vo;
  * @version V1.0
  * 说明：一个简单的请求返回对象 只包含返回编码/返回信息
  */
-public class SimpleResponse extends org.zhangmz.pickles.modules.vo.SimpleResponse {
+public class SimpleResponse4Group extends org.zhangmz.pickles.modules.vo.SimpleResponse {
 
-	private int groupId = -1;
+	private int groupId = -1;	
+	private Group group;
 
 	/**
 	 * @return the groupId
@@ -25,6 +28,20 @@ public class SimpleResponse extends org.zhangmz.pickles.modules.vo.SimpleRespons
 	 */
 	public void setGroupId(int groupId) {
 		this.groupId = groupId;
+	}
+
+	/**
+	 * @return the group
+	 */
+	public Group getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 	
 }

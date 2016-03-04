@@ -42,7 +42,6 @@ public class GroupService {
         groupMapper.deleteByPrimaryKey(id);
     }
 
-    // 改为（保存）返回主键
     public int save(Group group) {
     	int rtn = -1;
         if (group.getId() != null) {
@@ -50,7 +49,7 @@ public class GroupService {
         } else {
         	rtn = groupMapper.insert(group);
         }
-        logger.debug("查看返回的记录数（修改）/主键（新增）:" + rtn);
+        logger.debug("查看返回的变更记录数:" + rtn);
         return rtn;
     }
     
