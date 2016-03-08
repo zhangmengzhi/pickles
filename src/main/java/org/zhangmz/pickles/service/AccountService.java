@@ -39,14 +39,14 @@ public class AccountService {
     /**
      * 
      * @Title: login 
-     * @Description: 处理用户登录请求
+     * @Description: 处理管理员登录请求
      * @param phoneEmail
      * @param password
      * @return
      * @throws 
      * 增加人:张孟志
      * 增加日期:2016年1月25日 下午8:14:29
-     * 说明：处理用户登录请求
+     * 说明：处理管理员登录请求
 	 *      检验用户登录凭证，目前使用email/password
 	 *      登录成功产生一个唯一的标识TOKEN，
 	 *      保存登录记录（如果不保存数据库则需要将TOKEN保存在缓存）返回TOKEN
@@ -86,6 +86,60 @@ public class AccountService {
 		logger.info(phoneEmail + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
 		return token;
 	}
+	
+	/**
+	 * 
+	 * @Title: login 
+	 * @Description: 处理用户登录请求 
+	 * @param groupCode   用户组编码
+	 * @param phoneEmail  手机号或Email
+	 * @param password    密码
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年3月8日 下午3:53:23
+	 * 说明：处理用户登录请求
+	 *      检验用户登录凭证，目前使用用户组编码、email/password
+	 *      登录成功产生一个唯一的标识TOKEN，
+	 *      保存登录记录（如果不保存数据库则需要将TOKEN保存在缓存）返回TOKEN
+	 *      
+ 	 *	改方法和“处理管理员登录请求login(String phoneEmail, String password)”类似
+ 	 *  可以考虑重构
+	 */
+	public String login(String groupCode, String phoneEmail, String password) {
+		if (StringUtils.isBlank(groupCode) 
+				|| StringUtils.isBlank(phoneEmail) 
+				|| StringUtils.isBlank(password)) {
+ 			logger.warn(phoneEmail + "用户信息或密码为空。 ");
+			throw new ServiceException("用户信息或密码为空。", ErrorCode.UNAUTHORIZED);
+ 		}
+		
+		Account account = this.getByPhoneEmail(groupCode, phoneEmail);
+
+		if (account == null) {
+			logger.error(phoneEmail + "登录失败，未注册用户。 ");
+			throw new ServiceException("未注册用户", ErrorCode.UNAUTHORIZED);
+		}
+
+		// 设置为Discuz加密方式，为数据迁移做准备
+		if (!account.getHashPassword().equals(
+				DiscuzHashPassword.getHashPassword(password, account.getSalt()))) {
+			logger.warn(phoneEmail + "登录失败，密码错误。 ");
+			throw new ServiceException("密码错误", ErrorCode.UNAUTHORIZED);
+		}
+
+		String token = Ids.uuid2();
+		
+		// 这里可以将登录信息保存到数据库		
+		// 将登录信息放入缓存
+		authorityHelper.putAccount(token, account);
+		/*
+		loginTimeInfos.put(email, new Date());
+		*/
+				
+		logger.info(phoneEmail + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
+		return token;
+	}
     
     /**
      * 
@@ -100,7 +154,12 @@ public class AccountService {
      */
     public Account getByPhoneEmail(String phoneEmail) {    	
     	return accountMapper.getByPhoneEmail(phoneEmail);
-    }    
+    }   
+    
+    
+    public Account getByPhoneEmail(String groupCode, String phoneEmail) {    	
+    	return accountMapper.selectByPhoneEmail(groupCode, phoneEmail);
+    } 
 
 	/**
 	 * 

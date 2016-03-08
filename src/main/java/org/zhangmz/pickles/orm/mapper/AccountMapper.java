@@ -1,6 +1,7 @@
 package org.zhangmz.pickles.orm.mapper;
 
 import org.zhangmz.pickles.orm.model.Account;
+import org.apache.ibatis.annotations.Param;
 import org.zhangmz.pickles.orm.MyMapper;
 
 /**
@@ -25,6 +26,10 @@ public interface AccountMapper extends MyMapper<Account> {
 	 * 增加人:张孟志
 	 * 增加日期:2016年1月25日 下午8:25:09
 	 * 说明：用户登录，用户信息可以是手机号，也可以是Email
+	 * 这个方法名应该改为select*，统一命名
+	 * 考虑到这是最初代码，不修改。
 	 */
 	Account getByPhoneEmail(String phoneEmail);
+	
+	Account selectByPhoneEmail(@Param("groupCode")String groupCode, @Param("phoneEmail")String phoneEmail);
 }

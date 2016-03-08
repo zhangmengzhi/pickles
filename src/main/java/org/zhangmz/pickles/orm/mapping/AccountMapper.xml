@@ -26,7 +26,7 @@
     id, phone, name, email, hash_password, salt, register_date, group_id, status
   </sql>
   
-  <!-- add by zhangmz 2016-01-25 用户登录，用户信息可以是手机号，也可以是Email begin -->
+  <!-- add by zhangmz 2016-01-25 管理员登录，用户信息可以是手机号，也可以是Email begin -->
   <select id="getByPhoneEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -35,6 +35,19 @@
         (phone = #{phoneEmail} OR email = #{phoneEmail}) AND status = 'Yes'
     </where>  
   </select>
-  <!-- add by zhangmz 2016-01-25 用户登录，用户信息可以是手机号，也可以是Email end -->
+  <!-- add by zhangmz 2016-01-25 管理员登录，用户信息可以是手机号，也可以是Email end -->  
+    
+  <!-- add by zhangmz 2016-03-08 用户登录，用户信息可以是手机号，也可以是Email begin -->
+  <select id="selectByPhoneEmail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    <where> 
+    	group_id = (select id from groups where code=#{groupCode, jdbcType=VARCHAR})  
+        AND (phone = #{phoneEmail, jdbcType=VARCHAR} OR email = #{phoneEmail, jdbcType=VARCHAR}) 
+        AND status = 'Yes'
+    </where>  
+  </select>
+  <!-- add by zhangmz 2016-03-08 用户登录，用户信息可以是手机号，也可以是Email end -->
   
 </mapper>

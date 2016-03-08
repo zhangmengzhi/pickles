@@ -78,6 +78,13 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
+															<input type="text" name="groupCode" class="form-control" placeholder="用户组编码" />
+															<i class="icon-group"></i>
+														</span>
+													</label>
+													
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
 															<input type="text" name="phoneEmail" class="form-control" placeholder="手机号/Email" />
 															<i class="icon-user"></i>
 														</span>

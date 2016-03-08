@@ -5,6 +5,8 @@
  *******************************************************************************/
 package org.zhangmz.pickles.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import org.zhangmz.pickles.service.AccountService;
 @Controller
 @RequestMapping("/user")
 public class UserIndexController {
+	private static Logger logger = LoggerFactory.getLogger(UserIndexController.class);
 
 	@Autowired
     private AccountService accountService;
@@ -72,8 +75,12 @@ public class UserIndexController {
 		String url;
 		
 		try {
-			// TODO 登陆方法需要重构，以适应管理员/用户两种身份的登陆
-			token = accountService.login(phoneEmail, password);
+			// 登陆方法需要重构，以适应管理员/用户两种身份的登陆
+			logger.debug("groupCode:"+ groupCode 
+					+ ", phoneEmail:"+ phoneEmail 
+					+ ", password:" + password);
+			// token = accountService.login(phoneEmail, password);
+			token = accountService.login(groupCode, phoneEmail, password);
 			redirectAttributes.addFlashAttribute("TOKEN", token);
 			
 			// 判断是否管理员（包括超级管理员）
