@@ -34,33 +34,50 @@ public class AccountService {
     private AccountMapper accountMapper;
 
     @Autowired
-    private AuthorityHelper authorityHelper;
+    private AuthorityHelper authorityHelper;    
     
-    /**
-     * 
-     * @Title: login 
-     * @Description: 处理管理员登录请求
-     * @param phoneEmail
-     * @param password
-     * @return
-     * @throws 
-     * 增加人:张孟志
-     * 增加日期:2016年1月25日 下午8:14:29
-     * 说明：处理管理员登录请求
-	 *      检验用户登录凭证，目前使用email/password
+    // 管理员登陆方法
+	public String login(String phoneEmail, String password) { 		
+ 		return this.login(null, phoneEmail, password, true);
+	}
+	
+	// 用户登陆方法
+	public String login(String groupCode, String phoneEmail, String password) {
+		return this.login(groupCode, phoneEmail, password, false);
+	}
+    
+
+	/**
+	 * 
+	 * @Title: login 
+	 * @Description: 处理登录请求 
+	 * @param groupCode       用户组编码
+	 * @param phoneEmail      手机号或Email
+	 * @param password        密码
+	 * @param isAdminConsole  是否登陆管理员控制台
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年3月8日 下午4:34:58
+	 * 说明：处理登录请求
+	 *      检验用户登录凭证，目前使用用户组编码、email/password
 	 *      登录成功产生一个唯一的标识TOKEN，
 	 *      保存登录记录（如果不保存数据库则需要将TOKEN保存在缓存）返回TOKEN
-	 *      
- 	 *	只查询一次数据库，忽略 @Transactional(readOnly = true)
-     */
-	public String login(String phoneEmail, String password) {
- 		
- 		if (StringUtils.isBlank(phoneEmail) || StringUtils.isBlank(password)) {
+	 */
+	private String login(String groupCode, String phoneEmail, String password, boolean isAdminConsole) {		
+		
+		if (checkBlank(groupCode, phoneEmail, password, isAdminConsole)) {
  			logger.warn(phoneEmail + "用户信息或密码为空。 ");
 			throw new ServiceException("用户信息或密码为空。", ErrorCode.UNAUTHORIZED);
  		}
- 		
-		Account account = this.getByPhoneEmail(phoneEmail);
+		
+		Account account;
+		if(isAdminConsole){
+			account = accountMapper.getByPhoneEmail(phoneEmail);
+		} else {
+			account = accountMapper.selectByPhoneEmail(groupCode, phoneEmail);
+		}
+		
 
 		if (account == null) {
 			logger.error(phoneEmail + "登录失败，未注册用户。 ");
@@ -89,77 +106,27 @@ public class AccountService {
 	
 	/**
 	 * 
-	 * @Title: login 
-	 * @Description: 处理用户登录请求 
-	 * @param groupCode   用户组编码
-	 * @param phoneEmail  手机号或Email
-	 * @param password    密码
+	 * @Title: checkBlank 
+	 * @Description: 检查参数是否为空
+	 * @param groupCode       用户组编码
+	 * @param phoneEmail      手机号或Email
+	 * @param password        密码
+	 * @param isAdminConsole  是否登陆管理员控制台
 	 * @return
 	 * @throws 
 	 * 增加人:张孟志
-	 * 增加日期:2016年3月8日 下午3:53:23
-	 * 说明：处理用户登录请求
-	 *      检验用户登录凭证，目前使用用户组编码、email/password
-	 *      登录成功产生一个唯一的标识TOKEN，
-	 *      保存登录记录（如果不保存数据库则需要将TOKEN保存在缓存）返回TOKEN
-	 *      
- 	 *	改方法和“处理管理员登录请求login(String phoneEmail, String password)”类似
- 	 *  可以考虑重构
+	 * 增加日期:2016年3月8日 下午4:38:18
+	 * 说明：登陆管理员控制台不需要用户组编码这个参数
 	 */
-	public String login(String groupCode, String phoneEmail, String password) {
-		if (StringUtils.isBlank(groupCode) 
-				|| StringUtils.isBlank(phoneEmail) 
-				|| StringUtils.isBlank(password)) {
- 			logger.warn(phoneEmail + "用户信息或密码为空。 ");
-			throw new ServiceException("用户信息或密码为空。", ErrorCode.UNAUTHORIZED);
- 		}
+	private boolean checkBlank(String groupCode, String phoneEmail, String password, boolean isAdminConsole) {
+		boolean bln = StringUtils.isBlank(phoneEmail) || StringUtils.isBlank(password);
 		
-		Account account = this.getByPhoneEmail(groupCode, phoneEmail);
-
-		if (account == null) {
-			logger.error(phoneEmail + "登录失败，未注册用户。 ");
-			throw new ServiceException("未注册用户", ErrorCode.UNAUTHORIZED);
+		if(!isAdminConsole){
+			bln = bln || StringUtils.isBlank(groupCode);
 		}
-
-		// 设置为Discuz加密方式，为数据迁移做准备
-		if (!account.getHashPassword().equals(
-				DiscuzHashPassword.getHashPassword(password, account.getSalt()))) {
-			logger.warn(phoneEmail + "登录失败，密码错误。 ");
-			throw new ServiceException("密码错误", ErrorCode.UNAUTHORIZED);
-		}
-
-		String token = Ids.uuid2();
 		
-		// 这里可以将登录信息保存到数据库		
-		// 将登录信息放入缓存
-		authorityHelper.putAccount(token, account);
-		/*
-		loginTimeInfos.put(email, new Date());
-		*/
-				
-		logger.info(phoneEmail + " login, TOKEN = " + token + ", admin? " + authorityHelper.isAdministrator(token));
-		return token;
+		return bln;
 	}
-    
-    /**
-     * 
-     * @Title: getByPhoneEmail 
-     * @Description: TODO(这里用一句话描述这个方法的作用) 
-     * @param email
-     * @return
-     * @throws 
-     * 增加人:张孟志
-     * 增加日期:2016年1月25日 下午8:21:09
-     * 说明：用户登录，用户信息可以是手机号，也可以是Email
-     */
-    public Account getByPhoneEmail(String phoneEmail) {    	
-    	return accountMapper.getByPhoneEmail(phoneEmail);
-    }   
-    
-    
-    public Account getByPhoneEmail(String groupCode, String phoneEmail) {    	
-    	return accountMapper.selectByPhoneEmail(groupCode, phoneEmail);
-    } 
 
 	/**
 	 * 
