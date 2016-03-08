@@ -8,7 +8,6 @@ package org.zhangmz.pickles.modules.constants;
 /**
  * Title:AdminUrl.java
  * Description:控制台URL
- * Company: DigitalChina 2016
  * @author:张孟志
  * @date:2016年1月26日 上午10:31:03
  * 说明：

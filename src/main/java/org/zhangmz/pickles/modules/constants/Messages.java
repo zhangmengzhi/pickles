@@ -28,6 +28,7 @@ public class Messages {
 	public static final String ADMINISTRATOR_IS_STATIC = "超级管理员信息不可操作。";
 
 	public static final String USER_NOT_ADMIN = "该用户不是管理员!";	
+	public static final String USER_NOT_USER = "该用户未登陆系统!";	
 
 	public static final String AOP_HAS_ERROR = "AOP切面发生错误，请稍后再试!";	
 

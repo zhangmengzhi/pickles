@@ -126,6 +126,26 @@ public class AuthorityHelper {
  	
  	/**
  	 * 
+ 	 * @Title: getLoginCacheAuthority 
+ 	 * @Description: 1是否超级管理员、2是否管理员、3是否已登录
+ 	 * @param token
+ 	 * @param type
+ 	 * @return
+ 	 * @throws 
+ 	 * 增加人:张孟志
+ 	 * 增加日期:2016年1月25日 上午9:54:26
+ 	 * 说明：获取有相关权限的用户信息
+ 	 */
+ 	private Account getLoginAccount (String token, int type) {
+ 		Account account = null;
+ 		if(hasLoginCache(token, type)){
+ 			account = loginUsers.getIfPresent(token);
+ 		}
+ 		return account;
+ 	}
+ 	
+ 	/**
+ 	 * 
  	 * @Title: hasLoginCacheAuthority 
  	 * @Description: 根据登录信息缓存获取权限信息 
  	 * @param token  
@@ -165,25 +185,5 @@ public class AuthorityHelper {
  		}
  		
  		return bln;
- 	}
- 	
- 	/**
- 	 * 
- 	 * @Title: getLoginCacheAuthority 
- 	 * @Description: 1是否超级管理员、2是否管理员、3是否已登录
- 	 * @param token
- 	 * @param type
- 	 * @return
- 	 * @throws 
- 	 * 增加人:张孟志
- 	 * 增加日期:2016年1月25日 上午9:54:26
- 	 * 说明：获取有相关权限的用户信息
- 	 */
- 	private Account getLoginAccount (String token, int type) {
- 		Account account = null;
- 		if(hasLoginCache(token, type)){
- 			account = loginUsers.getIfPresent(token);
- 		}
- 		return account;
  	}
 }

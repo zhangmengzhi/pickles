@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.modules.constants.AdminUrl;
 import org.zhangmz.pickles.modules.constants.Messages;
+import org.zhangmz.pickles.modules.constants.UserUrl;
 
 /**
  * Title:AuthorityHelperAOP.java
@@ -35,7 +36,11 @@ public class AuthorityHelperAOP {
 //    		+ " and !execution(* org.zhangmz.pickles.controller.admin.AdminIndexController.(..))")
 //    private void actionMethod() {}
     @Pointcut("execution(* org.zhangmz.pickles.controller.admin..*(..)) ")
-    private void actionMethod() {}
+    private void adminActionMethod() {}
+
+    @Pointcut("execution(* org.zhangmz.pickles.controller.user..*(..)) ")
+    private void userActionMethod() {}
+    
 //	/**
 //	 * 
 //	 * @Title: authorityBeforeService 
@@ -59,8 +64,8 @@ public class AuthorityHelperAOP {
 //		authorityHelper.isAdmin(token);
 //	}
 	
-    @Around("actionMethod()")
-	public Object authorityAroundService(ProceedingJoinPoint joinpoint) throws Throwable {
+    @Around("adminActionMethod()")
+	public Object adminAuthorityAroundService(ProceedingJoinPoint joinpoint) throws Throwable {
     	ModelAndView result = null;
 		 try{
 			 	// 计算服务时间 begin
@@ -85,6 +90,38 @@ public class AuthorityHelperAOP {
 	        }catch(Throwable e){
 	        	// e.printStackTrace();
     			result = new ModelAndView(AdminUrl.loginPage);
+    	        result.addObject("message", Messages.AOP_HAS_ERROR);
+	        }
+		 
+		 return result;
+	}
+    
+    @Around("userActionMethod()")
+	public Object userAuthorityAroundService(ProceedingJoinPoint joinpoint) throws Throwable {
+    	ModelAndView result = null;
+		 try{
+			 	// 计算服务时间 begin
+	            // long start = System.currentTimeMillis();
+	            
+			 	// 获取方法参数值，第一个参数需要是TOKEN
+	            Object[] args = joinpoint.getArgs();
+	            
+	            if(args.length > 0 
+	            	&& authorityHelper.isLogin((String) args[0])){
+	            	// 可以在这个切面为模板注入参数 TOKEN/mainInfo
+	            	// return joinpoint.proceed();
+	            	result = ((ModelAndView)joinpoint.proceed()).addObject("TOKEN", args[0]);
+	            }else{
+	    			result = new ModelAndView(UserUrl.loginPage);
+	    	        result.addObject("message", Messages.USER_NOT_USER);
+	            }
+	            
+	            // long end = System.currentTimeMillis();
+	            // System.out.println("end! performance took " + (end-start) + " milliseconds");
+	            // 计算服务时间 end
+	        }catch(Throwable e){
+	        	// e.printStackTrace();
+    			result = new ModelAndView(UserUrl.loginPage);
     	        result.addObject("message", Messages.AOP_HAS_ERROR);
 	        }
 		 

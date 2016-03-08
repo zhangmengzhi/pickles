@@ -17,7 +17,6 @@ import org.zhangmz.pickles.helper.AdminMainHelper;
 /**
  * Title:AdminMainController.java
  * Description:控制台主页控制器
- * Company: DigitalChina 2016
  * @author:张孟志
  * @date:2016年1月25日 下午7:58:13
  * 说明：

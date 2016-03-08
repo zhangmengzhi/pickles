@@ -32,7 +32,7 @@
     <include refid="Base_Column_List" />
     from account
     <where>  
-        phone = #{phoneEmail} OR email = #{phoneEmail}
+        (phone = #{phoneEmail} OR email = #{phoneEmail}) AND status = 'Yes'
     </where>  
   </select>
   <!-- add by zhangmz 2016-01-25 用户登录，用户信息可以是手机号，也可以是Email end -->
