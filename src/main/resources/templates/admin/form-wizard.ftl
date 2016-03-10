@@ -4,9 +4,9 @@
   <#if section = "title"> 
     表单提示验证 - pickles
   <#elseif section = "specific-styles" > 
-	&nbsp;
+
   <#elseif section = "inline-styles" > 
-	&nbsp;
+
   <#elseif section = "page-content" > 
 								<!-- PAGE CONTENT BEGINS -->
 

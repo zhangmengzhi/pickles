@@ -4,9 +4,9 @@
   <#if section = "title"> 
   Full Calendar - pickles
   <#elseif section = "specific-styles" > 
-	&nbsp;
+
   <#elseif section = "inline-styles" > 
-	&nbsp;
+  
   <#elseif section = "page-content" > 
 								<!-- PAGE CONTENT BEGINS -->
 

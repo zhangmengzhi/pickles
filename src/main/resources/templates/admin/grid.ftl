@@ -4,7 +4,7 @@
   <#if section = "title"> 
   Bootstrap网格 - pickles
   <#elseif section = "specific-styles" > 
-	&nbsp;
+
   <#elseif section = "inline-styles" > 
 		<!-- inline styles related to this page -->
 

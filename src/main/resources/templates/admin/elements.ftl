@@ -4,9 +4,9 @@
   <#if section = "title"> 
     UI组件 - pickles
   <#elseif section = "specific-styles" > 
-	&nbsp;
+
   <#elseif section = "inline-styles" > 
-	&nbsp;
+
   <#elseif section = "page-content" > 
 								<!-- PAGE CONTENT BEGINS -->
 

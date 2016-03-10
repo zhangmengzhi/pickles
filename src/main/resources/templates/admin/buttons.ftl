@@ -4,9 +4,9 @@
   <#if section = "title"> 
   	Bootstrap按钮2 - pickles
   <#elseif section = "specific-styles" > 
-	&nbsp;
+
   <#elseif section = "inline-styles" > 
-	&nbsp;
+
   <#elseif section = "page-content" > 
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">
