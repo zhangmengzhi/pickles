@@ -11,6 +11,8 @@ import org.zhangmz.pickles.orm.mapper.GroupMapper;
 import org.zhangmz.pickles.orm.model.Account;
 import org.zhangmz.pickles.orm.model.Group;
 
+import com.github.pagehelper.PageHelper;
+
 /**
  * 
  * @ClassName:GroupService.java
@@ -33,7 +35,18 @@ public class GroupService {
  	 * 日期：2016-01-10
  	 ************************************************************************/
  	public List<Group> search(Group group) {
+        // return groupMapper.select(group);
+ 		if (group.getPage() != null && group.getRows() != null) {
+            PageHelper.startPage(group.getPage(), group.getRows());
+        }
         return groupMapper.select(group);
+    }
+ 	
+    public List<Group> getAll(Group group) {
+        if (group.getPage() != null && group.getRows() != null) {
+            PageHelper.startPage(group.getPage(), group.getRows());
+        }
+        return groupMapper.selectAll();
     }
  	
  	public List<IdName> searchIdName(Group group) {
@@ -64,6 +77,12 @@ public class GroupService {
  	 * 作者：张孟志
  	 * 日期：2016-03-04
  	 ************************************************************************/
+    /**
+     * 根据用户组生成默认用户
+     * @param group
+     * @return
+     * 说明：新建用户组时生成默认用户
+     */
     public Account getNewAccount(Group group) {
     	Account account = new Account();
         account.setPhone(group.getPhone());

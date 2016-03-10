@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -267,5 +268,33 @@ public class Group {
      */
     public void setNote(String note) {
         this.note = note;
+    }
+    
+
+ 	/*************************************************************************
+ 	 * 说明：增加分页查询
+ 	 * 作者：张孟志
+ 	 * 日期：2016-03-10
+ 	 ************************************************************************/
+    @Transient
+    private Integer page = 1;
+
+    @Transient
+    private Integer rows = 10;
+    
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getRows() {
+        return rows;
+    }
+
+    public void setRows(Integer rows) {
+        this.rows = rows;
     }
 }
