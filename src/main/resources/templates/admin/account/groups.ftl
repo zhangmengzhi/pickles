@@ -37,7 +37,7 @@
 		<script src="${base}/static/assets/js/date-time/bootstrap-datepicker.min.js"></script>
 		<script src="${base}/static/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
 		<script src="${base}/static/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
-		<script src="${base}/static/assets/js/MyJqueryMethod.js"></script>
+		<script src="${base}/static/assets/js/bootbox.min.js"></script>
 
   <#elseif section = "inline-scripts" >
 		<script type="text/javascript">
@@ -152,10 +152,12 @@
 						afterSubmit: function(response) {
 						    var result = eval('(' + response.responseText + ')');
 						    if (result.code == 1) {
-						        alert(result.message);
-						        // TODO 刷新页面数据 --修改页面数据即可
+						    	// 成功
+						        // alert(result.message);
+						        showMessage(result.message);						        
 						    } else {
-						        alert(result.message);
+						        // alert(result.message);
+						        showMessage(result.message);
 						    }
 						    return [result.code, result.message, result.groupId] 
 						}
@@ -173,11 +175,12 @@
 						afterSubmit: function(response) {
 						    var result = eval('(' + response.responseText + ')');
 						    if (result.code == 1) {
-						        alert(result.message);
-						        // 刷新页面数据--只是用于演示，应该使用异步数据刷新
-						        location.reload();
+						        // alert(result.message);
+						        showMessage(result.message);	
+						        // location.reload();
 						    } else {
-						        alert(result.message);
+						        // alert(result.message);
+						        showMessage(result.message);
 						    }
 						    return [result.code, result.message, result.groupId] 
 						}
@@ -389,21 +392,11 @@
         
         // TODO 表单校验可以写为一个方法
         function checkName(nameValue) {
-            var success = function (request, textStatus) {
-                flag = request;
-                alert(flag);
-            }
-            AjaxRequestByData(false, "#", { action: "checkName", name: nameValue }, success);
-            // TODO 暂时写为true
+            // TODO 发一个Ajax请求，暂时写为true
             true;
         }
         function checkGroupName(nameValue) {
-            var success = function (request, textStatus) {
-                flag = request;
-                alert(flag);
-            }
-            AjaxRequestByData(false, "#", { action: "checkGroupName", name: nameValue }, success);
-            // TODO 暂时写为true
+            // TODO 发一个Ajax请求，暂时写为true
             true;
         }
         
