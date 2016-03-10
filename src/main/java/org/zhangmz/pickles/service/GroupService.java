@@ -34,7 +34,7 @@ public class GroupService {
  	 * 作者：张孟志
  	 * 日期：2016-01-10
  	 ************************************************************************/
- 	public List<Group> search(Group group) {
+ 	public List<Group> search(Group group) { 		
         // return groupMapper.select(group);
  		if (group.getPage() != null && group.getRows() != null) {
             PageHelper.startPage(group.getPage(), group.getRows());

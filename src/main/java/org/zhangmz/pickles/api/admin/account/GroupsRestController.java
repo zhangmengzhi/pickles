@@ -6,7 +6,10 @@
 package org.zhangmz.pickles.api.admin.account;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +21,14 @@ import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.IdName;
+import org.zhangmz.pickles.modules.vo.PageRequest;
 import org.zhangmz.pickles.helper.vo.SimpleResponse4Group;
 import org.zhangmz.pickles.orm.model.Group;
 import org.zhangmz.pickles.orm.model.Group2;
 import org.zhangmz.pickles.service.AccountService;
 import org.zhangmz.pickles.service.GroupService;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -47,11 +53,32 @@ public class GroupsRestController {
     private AccountService accountService;
     
     @RequestMapping
-    public List<Group> search(@RequestParam("TOKEN") String token) {
+    public Map<String, Object> search(@RequestParam("TOKEN") String token, PageRequest request) {    	
+    	Map<String, Object> rtnMap = new HashMap<String, Object>();
+    	
+    	Group group = new Group();
+    	group.setPage(request.getPage());
+    	group.setRows(request.getRows());
+    	
         // 获取所有的用户组数据
-        List<Group> groupList = groupService.search(new Group());
-        logger.debug(binder.toJson(groupList));
-        return groupList;
+        List<Group> groupList = groupService.search(group);
+        PageInfo<Group> pageInfo = new PageInfo<Group>(groupList);
+        
+        // 总页数
+	    rtnMap.put("total", pageInfo.getPages());
+	    // 当前页码
+	    rtnMap.put("page", pageInfo.getPageNum());
+	    // 每页数
+	    rtnMap.put("rowNum", pageInfo.getPageSize());
+	    // 总记录数
+	    rtnMap.put("records", pageInfo.getTotal());
+	    // 当前页实际记录
+	    rtnMap.put("rows", groupList);     
+	    rtnMap.put("TOKEN", token);
+        
+        
+        logger.debug(binder.toJson(rtnMap));
+        return rtnMap;
     }
     
     @RequestMapping(value = "/idNames", method = RequestMethod.GET)

@@ -41,7 +41,7 @@
 
   <#elseif section = "inline-scripts" >
 		<script type="text/javascript">
-			var grid_data = ${(groups)!};
+			// var grid_data = ${(groups)!};
 			// var grid_data = eval('(' + ${(groups)!} + ')');
 			
 			jQuery(function($) {
@@ -49,9 +49,9 @@
 				var pager_selector = "#grid-pager";
 			
 				jQuery(grid_selector).jqGrid({
-					data: grid_data,
+					// data: grid_data,
 					url: $path_base+"?TOKEN=${(TOKEN)!}",
-					datatype: "local",
+					datatype: "json",
 					height: 300,
 					colNames:['ID','用户组编码', '用户组名','管理员','手机号码','注册日期','是否有效','备注'],
 					colModel:[						
@@ -133,7 +133,7 @@
 						addicon : 'icon-plus-sign purple',
 						del: false,  // 用户组不能删除
 						delicon : 'icon-trash red',
-						search: true,
+						search: false, //这个查询过于复杂
 						searchicon : 'icon-search orange',
 						refresh: true,
 						refreshicon : 'icon-refresh green',

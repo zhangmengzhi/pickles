@@ -50,6 +50,8 @@ public class AccountController {
         result.addObject("page", account.getPage());
         result.addObject("rows", account.getRows());
         result.addObject("TOKEN", token);
+
+        logger.debug(binder.toJson(result));
         return result;
     }
 
