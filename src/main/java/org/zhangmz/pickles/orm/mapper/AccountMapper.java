@@ -1,6 +1,7 @@
 package org.zhangmz.pickles.orm.mapper;
 
 import org.zhangmz.pickles.orm.model.Account;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.zhangmz.pickles.orm.MyMapper;
 
@@ -15,6 +16,11 @@ import org.zhangmz.pickles.orm.MyMapper;
  *     开发代码用自https://github.com/abel533/MyBatis-Spring-Boot
  */
 public interface AccountMapper extends MyMapper<Account> {
+
+//	/**
+//	 * 重写这个方法可以自己定制SQL查询语句（结果）
+//	 */
+//    List<Account> select(Account record);    
 	
 	/**
 	 * 

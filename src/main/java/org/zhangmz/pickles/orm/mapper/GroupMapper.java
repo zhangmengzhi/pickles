@@ -11,6 +11,8 @@ public interface GroupMapper extends MyMapper<Group> {
      * 根据条件查询
      * @param record
      * @return
+     * 说明 ：MyMapper中可以自动生成这个方法，但是SQL语句不可修改
+     * 不满足要求，这里重写这个方法
      */
     List<Group> select(Group record);    
 
