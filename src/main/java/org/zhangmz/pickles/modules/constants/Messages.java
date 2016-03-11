@@ -33,5 +33,7 @@ public class Messages {
 	public static final String AOP_HAS_ERROR = "AOP切面发生错误，请稍后再试!";	
 
 	public static final String ERROR_EN = "error";
-	public static final String SUCCESS_EN = "success";
+	public static final String SUCCESS_EN = "success";	
+
+	public static final String UNKNOW_CODE = "抱歉，系统不知道你请求什么服务！";
 }
