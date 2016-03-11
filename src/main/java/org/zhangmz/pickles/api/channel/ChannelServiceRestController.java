@@ -41,7 +41,7 @@ import org.zhangmz.pickles.service.channel.IChannelService;
 		_code_			接口服务代码，唯一标示一个接口
 		_data_			base64编码后的业务数据
 	为方便说明，我们将_data_外的所有字段称为"基础字段"。 
-	base64编码前的_data_格式是如下的json(所有的json的键都要加双引号，值不一定)
+	base64编码前的_data_格式是如下的json(所有的json的键都要加双引号，值不一定。暂时使用明文)
 	{
 		"datatime" : "2014-09-23 09:11:11",
 		"address" : "xxx"

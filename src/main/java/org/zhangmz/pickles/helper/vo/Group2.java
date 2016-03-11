@@ -1,8 +1,9 @@
-package org.zhangmz.pickles.orm.model;
+package org.zhangmz.pickles.helper.vo;
 
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+import org.zhangmz.pickles.orm.model.Group;
 
 public class Group2 {
     /**

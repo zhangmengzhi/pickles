@@ -31,4 +31,7 @@ public interface EnduserMapper extends MyMapper<Enduser> {
 	 * @return
 	 */
 	List<Enduser> selectEnduserList(@Param("groupId")Integer groupId);
+	List<Enduser> selectEnduserPage(@Param("groupId")Integer groupId, 
+									@Param("pageBegin")Integer pageBegin, 
+									@Param("rows")Integer rows);
 }

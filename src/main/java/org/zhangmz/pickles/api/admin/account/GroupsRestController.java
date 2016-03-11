@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
+import org.zhangmz.pickles.helper.vo.Group2;
 import org.zhangmz.pickles.modules.vo.IdName;
 import org.zhangmz.pickles.modules.vo.PageRequest;
 import org.zhangmz.pickles.helper.vo.SimpleResponse4Group;
 import org.zhangmz.pickles.orm.model.Group;
-import org.zhangmz.pickles.orm.model.Group2;
 import org.zhangmz.pickles.service.AccountService;
 import org.zhangmz.pickles.service.GroupService;
 
