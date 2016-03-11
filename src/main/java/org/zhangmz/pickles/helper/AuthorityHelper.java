@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.zhangmz.pickles.orm.model.Account;
+import org.zhangmz.pickles.orm.model.Enduser;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
@@ -42,12 +44,22 @@ public class AuthorityHelper {
 
     // guava cache
  	private Cache<String, Account> loginUsers;
+ 	private Cache<String, Enduser> loginEndusers;
 
  	@PostConstruct
  	public void init() {
  		logger.debug("登录信息缓存过期时间设置（秒）： " + loginTimeoutSecs);
+ 		// expireAfterWrite 储存后开始计时；expireAfterAccess 最后一次访问开始计时
  		// CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(loginTimeoutSecs, TimeUnit.SECONDS).build();
- 		loginUsers = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
+ 		loginUsers = CacheBuilder
+ 				.newBuilder()
+ 				.maximumSize(1000)
+ 				.expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
+ 				.build();
+ 		loginEndusers = CacheBuilder
+ 				.newBuilder()
+ 				.maximumSize(1000)
+ 				.expireAfterAccess(loginTimeoutSecs, TimeUnit.SECONDS)
  				.build();
  	}
  	
@@ -61,6 +73,18 @@ public class AuthorityHelper {
  	
  	public void invalidateAccount(String token) {
  		loginUsers.invalidate(token);
+	}
+ 	 	
+ 	public void putEnduser(String token, Enduser enduser) {
+ 		loginEndusers.put(token, enduser);
+ 	}
+ 	
+ 	public Enduser getEnduser(String token) {
+ 		return loginEndusers.getIfPresent(token);
+	}
+ 	
+ 	public void invalidateEnduser(String token) {
+ 		loginEndusers.invalidate(token);
 	}
  	
  	/**
@@ -105,19 +129,40 @@ public class AuthorityHelper {
  		return getLoginAccount(token, 2);
 	}
  	
+
+ 	public boolean isLogin(String token) { 
+ 		return this.isLogin(token, 1);
+ 	}
+ 	
  	/**
  	 * 
  	 * @Title: isLogin 
  	 * @Description: 是否已登录
  	 * @param token
+ 	 * @param type    登陆类型 1：控制台用户；2：终端用户
  	 * @return
  	 * @throws 
  	 * 增加人:张孟志
  	 * 增加日期:2016年1月25日 上午9:25:58
  	 * 说明：从登录缓存中获取登录信息，判断是否有登录
  	 */
- 	public boolean isLogin(String token) { 		
- 		return hasLoginCache(token, 3);
+ 	public boolean isLogin(String token, int type) { 
+ 		boolean bln = false;
+ 		
+ 		switch (type) {
+		case 1:
+			bln = hasLoginCache(token, 3);
+			break;
+			
+		case 2:
+			bln = (null != loginEndusers.getIfPresent(token));
+			break;
+
+		default:
+			break;
+		}
+ 		
+ 		return bln;
 	}
 
  	public Account getLoginAccount(String token) { 		

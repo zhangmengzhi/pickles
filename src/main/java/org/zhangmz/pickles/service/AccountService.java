@@ -60,7 +60,7 @@ public class AccountService {
 	 * 增加人:张孟志
 	 * 增加日期:2016年3月8日 下午4:34:58
 	 * 说明：处理登录请求
-	 *      检验用户登录凭证，目前使用用户组编码、email/password
+	 *      检验用户登录凭证，目前使用用户组编码、手机号或Email、password
 	 *      登录成功产生一个唯一的标识TOKEN，
 	 *      保存登录记录（如果不保存数据库则需要将TOKEN保存在缓存）返回TOKEN
 	 */
@@ -217,18 +217,6 @@ public class AccountService {
             accountMapper.insert(account);
         }
     }
-
-    /*************************************************************************
- 	 * 说明：模糊查询，页面查询框服务
- 	 * 作者：张孟志
- 	 * 日期：2016-01-10
- 	 ************************************************************************/
-    public List<Account> searchLike(Account account) {
-        if (account.getPage() != null && account.getRows() != null) {
-            PageHelper.startPage(account.getPage(), account.getRows());
-        }
-        return null;
-    }   
     
     /*************************************************************************
  	 * 说明：权限判断服务
