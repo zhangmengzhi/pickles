@@ -102,7 +102,6 @@ public class ChannelServiceRestController {
 		// 判断终端用户是否有权限访问（判断是否登陆）
 		// authorityHelper.isLogin(request.get_token_(), 2);
 		try {
-			logger.debug(request.get_token_());
 			if(!authorityHelper.isLogin(request.get_token_(), 2)){
 				return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
 			}			
