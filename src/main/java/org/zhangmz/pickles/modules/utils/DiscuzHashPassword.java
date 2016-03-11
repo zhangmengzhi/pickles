@@ -72,9 +72,9 @@ public class DiscuzHashPassword {
 	 * 
 	 * @Title: getHashPasswordResult 
 	 * @Description: 获取加密后对象
-	 * @param input
-	 * @param salt
-	 * @param isMd5Input
+	 * @param input       字符串
+	 * @param salt        SALT
+	 * @param isMd5Input  是否Md5加密后的字符串
 	 * @return
 	 * @throws 
 	 * 增加人:张孟志

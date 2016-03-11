@@ -29,7 +29,14 @@
 			enableSelectByExample="false" selectByExampleQueryId="false" >
 		</table>
 		-->
+		<!--
 		<table schema="" tableName="groups" domainObjectName="Group" 
+			enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false" >
+		</table>
+		-->
+		<table schema="" tableName="endusers" domainObjectName="Enduser" 
 			enableCountByExample="false"
 			enableUpdateByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" selectByExampleQueryId="false" >
