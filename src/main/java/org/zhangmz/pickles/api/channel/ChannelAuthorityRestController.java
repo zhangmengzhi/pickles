@@ -24,6 +24,9 @@ import org.zhangmz.pickles.service.EnduserService;
  * @version V1.0
  * 说明：渠道认证接入口
  * 手机/平板（手持设备）、PC客户端/机器人（APP）、等多种渠道认证入口
+ * 登陆入口： /api/channel/authoriry/login?groupCode=nogroup&phone=13000000007&password=password
+ * 退出入口：/api/channel/authoriry/logout/e3b6d2afc7d34af5a5ec3ff3253e1ee2
+ * 判断是否已登陆（出于安全考虑，关闭这个入口）：/api/channel/authoriry/islogin/e3b6d2afc7d34af5a5ec3ff3253e1ee2
  */
 @RestController
 @RequestMapping("/api/channel/authoriry")
@@ -98,27 +101,27 @@ public class ChannelAuthorityRestController {
 		return sr;
     }
 
-	/**
-	 * 判断TOKEN是否已登陆
-	 * @param token
-	 * @return
-	 */
-    @RequestMapping(value = "/islogin/{token}")
-	public SimpleResponse isLogin(@PathVariable String token){
-    	SimpleResponse sr = null;
-		
-		try {
-			if(enduserService.isLogin(token)){
-				sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS, token);
-			}else{
-				sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.FAILURE, token);
-			}			
-		} catch (Exception e) {
-			e.printStackTrace();
-			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
-		}
-		
-		logger.debug(binder.toJson(sr));
-		return sr;
-	}
+//	/**
+//	 * 判断TOKEN是否已登陆
+//	 * @param token
+//	 * @return
+//	 */
+//    @RequestMapping(value = "/islogin/{token}")
+//	public SimpleResponse isLogin(@PathVariable String token){
+//    	SimpleResponse sr = null;
+//		
+//		try {
+//			if(enduserService.isLogin(token)){
+//				sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS, token);
+//			}else{
+//				sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.FAILURE, token);
+//			}			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+//		}
+//		
+//		logger.debug(binder.toJson(sr));
+//		return sr;
+//	}
 }
