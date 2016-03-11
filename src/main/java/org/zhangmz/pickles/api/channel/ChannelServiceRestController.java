@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.helper.SpringContextHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
@@ -19,8 +17,6 @@ import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
-import org.zhangmz.pickles.service.channel.DefaultChannelService;
-import org.zhangmz.pickles.service.channel.EnduserListChannelService;
 import org.zhangmz.pickles.service.channel.IChannelService;
 
 /**
@@ -124,7 +120,8 @@ public class ChannelServiceRestController {
 			break;
 			
 		default:
-			channelService = new DefaultChannelService();
+			// channelService = new DefaultChannelService();
+			channelService = (IChannelService) SpringContextHelper.getBean("defaultChannelService");
 			break;
 		}
 		
