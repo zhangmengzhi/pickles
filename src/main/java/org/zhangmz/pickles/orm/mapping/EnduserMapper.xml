@@ -38,4 +38,16 @@
   </select>
   <!-- add by zhangmz 2016-03-11 终端用户登录，用户信息是手机号 end -->
   
+  <!-- add by zhangmz 2016-03-11 查询终端用户列表 begin -->
+  <select id="selectEnduserList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from endusers
+    <where> 
+    	group_id = #{groupId,jdbcType=INTEGER}
+        AND status = 'Yes'
+    </where>  
+  </select>
+  <!-- add by zhangmz 2016-03-11 查询终端用户列表 end -->
+  
 </mapper>

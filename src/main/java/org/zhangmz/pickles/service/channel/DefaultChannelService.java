@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.zhangmz.pickles.service;
+package org.zhangmz.pickles.service.channel;
 
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;

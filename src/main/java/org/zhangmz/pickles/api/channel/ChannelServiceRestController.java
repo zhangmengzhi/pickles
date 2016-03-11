@@ -14,8 +14,9 @@ import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
-import org.zhangmz.pickles.service.IChannelService;
-import org.zhangmz.pickles.service.DefaultChannelService;
+import org.zhangmz.pickles.service.channel.DefaultChannelService;
+import org.zhangmz.pickles.service.channel.EnduserListChannelService;
+import org.zhangmz.pickles.service.channel.IChannelService;
 
 /**
  * @ClassName:ChannelServiceRestController.java
@@ -86,6 +87,7 @@ public class ChannelServiceRestController {
 		// TODO
 		
 		// 判断终端用户是否有权限访问（判断是否登陆）
+		/*
 		// authorityHelper.isLogin(request.get_token_(), 2);
 		try {
 			if(!authorityHelper.isLogin(request.get_token_(), 2)){
@@ -95,11 +97,15 @@ public class ChannelServiceRestController {
 			e.printStackTrace();
 			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}
+		*/
+		if(!authorityHelper.isLogin(request.get_token_(), 2)){
+			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
+		}
 		
 		// 根据_code_来获取服务类
 		switch (request.get_code_()) {
 		case "ENDUSER_LIST":
-			channelService = new DefaultChannelService();
+			channelService = new EnduserListChannelService();
 			break;
 			
 		default:
@@ -108,7 +114,12 @@ public class ChannelServiceRestController {
 		}
 		
 		// 服务处理
-		sr = channelService.doService(request);
+		try {
+			sr = channelService.doService(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+		}
 
 		logger.debug(binder.toJson(sr));
 		return sr;

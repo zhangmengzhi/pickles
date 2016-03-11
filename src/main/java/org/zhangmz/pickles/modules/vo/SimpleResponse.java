@@ -13,6 +13,10 @@ import java.util.Map;
  * 说明：一个简单的请求返回对象 只包含返回编码/返回信息
  */
 public class SimpleResponse {
+	
+	private int code = 0;
+	private String message;
+	private Map<String, Object> resultMap = new HashMap<String, Object>();
 
 	public SimpleResponse() {
 		super();
@@ -24,16 +28,12 @@ public class SimpleResponse {
 		this.message = message;
 	}
 	
-	public SimpleResponse(int code, String message, String result) {
+	public SimpleResponse(int code, String message, Object result) {
 		super();
 		this.code = code;
 		this.message = message;
 		this.setResult("result", result);
 	}
-	
-	private int code = 0;
-	private String message;
-	private Map<String, Object> resultMap = new HashMap<String, Object>();
 	
 	public Object getResult(String key) {
 		return this.resultMap.get(key);
