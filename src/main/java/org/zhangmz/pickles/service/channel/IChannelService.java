@@ -15,6 +15,5 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
  * 说明：
  */
 public interface IChannelService {
-
 	public SimpleResponse doService(SimpleRequest request);
 }

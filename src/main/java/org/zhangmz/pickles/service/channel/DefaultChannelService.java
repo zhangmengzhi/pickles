@@ -3,6 +3,7 @@
  */
 package org.zhangmz.pickles.service.channel;
 
+import org.springframework.stereotype.Service;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
@@ -16,6 +17,7 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
  * @version V1.0
  * 说明：默认服务类，没有什么用处
  */
+@Service
 public class DefaultChannelService implements IChannelService {
 
 	/* (non-Javadoc)

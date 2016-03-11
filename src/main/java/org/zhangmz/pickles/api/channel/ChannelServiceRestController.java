@@ -3,11 +3,15 @@
  */
 package org.zhangmz.pickles.api.channel;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
@@ -67,6 +71,8 @@ import org.zhangmz.pickles.service.channel.IChannelService;
 			"result":"e3b6d2afc7d34af5a5ec3ff3253e1ee2"
 		}
 	}
+	
+/api/channel/service?_channel_=1&_version_=1.1&_token_=3d190529f12546288dd4141e8e3ce113&_code_=ENDUSER_LIST&_data_=
  */
 @RestController
 @RequestMapping("/api/channel/service")
@@ -79,17 +85,27 @@ public class ChannelServiceRestController {
     private AuthorityHelper authorityHelper;
 
 	@RequestMapping
-	public SimpleResponse index(SimpleRequest request) {
+	public SimpleResponse index(HttpServletRequest httpRequest) {
 		IChannelService channelService = null;
 		SimpleResponse sr = null;
 		
-		// 检查参数是否符合通信协议
-		// TODO
+		// 封装参数/检查参数是否符合通信协议
+		 SimpleRequest request = new SimpleRequest();
+		 request.set_channel_(httpRequest.getParameter("_channel_"));
+		 request.set_version_(httpRequest.getParameter("_version_"));
+		 request.set_token_(httpRequest.getParameter("_token_"));
+		 request.set_code_(httpRequest.getParameter("_code_"));
+		 request.set_data_(httpRequest.getParameter("_data_"));
+		 
+		 if(null == request.get_token_()){
+			 return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
+		 }
+		 
 		
 		// 判断终端用户是否有权限访问（判断是否登陆）
-		/*
 		// authorityHelper.isLogin(request.get_token_(), 2);
 		try {
+			logger.debug(request.get_token_());
 			if(!authorityHelper.isLogin(request.get_token_(), 2)){
 				return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
 			}			
@@ -97,15 +113,14 @@ public class ChannelServiceRestController {
 			e.printStackTrace();
 			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}
-		*/
-		if(!authorityHelper.isLogin(request.get_token_(), 2)){
-			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
-		}
 		
-		// 根据_code_来获取服务类
+		// TODO 根据_code_来获取服务类 未测试
+		WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();		
 		switch (request.get_code_()) {
 		case "ENDUSER_LIST":
-			channelService = new EnduserListChannelService();
+			// 不能new,这样Spring不能注入
+			// channelService = new EnduserListChannelService();
+			channelService = wac.getBean(EnduserListChannelService.class);
 			break;
 			
 		default:
