@@ -25,4 +25,17 @@
     id, phone, name, hash_password, salt, register_date, group_id, status
   </sql>
 
+  <!-- add by zhangmz 2016-03-11 终端用户登录，用户信息是手机号 begin -->
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from endusers
+    <where> 
+    	group_id = (select id from groups where code=#{groupCode, jdbcType=VARCHAR})  
+        AND phone = #{phone, jdbcType=VARCHAR}
+        AND status = 'Yes'
+    </where>  
+  </select>
+  <!-- add by zhangmz 2016-03-11 终端用户登录，用户信息是手机号 end -->
+  
 </mapper>

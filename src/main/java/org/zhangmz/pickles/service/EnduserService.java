@@ -58,9 +58,7 @@ public class EnduserService {
 			throw new ServiceException("用户信息或密码为空。", ErrorCode.UNAUTHORIZED);
  		}
 		
-		// TODO 根据手机号码查询终端用户
-		Enduser enduser = enduserMapper.selectByPrimaryKey(-1);
-		// Enduser enduser = enduserMapper.selectByPhone(groupCode, phone);		
+		Enduser enduser = enduserMapper.selectByPhone(groupCode, phone);		
 
 		if (enduser == null) {
 			logger.error(groupCode + "_" + phone + "登录失败，未注册用户。 ");

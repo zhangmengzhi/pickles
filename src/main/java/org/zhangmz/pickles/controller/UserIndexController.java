@@ -75,7 +75,6 @@ public class UserIndexController {
 		String url;
 		
 		try {
-			// 登陆方法需要重构，以适应管理员/用户两种身份的登陆
 			logger.debug("groupCode:"+ groupCode 
 					+ ", phoneEmail:"+ phoneEmail 
 					+ ", password:" + password);

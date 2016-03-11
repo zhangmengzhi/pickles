@@ -1,5 +1,6 @@
 package org.zhangmz.pickles.orm.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.zhangmz.pickles.orm.MyMapper;
 import org.zhangmz.pickles.orm.model.Enduser;
 
@@ -14,4 +15,5 @@ import org.zhangmz.pickles.orm.model.Enduser;
  */
 public interface EnduserMapper extends MyMapper<Enduser> {
 
+	Enduser selectByPhone(@Param("groupCode")String groupCode, @Param("phone")String phone);
 }
