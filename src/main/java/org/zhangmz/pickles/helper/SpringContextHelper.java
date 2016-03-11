@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @author:张孟志
  * @date:2016年3月11日下午6:04:19
  * @version V1.0
- * 说明：
+ * 说明：用于手动获取Spring Bean的帮助类，因为面向接口编程有些地方需要实时确认对象。
  */
 @Component
 public class SpringContextHelper implements ApplicationContextAware {
