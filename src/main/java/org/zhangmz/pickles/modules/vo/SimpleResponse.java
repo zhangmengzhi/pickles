@@ -14,6 +14,23 @@ import java.util.Map;
  */
 public class SimpleResponse {
 
+	public SimpleResponse() {
+		super();
+	}
+	
+	public SimpleResponse(int code, String message) {
+		super();
+		this.code = code;
+		this.message = message;
+	}
+	
+	public SimpleResponse(int code, String message, String result) {
+		super();
+		this.code = code;
+		this.message = message;
+		this.setResult("result", result);
+	}
+	
 	private int code = 0;
 	private String message;
 	private Map<String, Object> resultMap = new HashMap<String, Object>();

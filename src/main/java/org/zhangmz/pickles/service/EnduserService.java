@@ -67,7 +67,7 @@ public class EnduserService {
 
 		// 设置为Discuz加密方式，为数据迁移做准备
 		if (!enduser.getHashPassword().equals(
-				DiscuzHashPassword.getHashPassword(password, enduser.getSalt()))) {
+			DiscuzHashPassword.getHashPassword(password, enduser.getSalt()))) {
 			logger.warn(groupCode + "_" + phone + "登录失败，密码错误。 ");
 			throw new ServiceException("密码错误", ErrorCode.UNAUTHORIZED);
 		}

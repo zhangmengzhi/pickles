@@ -6,8 +6,8 @@ package org.zhangmz.pickles.api.channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.modules.constants.Codes;
@@ -54,20 +54,17 @@ public class ChannelAuthorityRestController {
 	public SimpleResponse login(@RequestParam("groupCode") String groupCode, 
 						@RequestParam("phone") String phone, 
 						@RequestParam("password") String password) {
-		SimpleResponse sr = new SimpleResponse();
+		SimpleResponse sr = null;
 		
 		try {
 			logger.debug("groupCode:"+ groupCode 
 					+ ", phone:"+ phone 
 					+ ", password:" + password);
 			String token = enduserService.login(groupCode, phone, password);
-			sr.setCode(Codes.SUCCESS_TRUE_NUMBER);
-			sr.setMessage(Messages.SUCCESS);
-			sr.setResult("TOKEN", token);
+			sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS, token);
 		} catch (Exception e) {
 			e.printStackTrace();
-			sr.setCode(Codes.FAILURE_FALSE_NUMBER);
-			sr.setMessage(e.getMessage());
+			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}
 		
 		logger.debug(binder.toJson(sr));
@@ -85,16 +82,43 @@ public class ChannelAuthorityRestController {
 	 * 增加日期:2016年1月25日 下午8:05:22
 	 * 说明：清理用户登录信息
 	 */
-	@RequestMapping(value = "/logout")
-	public SimpleResponse logout(@RequestParam("TOKEN") String token) {
-		enduserService.logout(token);
+	@RequestMapping(value = "/logout/{token}")
+	public SimpleResponse logout(@PathVariable String token) {
+		SimpleResponse sr = null;
 		
-		SimpleResponse sr = new SimpleResponse();
-		sr.setCode(Codes.SUCCESS_TRUE_NUMBER);
-		sr.setMessage(Messages.SUCCESS);
-		sr.setResult("TOKEN", token);
-
+		try {
+			enduserService.logout(token);
+			sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS, token);
+		} catch (Exception e) {
+			e.printStackTrace();
+			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+		}
+		
 		logger.debug(binder.toJson(sr));
 		return sr;
     }
+
+	/**
+	 * 判断TOKEN是否已登陆
+	 * @param token
+	 * @return
+	 */
+    @RequestMapping(value = "/islogin/{token}")
+	public SimpleResponse isLogin(@PathVariable String token){
+    	SimpleResponse sr = null;
+		
+		try {
+			if(enduserService.isLogin(token)){
+				sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS, token);
+			}else{
+				sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.FAILURE, token);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+		}
+		
+		logger.debug(binder.toJson(sr));
+		return sr;
+	}
 }
