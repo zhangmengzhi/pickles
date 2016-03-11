@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.zhangmz.pickles.helper.AuthorityHelper;
+import org.zhangmz.pickles.helper.SpringContextHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
@@ -114,13 +115,12 @@ public class ChannelServiceRestController {
 			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}
 		
-		// TODO 根据_code_来获取服务类 未测试
-		WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();		
+		// 根据_code_来获取服务类
 		switch (request.get_code_()) {
 		case "ENDUSER_LIST":
 			// 不能new,这样Spring不能注入
 			// channelService = new EnduserListChannelService();
-			channelService = wac.getBean(EnduserListChannelService.class);
+			channelService = (IChannelService) SpringContextHelper.getBean("enduserListChannelService");
 			break;
 			
 		default:
