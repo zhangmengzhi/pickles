@@ -45,13 +45,13 @@ public class ChannelAuthorityTest {
 
 	@Test
 	public void logoutTest() throws Exception {
-		// 创建参数队列    
+		// 先登陆获取TOKEN
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
         formparams.add(new BasicNameValuePair("groupCode", "nogroup"));  
         formparams.add(new BasicNameValuePair("phone", "13000000007"));
-        formparams.add(new BasicNameValuePair("password", "password"));    
-        
+        formparams.add(new BasicNameValuePair("password", "password"));        
 		SimpleResponse simpleResponse = HttpClientHelper.doPost(loginUrl, formparams);
+		
 		String logoutUri = logoutUrl + "/" + simpleResponse.getResult("result");
 		simpleResponse = HttpClientHelper.doGet(logoutUri);
 		Assert.assertTrue(simpleResponse.getCode() == 1);
