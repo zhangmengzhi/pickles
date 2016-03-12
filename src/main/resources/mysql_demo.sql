@@ -109,7 +109,7 @@ insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(4
 insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(5,'13000000005','李四','48577990717ce63726608c92c6ab257f','4sG3vd',2,'No');
 insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(6,'13000000006','王五','48577990717ce63726608c92c6ab257f','4sG3vd',2,'Yes');
 insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(7,'13000000007','张三','48577990717ce63726608c92c6ab257f','4sG3vd',3,'Yes');
-insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(8,'13000000008','李四','48577990717ce63726608c92c6ab257f','4sG3vd',3,'No');
+insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(8,'13000000008','李四','48577990717ce63726608c92c6ab257f','4sG3vd',3,'Yes');
 insert into endusers (id,phone,name,hash_password,salt,group_id,status) values(9,'13000000009','王五','48577990717ce63726608c92c6ab257f','4sG3vd',3,'No');
 
 commit;

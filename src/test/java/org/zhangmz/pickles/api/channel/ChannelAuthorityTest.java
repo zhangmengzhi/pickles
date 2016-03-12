@@ -24,7 +24,8 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
  * 判断是否已登陆（出于安全考虑，关闭这个入口）：/api/channel/authoriry/islogin/e3b6d2afc7d34af5a5ec3ff3253e1ee2
  */
 public class ChannelAuthorityTest {
-	public static String url = "http://localhost:8080/api/channel/authoriry/login";
+	public static String loginUrl = "http://localhost:8080/api/channel/authoriry/login";
+	public static String logoutUrl = "http://localhost:8080/api/channel/authoriry/logout";
 	
 	@Test
 	public void loginTest() {
@@ -34,7 +35,7 @@ public class ChannelAuthorityTest {
         formparams.add(new BasicNameValuePair("phone", "13000000007"));
         formparams.add(new BasicNameValuePair("password", "password"));    
         
-		SimpleResponse simpleResponse = HttpClientHelper.doPost(url, formparams);
+		SimpleResponse simpleResponse = HttpClientHelper.doPost(loginUrl, formparams);
 		Assert.assertTrue(simpleResponse.getCode() == 1);
         Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
         System.out.println("--------------------------------------");
@@ -42,4 +43,18 @@ public class ChannelAuthorityTest {
         System.out.println("--------------------------------------");
 	}
 
+	@Test
+	public void logoutTest() throws Exception {
+		// 创建参数队列    
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
+        formparams.add(new BasicNameValuePair("groupCode", "nogroup"));  
+        formparams.add(new BasicNameValuePair("phone", "13000000007"));
+        formparams.add(new BasicNameValuePair("password", "password"));    
+        
+		SimpleResponse simpleResponse = HttpClientHelper.doPost(loginUrl, formparams);
+		String logoutUri = logoutUrl + "/" + simpleResponse.getResult("result");
+		simpleResponse = HttpClientHelper.doGet(logoutUri);
+		Assert.assertTrue(simpleResponse.getCode() == 1);
+        Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
+	}
 }
