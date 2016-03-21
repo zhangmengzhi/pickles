@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 import org.zhangmz.pickles.modules.constants.Messages;
+import org.zhangmz.pickles.modules.utils.Ids;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
 
 /**
@@ -31,66 +32,46 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
 public class ChannelServiceTest {
 	static String url = "http://localhost:8080/api/channel/service";
 	
-	public static SimpleResponse getToken(){
-		// 创建参数队列    
-        List<NameValuePair> fs = new ArrayList<NameValuePair>();  
-        fs.add(new BasicNameValuePair("groupCode", "nogroup"));  
-        fs.add(new BasicNameValuePair("phone", "13000000007"));
-        fs.add(new BasicNameValuePair("password", "password"));        
-		SimpleResponse simpleResponse = HttpClientHelper.doPost(ChannelAuthorityTest.loginUrl, fs);
-        return simpleResponse;
-	}
-	
 	@Test
-	public void registEnduserTest() {	
-		// 先登陆获得TOKEN
-		SimpleResponse simpleResponse = this.getToken();
+	public void registLoginLogoutEnduserTest() {
+		// 为避免数据库中phone字段冲突，获取11位随机数测试
+		String phone = Ids.randomBase62(11);
 		// 发起终端用户注册请求
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
-        formparams.add(new BasicNameValuePair("_channel_", "1"));  
-        formparams.add(new BasicNameValuePair("_version_", "1.8"));
-        formparams.add(new BasicNameValuePair("_token_", (String) simpleResponse.getResult("result")));    
-        formparams.add(new BasicNameValuePair("_code_", "REGIST_ENDUSER"));  // 注意这个 code
-        formparams.add(new BasicNameValuePair("_data_", 
-								        				"{\n" +
-								        				"    \"groupCode\": \"nogroup\",\n" + 
-								        				"    \"phone\": \"13012345678\",\n" + 
-								        				"    \"password\": \"password\"\n" + 
-								        				"}"));
+        List<NameValuePair> regist = new ArrayList<NameValuePair>();  
+        regist.add(new BasicNameValuePair("_channel_", "1"));  
+        regist.add(new BasicNameValuePair("_version_", "1.8"));
+        regist.add(new BasicNameValuePair("_token_", ""));               // 注册不需要token
+        regist.add(new BasicNameValuePair("_code_", "REGIST_ENDUSER"));  // 注意这个 code
+        regist.add(new BasicNameValuePair("_data_", "{\n" +
+							        				"    \"groupCode\": \"nogroup\",\n" + 
+							        				"    \"phone\": \"" + phone + "\",\n" + 
+							        				"    \"password\": \"password\"\n" + 
+							        				"}"));
         
-        simpleResponse = HttpClientHelper.doPost(url, formparams);
+        SimpleResponse simpleResponse = HttpClientHelper.doPost(url, regist);
 		Assert.assertTrue(simpleResponse.getCode() == 1);
         Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
-	}
 	
-	@Test
-	public void loginEnduserTest() {	
-		// 先登陆获得TOKEN
-		SimpleResponse simpleResponse = this.getToken();
-		// 发起终端用户注册请求
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
-        formparams.add(new BasicNameValuePair("_channel_", "1"));  
-        formparams.add(new BasicNameValuePair("_version_", "1.8"));
-        formparams.add(new BasicNameValuePair("_token_", (String) simpleResponse.getResult("result")));    
-        formparams.add(new BasicNameValuePair("_code_", "LOGIN_ENDUSER"));  // 注意这个 code
-        formparams.add(new BasicNameValuePair("_data_", 
-								        				"{\n" +
-								        				"    \"groupCode\": \"nogroup\",\n" + 
-								        				"    \"phone\": \"13012345678\",\n" + 
-								        				"    \"password\": \"password\"\n" + 
-								        				"}"));
+		// 发起终端用户登陆请求
+        List<NameValuePair> login = new ArrayList<NameValuePair>();  
+        login.add(new BasicNameValuePair("_channel_", "1"));  
+        login.add(new BasicNameValuePair("_version_", "1.8"));
+        login.add(new BasicNameValuePair("_token_", ""));              // 登陆不需要token    
+        login.add(new BasicNameValuePair("_code_", "LOGIN_ENDUSER"));  // 注意这个 code
+        login.add(new BasicNameValuePair("_data_", "{\n" +
+							        				"    \"groupCode\": \"nogroup\",\n" + 
+							        				"    \"phone\": \"" + phone + "\",\n" + 
+							        				"    \"password\": \"password\"\n" + 
+							        				"}"));
         
-        simpleResponse = HttpClientHelper.doPost(url, formparams);
+        simpleResponse = HttpClientHelper.doPost(url, login);
 		Assert.assertTrue(simpleResponse.getCode() == 1);
         Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
-	}
+        System.out.println("--------------------------------------");
+        System.out.println("result (TOKEN): " + simpleResponse.getResult("result"));
+        System.out.println("--------------------------------------");
 
-	
-	@Test
-	public void logoutEnduserTest() {	
-		// 先登陆获得TOKEN
-		SimpleResponse simpleResponse = this.getToken();
-		// 发起终端用户注册请求
+		// 发起终端用户退出请求
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
         formparams.add(new BasicNameValuePair("_channel_", "1"));  
         formparams.add(new BasicNameValuePair("_version_", "1.8"));
@@ -137,6 +118,27 @@ public class ChannelServiceTest {
         	printMap2(ee);
         	System.out.println("--------------------------------------");  
 		}
+	}
+	
+	/**
+	 * 
+	 * @Title: getToken 
+	 * @Description: 登陆获取TOKEN
+	 * @return
+	 * @throws 
+	 * 增加人:张孟志
+	 * 增加日期:2016年3月21日 下午4:37:18
+	 * 说明：登陆获取TOKEN
+	 * 该接口已废弃，仅用于测试
+	 */
+	public static SimpleResponse getToken(){
+		// 创建参数队列    
+        List<NameValuePair> fs = new ArrayList<NameValuePair>();  
+        fs.add(new BasicNameValuePair("groupCode", "nogroup"));  
+        fs.add(new BasicNameValuePair("phone", "13000000007"));
+        fs.add(new BasicNameValuePair("password", "password"));        
+		SimpleResponse simpleResponse = HttpClientHelper.doPost(ChannelAuthorityTest.loginUrl, fs);
+        return simpleResponse;
 	}
 	
 	public static void printMap2(Map<String, Object> parameters){  

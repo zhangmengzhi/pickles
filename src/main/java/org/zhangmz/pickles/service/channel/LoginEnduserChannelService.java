@@ -49,8 +49,8 @@ public class LoginEnduserChannelService implements IChannelService {
 		String password = (String) map.get("password");
 		
 		try {
-			enduserService.login(groupCode, phone, password);
-			sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS);
+			String token = enduserService.login(groupCode, phone, password);
+			sr = new SimpleResponse(Codes.SUCCESS_TRUE_NUMBER, Messages.SUCCESS, token);
 		} catch (Exception e) {
 			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}

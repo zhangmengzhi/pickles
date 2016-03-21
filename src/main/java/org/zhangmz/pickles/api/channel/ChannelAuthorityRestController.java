@@ -17,6 +17,11 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
 import org.zhangmz.pickles.service.EnduserService;
 
 /**
+ * 已废弃，请使用渠道服务接入口ChannelServiceRestController
+ * REGIST_ENDUSER  终端用户注册          groupCode, phone, password
+ * LOGIN_ENDUSER   终端用户登陆          groupCode, phone, password
+ * LOGOUT_ENDUSER  终端用户退出
+ * 
  * @ClassName:ChannelAuthorityRestController.java
  * @Description:渠道认证接入口
  * @author:张孟志
