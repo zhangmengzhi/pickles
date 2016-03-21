@@ -13,6 +13,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.zhangmz.pickles.PicklesApplication;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.utils.Ids;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
@@ -29,13 +34,23 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
  * 记录集 result 是List，每一条记录为LinkedHashMap
  * List<LinkedHashMap<String, Object>>
  */
+//SpringJUnit支持，由此引入Spring-Test框架支持！ 
+@RunWith(SpringJUnit4ClassRunner.class) 
+//指定我们SpringBoot工程的Application启动类
+@SpringApplicationConfiguration(classes = PicklesApplication.class) 
+//由于是Web项目，Junit需要模拟ServletContext，因此我们需要给我们的测试类加上@WebAppConfiguration。
+//使用@WebIntegrationTest注解需要将@WebAppConfiguration注释掉
+//@WebAppConfiguration 
+@WebIntegrationTest("server.port:8081")// 使用0表示端口号随机，也可以具体指定如8888这样的固定端口
 public class ChannelServiceTest {
-	static String url = "http://localhost:8080/api/channel/service";
+	public static String loginUrl = "http://localhost:8081/api/channel/authoriry/login";
+	public static String url = "http://localhost:8081/api/channel/service";
 	
 	@Test
-	public void registLoginLogoutEnduserTest() {
+	public void registLoginLogoutEnduserTest() {		
 		// 为避免数据库中phone字段冲突，获取11位随机数测试
 		String phone = Ids.randomBase62(11);
+        
 		// 发起终端用户注册请求
         List<NameValuePair> regist = new ArrayList<NameValuePair>();  
         regist.add(new BasicNameValuePair("_channel_", "1"));  
@@ -47,7 +62,7 @@ public class ChannelServiceTest {
 							        				"    \"phone\": \"" + phone + "\",\n" + 
 							        				"    \"password\": \"password\"\n" + 
 							        				"}"));
-        
+
         SimpleResponse simpleResponse = HttpClientHelper.doPost(url, regist);
 		Assert.assertTrue(simpleResponse.getCode() == 1);
         Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
@@ -137,7 +152,7 @@ public class ChannelServiceTest {
         fs.add(new BasicNameValuePair("groupCode", "nogroup"));  
         fs.add(new BasicNameValuePair("phone", "13000000007"));
         fs.add(new BasicNameValuePair("password", "password"));        
-		SimpleResponse simpleResponse = HttpClientHelper.doPost(ChannelAuthorityTest.loginUrl, fs);
+		SimpleResponse simpleResponse = HttpClientHelper.doPost(loginUrl, fs);
         return simpleResponse;
 	}
 	
