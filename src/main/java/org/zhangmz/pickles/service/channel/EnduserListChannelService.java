@@ -18,8 +18,8 @@ import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
-import org.zhangmz.pickles.orm.mapper.EnduserMapper;
 import org.zhangmz.pickles.orm.model.Enduser;
+import org.zhangmz.pickles.service.EnduserService;
 
 /**
  * @ClassName:EnduserListChannelService
@@ -38,9 +38,9 @@ public class EnduserListChannelService implements IChannelService {
 	
     @Autowired
     private AuthorityHelper authorityHelper;    
-	
+
     @Autowired
-    private EnduserMapper enduserMapper;    
+    private EnduserService enduserService;
 
 	/* (non-Javadoc)
 	 * @see org.zhangmz.pickles.service.IChannelService#doService(org.zhangmz.pickles.modules.vo.SimpleRequest)
@@ -51,21 +51,25 @@ public class EnduserListChannelService implements IChannelService {
 		// 从requset中获取TOKEN，进一步获取终端用户信息
 		Enduser enduser = authorityHelper.getEnduser(request.get_token_());
 		
-//		// 取_data_值，可能有分页要求
-//		String date = request.get_data_();
-//		// TODO 对data解密，暂时使用明文
-//		// JSON-->对象转换
-//		Map<String, Object> map = binder.fromJson(date, HashMap.class);
-//		int page = (int) map.get("page");
-//		int rows = (int) map.get("rows");
+		// TODO 取_data_值，对data解密，暂时使用明文
+		String date = request.get_data_();
+		// JSON-->对象转换
+		Map<String, Object> map = binder.fromJson(date, HashMap.class);
+		int page = (int) map.get("page");
+		int rows = (int) map.get("rows");
 		
-		// 根据终端用户组获取终端用户列表
-		List<Enduser> enduserList = enduserMapper.selectEnduserList(enduser.getGroupId());
-//		List<Enduser> enduserList = enduserMapper.selectEnduserPage(enduser.getGroupId(), (page-1)*rows, rows);
+		// 分页查询
+		Enduser eu = new Enduser();
+		eu.setGroupId(enduser.getGroupId());
+		eu.setPage(page);
+		eu.setRows(rows);
+		eu.setStatus("Yes");
+		List<Enduser> enduserList = enduserService.search(eu);		
+		// List<Enduser> enduserList = enduserService.search(enduser.getGroupId(), page, rows);
 		
 		List<EnduserElement> eel = new ArrayList<>();
-		for (Enduser eu : enduserList) {
-			EnduserElement ee = new EnduserElement(eu);
+		for (Enduser eu0 : enduserList) {
+			EnduserElement ee = new EnduserElement(eu0);
 			eel.add(ee);
 		}
 		

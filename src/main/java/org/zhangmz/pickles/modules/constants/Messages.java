@@ -36,4 +36,5 @@ public class Messages {
 	public static final String SUCCESS_EN = "success";	
 
 	public static final String UNKNOW_CODE = "抱歉，系统不知道你请求什么服务！";
+	public static final String UNKNOW_PARAMETER = "请求参数有误，请确认！";
 }

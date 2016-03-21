@@ -70,13 +70,17 @@ import org.zhangmz.pickles.service.channel.IChannelService;
 	}
 	
 /api/channel/service?_channel_=1&_version_=1.1&_token_=3d190529f12546288dd4141e8e3ce113&_code_=ENDUSER_LIST&_data_=
+ * 
+ * _code_ 说明：
+ * REGIST_ENDUSER  终端用户注册          groupCode, phone, password
+ * LOGIN_ENDUSER   终端用户登陆          groupCode, phone, password
+ * LOGOUT_ENDUSER  终端用户退出
+ * ENDUSER_LIST    查询终端用户列表   page, rows
  */
 @RestController
 @RequestMapping("/api/channel/service")
 public class ChannelServiceRestController {
 	private static Logger logger = LoggerFactory.getLogger(ChannelServiceRestController.class);
-
-	private static JsonMapper binder = JsonMapper.nonDefaultMapper();
 	
     @Autowired
     private AuthorityHelper authorityHelper;
@@ -102,24 +106,42 @@ public class ChannelServiceRestController {
 		// 判断终端用户是否有权限访问（判断是否登陆）
 		// authorityHelper.isLogin(request.get_token_(), 2);
 		try {
-			if(!authorityHelper.isLogin(request.get_token_(), 2)){
-				return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
+			// 注册/登陆/退出（？）不需要做权限校验
+			if(!"REGIST_ENDUSER".equals(request.get_code_()) 
+					&&  !"LOGIN_ENDUSER".equals(request.get_code_()) 
+					&&  !"LOGOUT_ENDUSER".equals(request.get_code_())){
+				if(!authorityHelper.isLogin(request.get_token_(), 2)){
+					return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, 
+												Messages.MUST_BE_LOGGED);
+				}				
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}
 		
-		// 根据_code_来获取服务类
+		// TODO 根据_code_来获取服务类  需要重构
+		logger.debug(request.get_code_());
 		switch (request.get_code_()) {
-		case "ENDUSER_LIST":
+		case "REGIST_ENDUSER":
 			// 不能new,这样Spring不能注入
-			// channelService = new EnduserListChannelService();
+			// channelService = new RegistEnduserChannelService();
+			channelService = (IChannelService) SpringContextHelper.getBean("registEnduserChannelService");
+			break;
+			
+		case "LOGIN_ENDUSER":
+			channelService = (IChannelService) SpringContextHelper.getBean("loginEnduserChannelService");
+			break;
+			
+		case "LOGOUT_ENDUSER":
+			channelService = (IChannelService) SpringContextHelper.getBean("logoutEnduserChannelService");
+			break;
+
+		case "ENDUSER_LIST":
 			channelService = (IChannelService) SpringContextHelper.getBean("enduserListChannelService");
 			break;
 			
 		default:
-			// channelService = new DefaultChannelService();
 			channelService = (IChannelService) SpringContextHelper.getBean("defaultChannelService");
 			break;
 		}
@@ -132,7 +154,6 @@ public class ChannelServiceRestController {
 			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
 		}
 
-		logger.debug(binder.toJson(sr));
 		return sr;
 	}
 }

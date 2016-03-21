@@ -31,23 +31,94 @@ import org.zhangmz.pickles.modules.vo.SimpleResponse;
 public class ChannelServiceTest {
 	static String url = "http://localhost:8080/api/channel/service";
 	
-	@Test
-	public void enduserListTest() {	
-		// 先登陆获得TOKEN
+	public static SimpleResponse getToken(){
 		// 创建参数队列    
         List<NameValuePair> fs = new ArrayList<NameValuePair>();  
         fs.add(new BasicNameValuePair("groupCode", "nogroup"));  
         fs.add(new BasicNameValuePair("phone", "13000000007"));
         fs.add(new BasicNameValuePair("password", "password"));        
 		SimpleResponse simpleResponse = HttpClientHelper.doPost(ChannelAuthorityTest.loginUrl, fs);
+        return simpleResponse;
+	}
+	
+	@Test
+	public void registEnduserTest() {	
+		// 先登陆获得TOKEN
+		SimpleResponse simpleResponse = this.getToken();
+		// 发起终端用户注册请求
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
+        formparams.add(new BasicNameValuePair("_channel_", "1"));  
+        formparams.add(new BasicNameValuePair("_version_", "1.8"));
+        formparams.add(new BasicNameValuePair("_token_", (String) simpleResponse.getResult("result")));    
+        formparams.add(new BasicNameValuePair("_code_", "REGIST_ENDUSER"));  // 注意这个 code
+        formparams.add(new BasicNameValuePair("_data_", 
+								        				"{\n" +
+								        				"    \"groupCode\": \"nogroup\",\n" + 
+								        				"    \"phone\": \"13012345678\",\n" + 
+								        				"    \"password\": \"password\"\n" + 
+								        				"}"));
         
+        simpleResponse = HttpClientHelper.doPost(url, formparams);
+		Assert.assertTrue(simpleResponse.getCode() == 1);
+        Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
+	}
+	
+	@Test
+	public void loginEnduserTest() {	
+		// 先登陆获得TOKEN
+		SimpleResponse simpleResponse = this.getToken();
+		// 发起终端用户注册请求
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
+        formparams.add(new BasicNameValuePair("_channel_", "1"));  
+        formparams.add(new BasicNameValuePair("_version_", "1.8"));
+        formparams.add(new BasicNameValuePair("_token_", (String) simpleResponse.getResult("result")));    
+        formparams.add(new BasicNameValuePair("_code_", "LOGIN_ENDUSER"));  // 注意这个 code
+        formparams.add(new BasicNameValuePair("_data_", 
+								        				"{\n" +
+								        				"    \"groupCode\": \"nogroup\",\n" + 
+								        				"    \"phone\": \"13012345678\",\n" + 
+								        				"    \"password\": \"password\"\n" + 
+								        				"}"));
+        
+        simpleResponse = HttpClientHelper.doPost(url, formparams);
+		Assert.assertTrue(simpleResponse.getCode() == 1);
+        Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
+	}
+
+	
+	@Test
+	public void logoutEnduserTest() {	
+		// 先登陆获得TOKEN
+		SimpleResponse simpleResponse = this.getToken();
+		// 发起终端用户注册请求
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
+        formparams.add(new BasicNameValuePair("_channel_", "1"));  
+        formparams.add(new BasicNameValuePair("_version_", "1.8"));
+        formparams.add(new BasicNameValuePair("_token_", (String) simpleResponse.getResult("result")));    
+        formparams.add(new BasicNameValuePair("_code_", "LOGOUT_ENDUSER"));  // 注意这个 code
+        formparams.add(new BasicNameValuePair("_data_", ""));
+        
+        simpleResponse = HttpClientHelper.doPost(url, formparams);
+		Assert.assertTrue(simpleResponse.getCode() == 1);
+        Assert.assertTrue(simpleResponse.getMessage().equals(Messages.SUCCESS));
+	}
+	
+	@Test
+	public void enduserListTest() {	
+		// 先登陆获得TOKEN
+		SimpleResponse simpleResponse = this.getToken();
+		
         // 发起终端用户列表查询请求
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();  
         formparams.add(new BasicNameValuePair("_channel_", "1"));  
         formparams.add(new BasicNameValuePair("_version_", "1.8"));
         formparams.add(new BasicNameValuePair("_token_", (String) simpleResponse.getResult("result")));    
         formparams.add(new BasicNameValuePair("_code_", "ENDUSER_LIST"));  // 注意这个 code
-        formparams.add(new BasicNameValuePair("_data_", ""));
+        formparams.add(new BasicNameValuePair("_data_", 
+								        				"{\n" +
+								        				"    \"page\": 2,\n" + 
+								        				"    \"rows\": 2\n" + 
+								        				"}"));
         
         simpleResponse = HttpClientHelper.doPost(url, formparams);
 		Assert.assertTrue(simpleResponse.getCode() == 1);

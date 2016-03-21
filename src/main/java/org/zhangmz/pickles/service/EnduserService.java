@@ -6,11 +6,14 @@ import org.slf4j.LoggerFactory;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.modules.utils.DiscuzHashPassword;
 import org.zhangmz.pickles.modules.utils.Ids;
 import org.zhangmz.pickles.orm.mapper.EnduserMapper;
+import org.zhangmz.pickles.orm.mapper.GroupMapper;
 import org.zhangmz.pickles.orm.model.Enduser;
+import org.zhangmz.pickles.orm.model.Group;
 import org.zhangmz.pickles.service.exception.ErrorCode;
 import org.zhangmz.pickles.service.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +36,52 @@ public class EnduserService {
     private AuthorityHelper authorityHelper;    
 	
     @Autowired
-    private EnduserMapper enduserMapper;    
+    private EnduserMapper enduserMapper;  
+    
+    @Autowired
+    private GroupMapper groupMapper;      
 
+    /**
+     * 
+     * @Title: register 
+     * @Description: 处理用户注册请求
+     * @param groupCode
+     * @param phone
+     * @param password
+     * @throws 
+     * 增加人:张孟志
+     * 增加日期:2016年3月21日 上午11:59:38
+     * 说明：处理用户注册请求
+     */
+    @Transactional
+	public void register(String groupCode, String phone, String password) {
+    	if (checkBlank(groupCode, phone, password)) {
+ 			logger.warn(groupCode + "_" + phone + "用户信息或密码为空。 ");
+			throw new ServiceException("用户信息或密码为空。", ErrorCode.UNAUTHORIZED);
+ 		}
+    	
+    	// 根据 groupCode 找 groupId，有且只有一个
+		Group group = new Group();
+		group.setCode(groupCode);
+		List<Group> groups = groupMapper.select(group);
+		if(null != groups && 1 == groups.size()){
+			group = groups.get(0);
+		} else {
+			throw new ServiceException("用户组信息有误。", ErrorCode.UNAUTHORIZED);
+		}
+		
+		Enduser eu = new Enduser();
+		eu.setGroupId(group.getId());
+		eu.setPhone(phone);
+		eu.setName(phone);
+		eu.setPassword(password);
+		eu.setStatus("Yes");
+
+		this.save(eu);
+
+		logger.info(phone + " register. ");
+    }
+    
 	/**
 	 * 
 	 * @Title: login 
@@ -139,6 +186,10 @@ public class EnduserService {
  	 * 作者：张孟志
  	 * 日期：2016-01-10
  	 ************************************************************************/
+ 	public List<Enduser> search(Integer groupId, Integer page, Integer rows) {
+        return enduserMapper.selectEnduserPage(groupId, (page-1)*rows, rows);
+    }
+ 	
  	public List<Enduser> search(Enduser enduser) {
         if (enduser.getPage() != null && enduser.getRows() != null) {
             PageHelper.startPage(enduser.getPage(), enduser.getRows());
