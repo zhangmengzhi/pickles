@@ -1,7 +1,6 @@
 package org.zhangmz.pickles.orm.mapper;
 
 import org.zhangmz.pickles.orm.model.Account;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.zhangmz.pickles.orm.MyMapper;
 

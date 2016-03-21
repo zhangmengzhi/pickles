@@ -1,6 +1,10 @@
 # pickles 
 今晚吃老妈腌制的新咸菜，有点青辣，但是味道不错。    张孟志  2016-01-22。
 
+# pickles 说明
+SAAS设计，假定三方用户，服务提供商、企业（用户组）、企业用户。
+服务提供商account(groupId=1/2，管理员)、企业account(groupId!=1/2，测试用户组groupId=3)、企业用户enduser（终端用户）。
+
 **闲话**
 坚持使用JDK8，Maven3.3，Dynamic Web Module 3.1。
 另外Bootstrap 3 （包括时间拾取器datatimepicker）对浏览器的影响 需要注意。

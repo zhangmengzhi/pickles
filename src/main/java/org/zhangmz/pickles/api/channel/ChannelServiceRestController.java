@@ -14,7 +14,6 @@ import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.helper.SpringContextHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
-import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
 import org.zhangmz.pickles.service.channel.IChannelService;
