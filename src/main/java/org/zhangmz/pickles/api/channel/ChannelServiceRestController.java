@@ -5,13 +5,14 @@ package org.zhangmz.pickles.api.channel;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.helper.AuthorityHelper;
-import org.zhangmz.pickles.helper.SpringContextHelper;
+import org.zhangmz.pickles.helper.ChannelHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
@@ -90,17 +91,7 @@ public class ChannelServiceRestController {
 		SimpleResponse sr = null;
 		
 		// 封装参数/检查参数是否符合通信协议
-		 SimpleRequest request = new SimpleRequest();
-		 request.set_channel_(httpRequest.getParameter("_channel_"));
-		 request.set_version_(httpRequest.getParameter("_version_"));
-		 request.set_token_(httpRequest.getParameter("_token_"));
-		 request.set_code_(httpRequest.getParameter("_code_"));
-		 request.set_data_(httpRequest.getParameter("_data_"));
-		 
-		 if(null == request.get_token_()){
-			 return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
-		 }
-		 
+		SimpleRequest request = ChannelHelper.packageParameters(httpRequest);
 		
 		// 判断终端用户是否有权限访问（判断是否登陆）
 		// authorityHelper.isLogin(request.get_token_(), 2);
@@ -109,48 +100,29 @@ public class ChannelServiceRestController {
 			if(!"REGIST_ENDUSER".equals(request.get_code_()) 
 					&&  !"LOGIN_ENDUSER".equals(request.get_code_()) 
 					&&  !"LOGOUT_ENDUSER".equals(request.get_code_())){
-				if(!authorityHelper.isLogin(request.get_token_(), 2)){
+				if(StringUtils.isBlank(request.get_token_()) 
+					|| !authorityHelper.isLogin(request.get_token_(), 2)){
 					return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, 
 												Messages.MUST_BE_LOGGED);
 				}				
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+			// return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+			return new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.MUST_BE_LOGGED);
 		}
 		
-		// TODO 根据_code_来获取服务类  需要重构
+		// 根据_code_来获取服务类
 		logger.debug(request.get_code_());
-		switch (request.get_code_()) {
-		case "REGIST_ENDUSER":
-			// 不能new,这样Spring不能注入
-			// channelService = new RegistEnduserChannelService();
-			channelService = (IChannelService) SpringContextHelper.getBean("registEnduserChannelService");
-			break;
-			
-		case "LOGIN_ENDUSER":
-			channelService = (IChannelService) SpringContextHelper.getBean("loginEnduserChannelService");
-			break;
-			
-		case "LOGOUT_ENDUSER":
-			channelService = (IChannelService) SpringContextHelper.getBean("logoutEnduserChannelService");
-			break;
-
-		case "ENDUSER_LIST":
-			channelService = (IChannelService) SpringContextHelper.getBean("enduserListChannelService");
-			break;
-			
-		default:
-			channelService = (IChannelService) SpringContextHelper.getBean("defaultChannelService");
-			break;
-		}
+		channelService = ChannelHelper.localizingResources(request.get_code_());
 		
 		// 服务处理
 		try {
 			sr = channelService.doService(request);
 		} catch (Exception e) {
 			e.printStackTrace();
-			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+			// sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, e.getMessage());
+			sr = new SimpleResponse(Codes.FAILURE_FALSE_NUMBER, Messages.SYSTEM_BUSY);
 		}
 
 		return sr;
