@@ -70,4 +70,13 @@ public class ChannelHelper {
 		
 		return channelService;
 	}
+	
+	/**
+	 * 数据服务资源定位
+	 * @param code
+	 * @return
+	 */
+	public static IChannelService localizingDataService() {
+		return (IChannelService) SpringContextHelper.getBean("dataChannelService");
+	}
 }

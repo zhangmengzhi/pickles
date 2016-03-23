@@ -15,6 +15,7 @@ import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.helper.ChannelHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
+import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
 import org.zhangmz.pickles.service.channel.IChannelService;
@@ -32,6 +33,7 @@ import org.zhangmz.pickles.service.channel.IChannelService;
 @RequestMapping("/api/channel/data")
 public class ChannelDataRestController {
 	private static Logger logger = LoggerFactory.getLogger(ChannelDataRestController.class);
+	private static JsonMapper binder = JsonMapper.nonDefaultMapper();
 
     @Autowired
     private AuthorityHelper authorityHelper;
@@ -43,6 +45,7 @@ public class ChannelDataRestController {
 		
 		// 封装参数/检查参数是否符合通信协议
 		SimpleRequest request = ChannelHelper.packageParameters(httpRequest);
+		logger.debug(binder.toJson(request));
 		
 		if(StringUtils.isBlank(request.get_token_()) 
 			|| !authorityHelper.isLogin(request.get_token_(), 2)){
@@ -50,9 +53,9 @@ public class ChannelDataRestController {
 										Messages.MUST_BE_LOGGED);
 		}		
 		
-		// 根据_code_来获取服务类
-		logger.debug(request.get_code_());
-		channelService = ChannelHelper.localizingResources(request.get_code_());
+		// 数据服务不需要_code_ 可以考虑（_code_）设计为表名
+		// logger.debug(request.get_code_());
+		channelService = ChannelHelper.localizingDataService();
 		
 		// 服务处理
 		try {

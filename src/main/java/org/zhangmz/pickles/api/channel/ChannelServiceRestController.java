@@ -15,6 +15,7 @@ import org.zhangmz.pickles.helper.AuthorityHelper;
 import org.zhangmz.pickles.helper.ChannelHelper;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
+import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.modules.vo.SimpleRequest;
 import org.zhangmz.pickles.modules.vo.SimpleResponse;
 import org.zhangmz.pickles.service.channel.IChannelService;
@@ -81,6 +82,7 @@ import org.zhangmz.pickles.service.channel.IChannelService;
 @RequestMapping("/api/channel/service")
 public class ChannelServiceRestController {
 	private static Logger logger = LoggerFactory.getLogger(ChannelServiceRestController.class);
+	private static JsonMapper binder = JsonMapper.nonDefaultMapper();
 	
     @Autowired
     private AuthorityHelper authorityHelper;
@@ -92,6 +94,7 @@ public class ChannelServiceRestController {
 		
 		// 封装参数/检查参数是否符合通信协议
 		SimpleRequest request = ChannelHelper.packageParameters(httpRequest);
+		logger.debug(binder.toJson(request));
 		
 		// 判断终端用户是否有权限访问（判断是否登陆）
 		// authorityHelper.isLogin(request.get_token_(), 2);

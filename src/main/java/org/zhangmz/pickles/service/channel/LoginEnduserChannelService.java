@@ -27,9 +27,7 @@ import org.zhangmz.pickles.service.EnduserService;
  */
 @Service
 public class LoginEnduserChannelService implements IChannelService {
-
-	private static Logger logger = LoggerFactory.getLogger(LoginEnduserChannelService.class);
-	
+	private static Logger logger = LoggerFactory.getLogger(LoginEnduserChannelService.class);	
 	private static JsonMapper binder = JsonMapper.nonDefaultMapper();	
 
     @Autowired
