@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.zhangmz.pickles.modules.constants.Codes;
 import org.zhangmz.pickles.modules.constants.Messages;
+import org.zhangmz.pickles.modules.convert.BeanMapper;
 import org.zhangmz.pickles.modules.convert.JsonMapper;
 import org.zhangmz.pickles.helper.vo.Group2;
 import org.zhangmz.pickles.modules.vo.IdName;
@@ -113,12 +114,12 @@ public class GroupsRestController {
 //        }
         
         // 对象复制，属性相同，id的类型不同
-        // Group group = group2.copyProperties();
         Group group;
         
         if("add".equals(oper))group2.setId(null);
         try {
-        	group = group2.copyProperties();
+        	// group = group2.copyProperties();
+        	group = BeanMapper.map(group2, Group.class);
 		} catch (Exception e) {
 			// 新增记录没有刷新立即编辑，ID转换异常
 			logger.debug(e.getMessage());
